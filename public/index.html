@@ -52,6 +52,8 @@
   .me .body{display:inline-block;text-align:left;background:var(--bb-blue);color:#fff;border:3px solid var(--ink);padding:10px 14px;box-shadow:4px 4px 0 rgba(0,0,0,0.4)}
   .body a{color:var(--red);font-weight:bold}
   .body strong{background:var(--bb-yellow);padding:0 3px;color:var(--ink)}
+  .body .poster{display:inline-block;vertical-align:middle;width:90px;height:auto;margin:4px 8px 4px 4px;border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,0.4);background:#000}
+  .body .poster:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,0.5);transition:all .12s}
   .typing .body{font-style:italic;opacity:.8}
   .dots::after{content:"";animation:dots 1.2s steps(4) infinite}
   @keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
@@ -104,7 +106,7 @@ function pickPlat(btn,name){
     : `Anotado: só vou puxar coisa que tá na <strong>${name}</strong> aqui no Brasil. 📼`, true);
 }
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function fmt(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\[(.+?)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank">$1</a>').replace(/\n/g,'<br>')}
+function fmt(s){return esc(s).replace(/!\[(.+?)\]\((https?:[^)]+)\)/g,'<img src="$2" alt="$1" class="poster" loading="lazy">').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\[(.+?)\]\((https?:[^)]+)\)/g,'<a href="$2" target="_blank">$1</a>').replace(/\n/g,'<br>')}
 function fmtRaw(s){return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}
 function bubble(role,text,raw){
   const d=document.createElement('div');

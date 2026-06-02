@@ -100,10 +100,13 @@ const tools = [
     parameters: { type: "object", properties: { movie_id: { type: "integer" } }, required: ["movie_id"] } },
 ];
 
+// Monta URL pública da capa do filme na TMDB (tamanho w300 ≈ 300px, leve e nítido).
+function posterUrl(path) { return path ? `https://image.tmdb.org/t/p/w300${path}` : null; }
+
 async function executarTool(nome, input) {
   if (nome === "buscar_filme") {
     const d = await tmdb("/search/movie", { query: input.titulo });
-    return (d.results || []).slice(0, 5).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), sinopse: m.overview }));
+    return (d.results || []).slice(0, 5).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), sinopse: m.overview, capa: posterUrl(m.poster_path) }));
   }
   if (nome === "filmes_parecidos") {
     const d = await tmdb(`/movie/${input.movie_id}/recommendations`);
@@ -113,7 +116,7 @@ async function executarTool(nome, input) {
       for (const m of lista) { if (pid && (await idsOndeAssiste(m.id)).includes(pid)) out.push(m); if (out.length >= 4) break; }
       lista = out;
     }
-    return lista.slice(0, 6).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4) }));
+    return lista.slice(0, 6).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), capa: posterUrl(m.poster_path) }));
   }
   if (nome === "descobrir_na_plataforma") {
     const pid = idDaPlataforma(input.plataforma);
@@ -121,7 +124,7 @@ async function executarTool(nome, input) {
     const params = { with_watch_providers: pid, watch_region: REGIAO, with_watch_monetization_types: "flatrate", sort_by: "popularity.desc" };
     if (input.genero && GENEROS[input.genero.toLowerCase()]) params.with_genres = GENEROS[input.genero.toLowerCase()];
     const d = await tmdb("/discover/movie", params);
-    return (d.results || []).slice(0, 8).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), nota: m.vote_average }));
+    return (d.results || []).slice(0, 8).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), nota: m.vote_average, capa: posterUrl(m.poster_path) }));
   }
   if (nome === "onde_assistir") return await ondeAssistir(input.movie_id);
   return { erro: "ferramenta desconhecida" };
@@ -200,6 +203,14 @@ Se você não tem certeza se um título é o mesmo de um citado pela pessoa, exc
 
 **Descreva a EXPERIÊNCIA, não o gênero:** "daqueles que prende cena por cena" em vez de "é um thriller". "Pra assistir sorrindo" em vez de "é uma comédia".
 
+**MOSTRE A CAPA (OBRIGATÓRIO):** as ferramentas retornam o campo \`capa\` com a URL do poster do filme na TMDB. Toda vez que você mencionar um filme nas recomendações, inclua a capa LOGO DEPOIS do título, no formato markdown de imagem:
+
+\`\`\`
+**Ozark** ![Ozark](https://image.tmdb.org/t/p/w300/Ozark-poster-path.jpg)
+\`\`\`
+
+Use SEMPRE a URL que veio no campo \`capa\` da ferramenta — não invente URLs nem mude o tamanho (\`w300\`). Se a ferramenta não trouxe capa pra um filme (campo \`capa\` é null), mencione o filme sem imagem — não é obrigatório forçar.
+
 Pra montar a lista você provavelmente vai usar as ferramentas várias vezes (descobrir → similares → confirmar onde tá). Sem narrar nada disso.
 
 # OPINIÃO FINAL (passo 6, OBRIGATÓRIO)
@@ -249,7 +260,7 @@ Val: Certo. Tá fim de quê — dar risada, levar susto, ou algo que gruda mesmo
 Pessoa: algo que gruda
 Val: Gosto de gente que não foge de filme sério. Tem alguma coisa que você amou recentemente?
 Pessoa: adorei Breaking Bad
-Val: Então tá. Personagem afundando nas próprias escolhas, tensão crescendo devagar. Tenho duas pedidas. **Ozark**, na Netflix — homem comum que vai fundo num mundo que não é o dele. E **The Wire**, na HBO Max — mais densa, lenta no começo, mas quem entra não sai. Se fosse eu, ia de Ozark pra aquecer. Qual te chamou mais?
+Val: Então tá. Personagem afundando nas próprias escolhas, tensão crescendo devagar. Tenho duas pedidas. **Ozark** ![Ozark](https://image.tmdb.org/t/p/w300/m73QzaSiyVtBl4RTzMHB0DOIIVT.jpg), na Netflix — homem comum que vai fundo num mundo que não é o dele. E **The Wire** ![The Wire](https://image.tmdb.org/t/p/w300/4lbclFySvugI51fwsyxBTOm4DqK.jpg), na HBO Max — mais densa, lenta no começo, mas quem entra não sai. Se fosse eu, ia de Ozark pra aquecer. Qual te chamou mais?
 
 Você é a Val. No balcão. Com opinião. Curta.`;
 }
