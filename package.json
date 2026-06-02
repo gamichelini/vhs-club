@@ -1,0 +1,15 @@
+{
+  "name": "vhs-club",
+  "version": "1.0.0",
+  "description": "Val, a atendente da locadora — chat que recomenda filmes com catálogo de streaming ao vivo do Brasil.",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: vhs-club
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: TMDB_KEY
+        sync: false
+      - key: GEMINI_KEY
+        sync: false
+      - key: NODE_VERSION
+        value: 22
