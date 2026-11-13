@@ -233,6 +233,7 @@
     <div class="tagline">ACHE O FILME CERTO NOS SEUS STREAMINGS<small>★ FALA O QUE TÁ A FIM · A VAL MOSTRA O QUE TEM NA SUA ASSINATURA ★</small></div>
     <div class="header-right">
       <div id="user-info" class="user-info" style="display:flex">
+        <button class="btn-header" id="btn-som" type="button" aria-pressed="false">♪ SOM</button>
         <button class="btn-header" onclick="novaConversa()" title="Começar uma conversa nova">＋ NOVA</button>
         <button class="btn-header btn-list" onclick="abrirDrawer()" title="Minhas fitas">📼 <span id="wl-count">0</span></button>
       </div>
@@ -263,6 +264,7 @@
   </main>
 
 <script src="/sugestoes.js"></script>
+<script src="/musica.js"></script>
 <script type="module">
 // Sem login: lista de fitas, notas e pedidos anteriores ficam salvos NESTE navegador (localStorage).
 const LS_FITAS = 'vhs_fitas_v1';

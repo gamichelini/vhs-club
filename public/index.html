@@ -28,6 +28,8 @@
   .top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:3px solid var(--ink);background:var(--bb-yellow);box-shadow:0 4px 0 rgba(0,0,0,0.3);position:sticky;top:0;z-index:50}
   .ticket-small{background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;padding:3px 14px;transform:skewX(-7deg);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-decoration:none;display:inline-block}
   .ticket-small span{display:inline-block;transform:skewX(7deg)}
+  .som{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;background:var(--ink);color:var(--bb-yellow);border:3px solid var(--ink);padding:4px 12px}
+  .som[aria-pressed="true"]{background:var(--bb-blue)}
   .top-bar .entrar{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;background:var(--red);color:#fff;border:3px solid var(--ink);padding:5px 14px;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
 
   /* ===== PRIMEIRA TELA ===== */
@@ -164,7 +166,10 @@
 <body>
   <div class="top-bar">
     <a href="/" class="ticket-small"><span>VHS&nbsp;CLUB</span></a>
-    <a href="/chat" class="entrar">FALAR COM A VAL</a>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button id="btn-som" class="som" type="button" aria-pressed="false">♪ SOM</button>
+      <a href="/chat" class="entrar">FALAR COM A VAL</a>
+    </div>
   </div>
 
   <!-- PRIMEIRA TELA -->
@@ -253,6 +258,7 @@
   </footer>
 
 <script src="/sugestoes.js"></script>
+<script src="/musica.js"></script>
 <script>
   // Sugestões que mudam a cada visita (e no botão "outras ideias"). Clicar já abre a conversa com o pedido.
   function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
