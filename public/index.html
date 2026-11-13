@@ -283,8 +283,37 @@
   }
   function irProChat(pedido) {
     try { localStorage.setItem("vhs_plats_v1", JSON.stringify(escolhidos.length ? escolhidos : ["Todos"])); } catch {}
-    location.href = pedido ? linkChat(pedido) : "/chat";
+    const destino = pedido ? linkChat(pedido) : "/chat";
+    // Música tocando? Abre o chat POR CIMA da home (sem trocar de página), pra o som não ser cortado.
+    if (window.__vhsSom && window.__vhsSom.tocando()) abrirChatPorCima(destino);
+    else location.href = destino;
   }
+  function abrirChatPorCima(destino) {
+    let f = document.getElementById("chat-por-cima");
+    if (!f) {
+      f = document.createElement("iframe");
+      f.id = "chat-por-cima";
+      f.title = "Chat com a Val";
+      f.style.cssText = "position:fixed;inset:0;width:100%;height:100%;border:0;z-index:9999;background:#061a5c";
+      document.body.appendChild(f);
+    }
+    f.src = destino;
+    document.documentElement.style.overflow = "hidden";
+    history.pushState({ chatPorCima: true }, "", "/chat");
+  }
+  // Logo do chat (aberto por cima) volta pra home sem recarregar
+  window.addEventListener("message", (e) => {
+    if (e.origin !== location.origin || !e.data || !e.data.vhsFecharChat) return;
+    const f = document.getElementById("chat-por-cima");
+    if (f) { f.remove(); document.documentElement.style.overflow = ""; history.pushState({}, "", "/"); }
+  });
+  // "Voltar" do navegador fecha o chat e volta pra home (a música segue)
+  window.addEventListener("popstate", () => {
+    const f = document.getElementById("chat-por-cima");
+    if (f && location.pathname === "/") { f.remove(); document.documentElement.style.overflow = ""; }
+  });
+  // Links "Falar com a Val" também passam por aqui
+  document.querySelectorAll('a[href="/chat"]').forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); irProChat(""); }));
   pintarPlats();
   document.getElementById("form-pedido").addEventListener("submit", (e) => {
     e.preventDefault();

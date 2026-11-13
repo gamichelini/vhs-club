@@ -75,6 +75,7 @@
     clearInterval(timer); timer = null;
     tocando = false; salvar(false); pintar();
   }
+  window.__vhsSom = { estado: () => (ctx ? ctx.state : "sem-audio"), tocando: () => tocando };
   function salvar(v) { try { localStorage.setItem(LS, v ? "1" : "0"); } catch {} }
   function querSom() { try { return localStorage.getItem(LS) === "1"; } catch { return false; } }
 
@@ -86,13 +87,36 @@
     b.title = tocando ? "Desligar a trilha do balcão" : "Ligar uma trilha suave de fundo";
   }
 
+  let embutido = false;
+  try { embutido = window.top !== window; } catch { embutido = true; }
+
+  // Página de cima: atende os pedidos do chat embutido
+  window.addEventListener("message", (e) => {
+    if (e.origin !== location.origin || !e.data) return;
+    if (e.data.vhsSom === "alternar") { tocando ? desligar() : ligar(); }
+    if (e.data.vhsSom === "alternar" || e.data.vhsSom === "estado?") e.source.postMessage({ vhsSomEstado: tocando }, location.origin);
+    if ("vhsSomEstado" in e.data) { tocando = !!e.data.vhsSomEstado; pintar(); } // (lado do chat embutido)
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
     const b = document.getElementById("btn-som");
+    if (embutido) {
+      // Dentro da home: não cria áudio próprio, só pede pra página de cima ligar/desligar
+      if (b) b.addEventListener("click", (e) => { e.stopPropagation(); window.parent.postMessage({ vhsSom: "alternar" }, location.origin); });
+      window.parent.postMessage({ vhsSom: "estado?" }, location.origin);
+      return;
+    }
     if (b) b.addEventListener("click", (e) => { e.stopPropagation(); tocando ? desligar() : ligar(); });
     pintar();
-    // Estava ligado na última visita? Volta no primeiro clique/tecla (regra dos navegadores)
+    // Estava ligado? Tenta voltar NA HORA (o navegador às vezes deixa, logo depois de um clique na página anterior);
+    // se ele bloquear, volta no primeiro clique/tecla.
     if (querSom()) {
-      const retomar = () => { if (!tocando && querSom()) ligar(); };
+      try {
+        ligar();
+        // resume() é assíncrono: confere um instante depois se o navegador deixou tocar
+        setTimeout(() => { if (ctx && ctx.state !== "running") { tocando = false; pintar(); } }, 400);
+      } catch {}
+      const retomar = () => { if (querSom() && (!tocando || ctx?.state !== "running")) ligar(); };
       document.addEventListener("pointerdown", retomar, { once: true });
       document.addEventListener("keydown", retomar, { once: true });
     }

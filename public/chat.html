@@ -229,7 +229,7 @@
   </div>
 
   <header>
-    <a class="ticket" href="/" title="Voltar pra página inicial" style="text-decoration:none"><span>VHS&nbsp;CLUB</span></a>
+    <a class="ticket" href="/" target="_top" title="Voltar pra página inicial" style="text-decoration:none" onclick="if (window.top !== window) { event.preventDefault(); window.parent.postMessage({ vhsFecharChat: true }, location.origin); }"><span>VHS&nbsp;CLUB</span></a>
     <div class="tagline">ACHE O FILME CERTO NOS SEUS STREAMINGS<small>★ FALA O QUE TÁ A FIM · A VAL MOSTRA O QUE TEM NA SUA ASSINATURA ★</small></div>
     <div class="header-right">
       <div id="user-info" class="user-info" style="display:flex">
