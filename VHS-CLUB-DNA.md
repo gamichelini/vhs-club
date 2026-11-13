@@ -42,20 +42,16 @@ A Val não devolve listas algorítmicas: ela conversa, pergunta o gosto, dá opi
 
 ---
 
-## 4. Fluxo de atendimento (6 passos)
+## 4. Fluxo de atendimento (reescrito em 12/11/2026)
 
-| Passo | O que faz | Exemplo |
-|---|---|---|
-| 1 | Abrir | "E aí, tá procurando alguma coisa ou posso te dar uma força?" |
-| 2 | Contexto | "Vai ver sozinho ou tem companhia?" |
-| 3 | Humor | "Quer algo com cabeça leve ou que gruda em você?" |
-| 4 | Gosto real | "Tem algum filme que você amou recentemente?" + follow-up |
-| 5 | Recomendar | 2 ou 3 opções, com pegadas distintas |
-| 6 | Opinião final | "Se fosse eu, levaria X — porque você falou de Y" |
+| Passo | O que acontece |
+|---|---|
+| 1. Abertura | O site pergunta: "tá a fim de que estilo de filme hoje? Ou me fala um filme que você curtiu" |
+| 2. Leque | Qualquer pista já gera TUDO que encaixa (10-20 cards), em 2-4 grupos de pegadas diferentes. Sem pergunta antes. |
+| 3. Afinar | Uma pergunta curta no fim do leque + até 3 chips clicáveis |
+| 4. Veredito | Leque menor (4-8) na mira + "Se fosse eu, hoje ia de X — porque você falou Y" |
 
-**Estilo das opções:** A SEGURA (match de manual) + A SURPRESA (mesmo encaixe, ângulo novo) + A FORA-DA-CURVA (encaixa com tempero próprio).
-
-**Quando rejeitada:** não solta 4ª opção; volta um passo e recalibra com "Então alguma coisa ficou torta. Me fala o que mais te afastou dessas opções."
+Só pergunta antes de entregar quando não há pista nenhuma ("oi"). Rejeitou tudo → novo leque com outro ângulo.
 
 ---
 
@@ -73,41 +69,34 @@ A Val não devolve listas algorítmicas: ela conversa, pergunta o gosto, dá opi
 
 ---
 
-## 6. Stack técnica
+## 6. Stack técnica (atualizado 12/11/2026)
 
-**Backend** (`server.js`, ~440 linhas):
-- Node.js 22+
-- Express (único pacote externo)
-- Conversa com Gemini API e TMDB API
-- Sem banco de dados (cache em memória)
+**Backend** (`server.js`): Node 22 + Express, Gemini (function calling), TMDB, OMDb, Supabase.
 
-**Frontend** (`public/index.html`, single-file):
-- HTML + CSS + JavaScript vanilla
-- Tema visual anos 90 inspirado em Blockbuster (azul, amarelo, etiqueta inclinada)
-- Fontes Anton, VT323, Bebas Neue (via Google Fonts)
-- 6 botões de prateleira: TODOS, NETFLIX, HBO MAX, PRIME VIDEO, DISNEY+, APPLE TV+
-- Boas-vindas em 3 mensagens com delay (cinematográfico)
-- Selo "Catálogo do Brasil verificado AO VIVO"
+**Frontend:** `public/index.html` (landing) + `public/chat.html` (chat em `/chat`, login Supabase, watchlist).
+Card: pôster, plataforma, nota IMDb (fallback TMDB), trailer, frase da Val, selo 🔥. Acima de 12 cards, botão "VER MAIS".
 
-**Modelo de IA — cascata de 3:**
-1. `gemini-3-flash-preview` (flagship 2026, mais obediente)
-2. `gemini-3.1-flash-lite` (fallback: mais novo + lite = menos disputado)
-3. `gemini-2.5-flash-lite` (último: veterano estável)
+**Modelos — cascata** (testada em 12/11/2026):
+1. `gemini-3-flash-preview` — monta leque de 15+ cards e segue o fluxo
+2. `gemini-3.1-flash-lite` — fallback rápido (resume; servidor completa o leque)
+3. `gemini-2.5-flash-lite` — último estável
+(`gemini-2.5-flash` foi descartado: inventou filme sem consultar ferramenta.)
 
-Servidor tenta o primeiro com 2 tentativas (backoff 0.6s, 1.2s); se persistir overload, pula automaticamente pro próximo. Fallback final em PT-BR no tom da Val.
-
-**Ferramentas (function calling):**
+**Ferramentas da Val:**
 
 | Tool | O que faz |
 |---|---|
-| `buscar_filme(titulo)` | Acha o ID de um filme pelo título |
-| `filmes_parecidos(movie_id, plataforma?)` | Retorna similares; se plataforma vier, filtra |
-| `descobrir_na_plataforma(plataforma, genero?)` | Browse por plataforma + gênero opcional |
-| `onde_assistir(movie_id)` | Confirma em quais streamings o filme está |
+| `validar_titulos(titulos[])` | PRINCIPAL. Confere até 40 títulos de uma vez, devolve só os da assinatura das plataformas marcadas (+ parecidos disponíveis se vier pouco) |
+| `radar_em_alta()` | Filmes em alta agora nas plataformas da pessoa |
+| `buscar_filme`, `filmes_parecidos`, `descobrir_na_plataforma`, `onde_assistir` | Ferramentas antigas, ainda disponíveis |
 
-Limite de 20 iterações de tool calling por turno (a Val pode precisar de várias chamadas pra montar uma trinca).
+**Garantias no código (não no prompt):** card só sai com id confirmado por ferramenta (se a Val citar sem validar, o servidor manda ela validar); filtro de plataforma + assinatura; sem card repetido; canais "Amazon Channel" escondidos; leque com menos de 10 é completado com filmes que ela validou; grupos vazios somem.
 
-**Catálogo:** TMDB API (dados de streaming via JustWatch), região fixa Brasil. Cache de 6 horas pra cortar latência e quota.
+**Radar 🔥:** TMDB Trending (dia + semana), em memória, atualiza a cada 12h. Reddit planejado (exige app OAuth grátis; API bloqueia acesso anônimo).
+
+**Nota IMDb:** OMDb API (free, 1.000/dia), cache de 7 dias.
+
+**Histórico:** conversa atual vem do navegador (cards viram `[já mostrado: Título (ano) · id N]`); conversas anteriores do Supabase entram só como contexto de gosto.
 
 ---
 
@@ -115,8 +104,8 @@ Limite de 20 iterações de tool calling por turno (a Val pode precisar de vári
 
 - **Chaves de API ficam só no servidor** — nunca vão pro navegador
 - `.env` local não é commitado (no `.gitignore`)
+- Login via Supabase; conversas e watchlist ficam salvas por usuário (RLS)
 - No Render, as chaves entram via Environment Variables (criptografadas)
-- Sem armazenamento de conversas (stateless, histórico só na sessão do navegador)
 
 ---
 
@@ -126,7 +115,7 @@ Limite de 20 iterações de tool calling por turno (a Val pode precisar de vári
 ```bash
 cd vhs-club
 npm install
-# crie um .env com TMDB_KEY e GEMINI_KEY
+# crie um .env com TMDB_KEY, GEMINI_KEY, SUPABASE_URL, SUPABASE_ANON_KEY e OMDB_KEY
 npm start
 # abre em http://localhost:3000
 ```
@@ -187,6 +176,10 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
 9. **Roteiro pra rejeição** — quando o usuário diz "nenhuma me agradou", a Val volta um passo em vez de soltar 4ª opção fraca.
 10. **Persona flexível** — voz "veterana lived-in" aparece em assunto de filme, não em saudação simples ("e aí, tudo bem?" → resposta breve).
 11. **Boas-vindas em 3 mensagens** — apresenta quem é, valida a dor ("você já rolou o catálogo 30 min"), explica o que faz.
+12. **(jun/2026) Supabase** — login, histórico e watchlist (amei / não curti / já vi).
+13. **(12/11/2026) Reescrita da Val** — prompt de ~540 linhas de bronca ("ERRO GRAVÍSSIMO", "PROIBIDÃO") deixava a Val robótica e cheia de perguntas antes de entregar. Virou ~110 linhas positivas com o fluxo leque → afinar → veredito. Regras duras migraram pro código.
+14. **(12/11/2026) Histórico duplicado corrigido** — a Val recebia a conversa 2x (banco + navegador) e com cards em base64; causava arrastar tema antigo.
+15. **(12/11/2026) Validação em lote + nota IMDb + Radar 🔥** — ver seção 6.
 
 ---
 
@@ -195,7 +188,9 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
 - **Nome final** da marca e do personagem
 - **Domínio próprio** quando o nome bater
 - Possível adição de novas tools (busca por tema, ranking de críticos, etc.)
-- Possível expansão pra séries com tratamento dedicado (hoje funciona, mas o prompt prioriza filme)
+- Séries (decidido: depois de pilotar filmes)
+- Radar com Reddit (precisa criar app OAuth grátis em reddit.com/prefs/apps; uso comercial exige rever termos)
+- Ligar esta pasta ao repo do GitHub antes do próximo deploy
 
 ---
 

@@ -54,18 +54,24 @@ vhs-club/
 ├─ .env               ← suas chaves (NÃO comitar)
 ├─ .env.example       ← modelo
 ├─ .gitignore
+├─ CLAUDE.md         ← instruções pro Claude Code
+├─ VHS-CLUB-DNA.md   ← produto e decisões
 ├─ public/
-│  └─ index.html      ← o site (a Val)
+│  ├─ index.html      ← landing
+│  └─ chat.html       ← o chat com a Val (/chat)
 ├─ test-offline.mjs   ← teste opcional sem internet (mocks)
 └─ README.md
 ```
 
+## Chaves no `.env`
+
+`TMDB_KEY`, `GEMINI_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` e `OMDB_KEY` (nota IMDb —
+grátis em https://www.omdbapi.com/apikey.aspx; sem ela, o card mostra a nota da TMDB).
+
 ## Trocar o modelo
 
-Em `server.js`, linha do `MODEL`. Free tier em 2026 oferece:
-- `gemini-2.5-flash` (padrão, equilíbrio bom)
-- `gemini-2.5-flash-lite` (mais barato/rápido)
-- `gemini-3-flash` (mais novo)
+Em `server.js`, lista `MODELOS` (cascata: tenta o 1º, cai pro próximo se estiver lotado).
+Hoje: `gemini-3-flash-preview` → `gemini-3.1-flash-lite` → `gemini-2.5-flash-lite`.
 
 ## Dicas
 
