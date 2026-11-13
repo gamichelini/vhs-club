@@ -41,4 +41,4 @@ do `server.js` e roda contra as APIs reais (foi assim que o prompt foi calibrado
 
 ## Próximos passos combinados
 - **Radar via TikTok (Apify)** — aprovado, aplicar depois. Plano completo em `VHS-CLUB-DNA.md` ("Próximo: Radar via TikTok").
-- Publicar no ar (GitHub → Render) quando o Gabriel disser "pode publicar".
+- **Publicar sempre** (autorizado pelo Gabriel em 13/11/2026): depois de cada mudança testada, `git push origin main` → Render faz o deploy. Conferir antes que nenhum `.env` entrou no git.
