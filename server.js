@@ -176,6 +176,7 @@ async function validarTitulos(titulos, plats = []) {
   const lista = (Array.isArray(titulos) ? titulos : []).map((t) => String(t).trim()).filter(Boolean).slice(0, 40);
   const semFiltro = !plats.length || plats.includes("Todos");
   const pidsSel = semFiltro ? null : new Set(idsDePlataformas(plats));
+  await garantirRadar();
 
   const resultados = await mapLimitado(lista, 8, async (bruto) => {
     // Aceita "Título (2016)" pra desambiguar
@@ -190,13 +191,74 @@ async function validarTitulos(titulos, plats = []) {
     const base = { pedido: bruto, id: f.id, titulo: f.title, ano: (f.release_date || "").slice(0, 4) };
     if (!ok) return { ...base, status: "fora" };
     const plataformas = pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes;
-    return { ...base, status: "disponivel", plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null };
+    const alta = emAlta(f.id);
+    return { ...base, status: "disponivel", plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}) };
   });
 
   const disponiveis = resultados.filter((r) => r?.status === "disponivel")
     .map(({ status, pedido, ...r }) => r);
   const fora = resultados.filter((r) => r && r.status !== "disponivel").map((r) => r.pedido);
   return { disponiveis, fora_das_plataformas_ou_nao_achados: fora };
+}
+
+/* ---------- RADAR 🔥: o que tá em alta agora ----------
+   Atualiza sozinho a cada 12h (na primeira consulta depois de vencer). Fonte atual: TMDB Trending
+   (dia + semana). Estrutura pronta pra somar outras fontes (ex.: Reddit) no mesmo Map. */
+const RADAR_VALIDADE_MS = 12 * 60 * 60 * 1000;
+let radar = { atualizadoEm: 0, filmes: new Map() }; // id -> { titulo, ano, fontes: Set }
+let radarCarregando = null;
+
+async function atualizarRadar() {
+  const filmes = new Map();
+  const somar = (m, fonte) => {
+    if (!m?.id) return;
+    const e = filmes.get(m.id) || { id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), fontes: new Set() };
+    e.fontes.add(fonte);
+    filmes.set(m.id, e);
+  };
+  const [dia, sem1, sem2] = await Promise.all([
+    tmdb("/trending/movie/day"),
+    tmdb("/trending/movie/week"),
+    tmdb("/trending/movie/week", { page: 2 }),
+  ]);
+  (dia.results || []).forEach((m) => somar(m, "tmdb_hoje"));
+  [...(sem1.results || []), ...(sem2.results || [])].forEach((m) => somar(m, "tmdb_semana"));
+  radar = { atualizadoEm: Date.now(), filmes };
+  console.log(`[radar] atualizado: ${filmes.size} filmes em alta`);
+}
+
+async function garantirRadar() {
+  if (Date.now() - radar.atualizadoEm < RADAR_VALIDADE_MS) return radar;
+  if (!radarCarregando) {
+    radarCarregando = atualizarRadar()
+      .catch((e) => console.warn("[radar] falhou, mantendo o anterior:", e.message))
+      .finally(() => { radarCarregando = null; });
+  }
+  await radarCarregando;
+  return radar;
+}
+
+// "hoje" se tá no trending do dia; "semana" se só no da semana; null se não tá em alta.
+function emAlta(movieId) {
+  const e = radar.filmes.get(Number(movieId));
+  if (!e) return null;
+  return e.fontes.has("tmdb_hoje") ? "hoje" : "semana";
+}
+
+// Ferramenta da Val: filmes em alta que estão nas plataformas da pessoa.
+async function radarEmAlta(plats = []) {
+  await garantirRadar();
+  const semFiltro = !plats.length || plats.includes("Todos");
+  const pidsSel = semFiltro ? null : new Set(idsDePlataformas(plats));
+  const candidatos = [...radar.filmes.values()];
+  const res = await mapLimitado(candidatos, 8, async (f) => {
+    const s = await streamingDe(f.id);
+    const ok = pidsSel ? s.ids.some((id) => pidsSel.has(id)) : s.ids.length > 0;
+    if (!ok) return null;
+    const plataformas = pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes;
+    return { id: f.id, titulo: f.titulo, ano: f.ano, plataformas, em_alta: emAlta(f.id) };
+  });
+  return { em_alta_nas_plataformas: res.filter(Boolean) };
 }
 
 // Busca o trailer YouTube de um filme (preferência: PT-BR > Trailer EN > Teaser EN).
@@ -369,7 +431,8 @@ async function enriquecerResposta(texto, plats = []) {
       console.warn(`[filtro] Filme ${id} "${d.titulo}" — VAL DIZ tem hand-waving ("${valDiz.slice(0, 60)}..."), removido`);
       return null;
     }
-    const payload = { ...d, valDiz: valDiz || null };
+    // emAlta calculado na hora (não vai no cache do filme, que dura 6h)
+    const payload = { ...d, valDiz: valDiz || null, emAlta: emAlta(id) };
     const b64 = Buffer.from(JSON.stringify(payload), "utf8").toString("base64");
     return `[[VHSCARD:${b64}]]`;
   }
@@ -447,6 +510,8 @@ async function enriquecerResposta(texto, plats = []) {
 const tools = [
   { name: "validar_titulos", description: "FERRAMENTA PRINCIPAL. Recebe uma lista de títulos de filmes (até 40; use 'Título (ano)' pra desambiguar) e devolve, numa chamada só, quais estão disponíveis na assinatura das plataformas da pessoa agora — com id, título oficial, ano, plataformas e nota.",
     parameters: { type: "object", properties: { titulos: { type: "array", items: { type: "string" } } }, required: ["titulos"] } },
+  { name: "radar_em_alta", description: "Filmes que estão em alta AGORA (bombando hoje ou na semana) e disponíveis nas plataformas da pessoa. Use quando ela pedir 'o que tá bombando', 'lançamento', 'o que todo mundo tá vendo', ou pra temperar um leque com algo do momento.",
+    parameters: { type: "object", properties: {} } },
   { name: "buscar_filme", description: "Acha o ID de um filme pelo título (ex.: 'Conta Comigo').",
     parameters: { type: "object", properties: { titulo: { type: "string" } }, required: ["titulo"] } },
   { name: "filmes_parecidos", description: "Filmes parecidos a partir de um ID. Se 'plataforma' vier, retorna só os disponíveis nela no Brasil agora. Pra múltiplas plataformas, separe por vírgula: 'Netflix, Prime Video'.",
@@ -462,6 +527,7 @@ function posterUrl(path) { return path ? `https://image.tmdb.org/t/p/w300${path}
 
 async function executarTool(nome, input, plats = []) {
   if (nome === "validar_titulos") return await validarTitulos(input.titulos, plats);
+  if (nome === "radar_em_alta") return await radarEmAlta(plats);
   if (nome === "buscar_filme") {
     const d = await tmdb("/search/movie", { query: input.titulo });
     return (d.results || []).slice(0, 5).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), sinopse: m.overview, capa: posterUrl(m.poster_path) }));
@@ -1345,6 +1411,6 @@ app.patch("/api/watchlist/:movie_id/visto", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-Promise.all([carregarProvedores(), carregarGeneros()])
+Promise.all([carregarProvedores(), carregarGeneros(), garantirRadar()])
   .then(() => app.listen(PORT, () => console.log(`\n🎬 VHS Club no ar! Abra http://localhost:${PORT}\n`)))
   .catch((e) => { console.error("Erro ao iniciar (cheque a TMDB_KEY):", e.message); process.exit(1); });
