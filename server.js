@@ -165,13 +165,13 @@ async function notaImdb(imdbId) {
 
 // Ficha curta do filme: duração (min) e classificação indicativa no Brasil. Cache de 7 dias.
 async function fichaFilme(movieId) {
-  const ck = `ficha:${movieId}`;
+  const ck = `ficha2:${movieId}`;
   const hit = cacheGet(ck);
   if (hit) return hit;
   const m = await tmdb(`/movie/${movieId}`, { append_to_response: "release_dates" });
   const br = (m.release_dates?.results || []).find((r) => r.iso_3166_1 === "BR");
   const classificacao = (br?.release_dates || []).map((r) => r.certification).find(Boolean) || null;
-  const out = { duracao: m.runtime || null, classificacao };
+  const out = { duracao: m.runtime || null, classificacao, generos: (m.genres || []).map((g) => g.id) };
   cacheSet(ck, out, 7 * 24 * 60);
   return out;
 }
@@ -207,20 +207,58 @@ function quantidadeDoTexto(t) {
   return q >= 1 && q <= 20 ? q : null;
 }
 
+// Exclusões ("sem terror", "nada de romance", "sem violência"): viram filtro OBRIGATÓRIO de gênero (ids TMDB).
+// Valem pra conversa toda; "pode ter terror"/"agora quero terror" libera de novo.
+const EXCLUSOES = [
+  { nome: "Terror", ids: [27], re: /(terror|horror|susto|sobrenatural)/ },
+  { nome: "Guerra", ids: [10752], re: /(guerra)/ },
+  { nome: "Animação", ids: [16], re: /(animacao|desenho|animado)/ },
+  { nome: "Romance", ids: [10749], re: /(romance|romantic|romantico|meloso)/ },
+  { nome: "Musical", ids: [10402], re: /(musical|cantoria)/ },
+  { nome: "Documentário", ids: [99], re: /(documentario)/ },
+];
+function exclusoesDoTexto(t) {
+  const n = normalizar(t);
+  const negado = (re) => new RegExp(`\\b(sem|nada de|nao quero|nao curto|nao gosto de|evita|menos|tirando|exceto|odeio)\\s+(\\w+\\s+){0,2}${re.source}`).test(n);
+  const liberado = (re) => new RegExp(`\\b(pode ter|pode ser|agora quero|quero|com)\\s+(\\w+\\s+){0,1}${re.source}`).test(n) && !negado(re);
+  const tirar = [], liberar = [];
+  for (const e of EXCLUSOES) { if (negado(e.re)) tirar.push(e.nome); else if (liberado(e.re)) liberar.push(e.nome); }
+  const semViolencia = /\b(sem|nada de|nao quero)\s+(\w+\s+){0,1}(violencia|sangue|gore|violento)/.test(n);
+  return { tirar, liberar, semViolencia };
+}
+
 function extrairCriterios(sessao) {
   let duracaoMax = null;
+  const excluir = new Set();
+  let semViolencia = false;
   const doUsuario = sessao.filter((m) => m.role === "user").map((m) => m.content);
   for (const t of doUsuario) {
     const d = duracaoDoTexto(t);
     if (d === 0) duracaoMax = null; else if (d) duracaoMax = d;
+    const x = exclusoesDoTexto(t);
+    x.liberar.forEach((g) => excluir.delete(g));
+    x.tirar.forEach((g) => excluir.add(g));
+    if (x.semViolencia) semViolencia = true;
   }
+  // "sem violência" sem ter pedido terror → tira terror também; se PEDIU terror, só corta os pesados (18 anos)
+  const pediuTerror = doUsuario.some((t) => /(terror|horror)/.test(normalizar(t)) && !exclusoesDoTexto(t).tirar.includes("Terror"));
+  if (semViolencia && !pediuTerror) excluir.add("Terror");
+  const excluirIds = EXCLUSOES.filter((e) => excluir.has(e.nome)).flatMap((e) => e.ids);
   const quantidade = quantidadeDoTexto(doUsuario[doUsuario.length - 1] || "");
-  return { duracaoMax, quantidade };
+  return { duracaoMax, quantidade, excluirNomes: [...excluir], excluirIds, semViolencia };
+}
+
+// Filme fere alguma exclusão? (gênero proibido ou, se "sem violência", classificação 18)
+function violaExclusao(generos = [], classificacao = null, c = {}) {
+  if (c.excluirIds?.length && generos.some((g) => c.excluirIds.includes(g))) return true;
+  if (c.semViolencia && classificacao === "18") return true;
+  return false;
 }
 
 function textoCriterios(c) {
   const linhas = [];
   if (c.duracaoMax) linhas.push(`- Duração MÁXIMA: ${c.duracaoMax} minutos. Nenhum filme mais longo — o validar_titulos já corta os que passam e te diz a duração de cada um.`);
+  if (c.excluirNomes?.length) linhas.push(`- NÃO pode ter: ${c.excluirNomes.join(", ")}${c.semViolencia ? " (nem violência gráfica)" : ""}. O validar_titulos já corta esses gêneros — não insista neles.`);
   if (c.quantidade) linhas.push(`- Quantidade pedida: EXATAMENTE ${c.quantidade} ${c.quantidade === 1 ? "filme" : "filmes"} nesta resposta (sem leque grande, sem grupos extras).`);
   return linhas.length ? `\n\n# LIMITES QUE A PESSOA DEU (mandam mais que qualquer outra instrução)\n${linhas.join("\n")}\nNunca diga que um filme "cabe no tempo" sem a duração vinda da ferramenta.` : "";
 }
@@ -249,15 +287,17 @@ async function validarTitulos(titulos, plats = [], criterios = {}) {
     const plataformas = limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes);
     const ficha = await fichaFilme(f.id).catch(() => ({}));
     if (durMax && ficha.duracao && ficha.duracao > durMax) return { ...base, status: "longo", duracao_min: ficha.duracao };
+    if (violaExclusao(ficha.generos, ficha.classificacao, criterios)) return { ...base, status: "excluido" };
     const alta = emAlta(f.id);
     return { ...base, status: "disponivel", duracao_min: ficha.duracao || null, plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}), ...(motivoAlta(f.id) ? { por_que_estao_falando: motivoAlta(f.id) } : {}) };
   });
 
   const disponiveis = resultados.filter((r) => r?.status === "disponivel")
     .map(({ status, pedido, ...r }) => r);
-  const fora = resultados.filter((r) => r && r.status !== "disponivel" && r.status !== "longo").map((r) => r.pedido);
+  const fora = resultados.filter((r) => r && !["disponivel", "longo", "excluido"].includes(r.status)).map((r) => r.pedido);
+  const excluidos = resultados.filter((r) => r?.status === "excluido").map((r) => r.titulo);
   const longos = resultados.filter((r) => r?.status === "longo").map((r) => `${r.titulo} (${r.duracao_min} min)`);
-  const out = { disponiveis, fora_das_plataformas_ou_nao_achados: fora, ...(longos.length ? { cortados_por_passar_do_tempo: longos } : {}) };
+  const out = { disponiveis, fora_das_plataformas_ou_nao_achados: fora, ...(longos.length ? { cortados_por_passar_do_tempo: longos } : {}), ...(excluidos.length ? { cortados_pelo_que_a_pessoa_nao_quer: excluidos } : {}) };
 
   // Sobrou pouco? Puxa parecidos (TMDB) dos melhores achados que também estão nas plataformas.
   if (disponiveis.length < 12 && disponiveis.length > 0) {
@@ -273,6 +313,7 @@ async function validarTitulos(titulos, plats = [], criterios = {}) {
       if (!ok) return null;
       const ficha = await fichaFilme(m.id).catch(() => ({}));
       if (durMax && ficha.duracao && ficha.duracao > durMax) return null;
+      if (violaExclusao(ficha.generos, ficha.classificacao, criterios)) return null;
       const alta = emAlta(m.id);
       return { id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), duracao_min: ficha.duracao || null, plataformas: limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes), nota: m.vote_average ? Math.round(m.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}) };
     });
@@ -439,7 +480,7 @@ async function trailerYoutubeId(movieId) {
 // Enriquece um filme com dados frescos da TMDB: sinopse, gênero, nota, capa, plataformas, trailer.
 // Usado pelo pós-processamento de cards (em vez de confiar nos dados que a Val emite).
 async function enriquecerFilme(movieId) {
-  const ck = `enriq:${movieId}`;
+  const ck = `enriq2:${movieId}`;
   const hit = cacheGet(ck);
   if (hit) return hit;
   try {
@@ -456,6 +497,7 @@ async function enriquecerFilme(movieId) {
       nota: m.vote_average ? Math.round(m.vote_average * 10) / 10 : null,
       sinopse: m.overview || "",
       genero: (m.genres || []).map((g) => g.name).join(" / "),
+      generoIds: (m.genres || []).map((g) => g.id),
       capa: posterUrl(m.poster_path),
       plataformas: limparPlataformas(wp.streaming || []),
       trailer: tr,
@@ -560,6 +602,11 @@ async function enriquecerResposta(texto, plats = [], idsPermitidos = null, valid
     const dd = dados[id];
     if (criterios.duracaoMax && dd?.duracao && dd.duracao > criterios.duracaoMax) {
       console.warn(`[criterio] ${dd.titulo} tem ${dd.duracao} min > ${criterios.duracaoMax}, removido`);
+      removidosPorCriterio.push(dd.titulo, tituloDeclarado);
+      return null;
+    }
+    if (dd && violaExclusao(dd.generoIds, dd.classificacao, criterios)) {
+      console.warn(`[criterio] ${dd.titulo} tem gênero excluído (${criterios.excluirNomes?.join(", ")}), removido`);
       removidosPorCriterio.push(dd.titulo, tituloDeclarado);
       return null;
     }
@@ -757,7 +804,7 @@ async function executarTool(nome, input, plats = [], criterios = {}) {
   if (nome === "validar_titulos") {
     // Limite de tempo: vale o mais restritivo entre o que a Val passou e o que a pessoa disse
     const lims = [criterios.duracaoMax, input.duracao_max_min].filter((x) => Number(x) > 0).map(Number);
-    return await validarTitulos(input.titulos, plats, { duracaoMax: lims.length ? Math.min(...lims) : null });
+    return await validarTitulos(input.titulos, plats, { ...criterios, duracaoMax: lims.length ? Math.min(...lims) : null });
   }
   if (nome === "radar_em_alta") return await radarEmAlta(plats);
   if (nome === "buscar_filme") {
@@ -908,12 +955,13 @@ function ehSobrecarga(err) {
 // Espera N ms (Promise-based sleep)
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function gemini(body) {
+async function gemini(body, onEtapa = () => {}) {
   const tentativasPorModelo = 2;
   let ultimoErro = null;
   // Cascata: pra cada modelo, tenta N vezes; se persistir overload, vai pro próximo modelo.
   for (let m = 0; m < MODELOS.length; m++) {
     const modelo = MODELOS[m];
+    if (m > 0) onEtapa("O balcão tá cheio — chamei a atendente reserva, só um instante…");
     const url = `${GEMINI_BASE}/${modelo}:generateContent`;
     for (let i = 0; i < tentativasPorModelo; i++) {
       try {
@@ -954,7 +1002,9 @@ function wrapResult(out) {
   return { result: out };
 }
 
-async function conversar(messages, plataforma, contextoUsuario = "", criterios = {}) {
+async function conversar(messages, plataforma, contextoUsuario = "", criterios = {}, opts = {}) {
+  const onEtapa = opts.onEtapa || (() => {});
+  const cancelado = opts.cancelado || (() => false);
   // Converte [{role:"user|assistant", content:"texto"}] -> contents do Gemini
   const contents = messages.map((m) => ({
     role: m.role === "assistant" ? "model" : "user",
@@ -982,7 +1032,9 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
 
   // validar_titulos resolve em lote, então poucas rodadas bastam
   for (let i = 0; i < 10; i++) {
-    const resp = await gemini({ ...body, contents });
+    if (cancelado()) return { texto: "", idsConfirmados, validados, cancelado: true };
+    if (i === 0) onEtapa("Pensando em filmes que combinam com o seu pedido…");
+    const resp = await gemini({ ...body, contents }, onEtapa);
 
     if (resp.error) {
       console.error("Gemini error:", JSON.stringify(resp.error));
@@ -1000,6 +1052,10 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
       contents.push({ role: "model", parts });
       // Executa todas as ferramentas pedidas nesta rodada EM PARALELO (ordem preservada)
       const platsArr = Array.isArray(plataforma) ? plataforma : (plataforma ? [plataforma] : []);
+      const nTitulos = fnCalls.reduce((n, p) => n + (p.functionCall.args?.titulos?.length || 0), 0);
+      if (nTitulos) onEtapa(`Conferindo ${nTitulos} filmes nas suas assinaturas…`);
+      else if (fnCalls.some((p) => p.functionCall.name === "radar_em_alta")) onEtapa("Vendo o que tá em alta agora…");
+      else onEtapa("Consultando o catálogo…");
       const respParts = await Promise.all(fnCalls.map(async (p) => {
         let out;
         try { out = await executarTool(p.functionCall.name, p.functionCall.args || {}, platsArr, criterios); }
@@ -1009,6 +1065,7 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
         return { functionResponse: { name: p.functionCall.name, response: wrapResult(out) } };
       }));
       contents.push({ role: "user", parts: respParts });
+      onEtapa("Escolhendo os melhores e montando os cards…");
       continue;
     }
 
@@ -1115,11 +1172,29 @@ app.post("/api/chat", async (req, res) => {
     const contextoUsuario = resumirContextoUsuario(historico, fitas);
 
     const criterios = extrairCriterios(sessao);
-    const { texto: replyRaw, idsConfirmados, validados } = await conversar(sessao, plats, contextoUsuario, criterios);
-    const reply = await enriquecerResposta(replyRaw, plats, idsConfirmados, validados, criterios);
+
+    // Modo "ao vivo" (SSE): manda as etapas reais enquanto trabalha. Se a pessoa cancelar, para de gastar Gemini.
+    const aoVivo = String(req.headers.accept || "").includes("text/event-stream");
+    let fechou = false;
+    res.on("close", () => { if (!res.writableEnded) fechou = true; });
+    const enviar = (obj) => { if (aoVivo && !fechou) res.write(`data: ${JSON.stringify(obj)}\n\n`); };
+    let pulso = null;
+    if (aoVivo) {
+      res.writeHead(200, { "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", Connection: "keep-alive", "X-Accel-Buffering": "no" });
+      pulso = setInterval(() => { if (!fechou) res.write(": pulso\n\n"); }, 10000);
+    }
+    const onEtapa = (texto) => enviar({ etapa: texto });
+
+    const r = await conversar(sessao, plats, contextoUsuario, criterios, { onEtapa, cancelado: () => fechou });
+    if (r.cancelado || fechou) { clearInterval(pulso); console.log("[chat] cancelado pela pessoa"); return; }
+    onEtapa("Buscando pôsteres, notas e trailers…");
+    const reply = await enriquecerResposta(r.texto, plats, r.idsConfirmados, r.validados, criterios);
+    clearInterval(pulso);
+    if (aoVivo) { enviar({ reply }); return res.end(); }
     res.json({ reply });
   } catch (e) {
     console.error(e);
+    if (res.headersSent) { try { res.write(`data: ${JSON.stringify({ erro: "Deu ruído na fita aqui no servidor." })}\n\n`); res.end(); } catch {} return; }
     res.status(500).json({ erro: "Deu ruído na fita aqui no servidor." });
   }
 });

@@ -44,6 +44,28 @@
   .sug:active{transform:translate(4px,4px);box-shadow:none}
   .outras{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;background:none;border:none;color:var(--bb-yellow);text-decoration:underline;padding:4px 0;margin-bottom:22px}
 
+  /* pedido na home */
+  .pedido{background:var(--paper);color:var(--ink);border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:14px;max-width:580px;margin-bottom:22px}
+  .pedido-rot{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1.5px;color:var(--bb-blue);margin:2px 0 6px}
+  .pedido-plats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .hp{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;background:#fff;color:var(--ink);border:3px solid var(--ink);padding:4px 10px;box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+  .hp[aria-pressed="true"]{color:#fff;transform:translate(2px,2px);box-shadow:none}
+  .hp[aria-pressed="true"]::before{content:"✓ "}
+  .hp.todos[aria-pressed="true"]{background:#1f9d3a}.hp.netflix[aria-pressed="true"]{background:#e50914}.hp.hbo[aria-pressed="true"]{background:#7e2fd6}
+  .hp.prime[aria-pressed="true"]{background:#00a8e1}.hp.disney[aria-pressed="true"]{background:#113cd1}.hp.apple[aria-pressed="true"]{background:#1a1a1a}
+  .pedido-linha{display:flex;gap:8px;flex-wrap:wrap}
+  .pedido-linha input{flex:1;min-width:200px;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;background:#fff;border:3px solid var(--ink);padding:11px 12px;color:var(--ink);outline:none}
+  .pedido-linha input:focus{box-shadow:0 0 0 3px var(--bb-yellow)}
+  .pedido-linha button{font-family:'Anton',sans-serif;font-size:17px;letter-spacing:1px;cursor:pointer;background:var(--red);color:#fff;border:3px solid var(--ink);padding:9px 16px;box-shadow:4px 4px 0 var(--ink)}
+  .pedido-linha button:active{transform:translate(4px,4px);box-shadow:none}
+  /* controles da demonstração */
+  .demo-ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .demo-ctrl button,.demo-ctrl a{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;border:3px solid var(--ink);padding:5px 12px;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
+  .demo-ctrl button{background:var(--paper);color:var(--ink)}
+  .demo-ctrl a{background:var(--bb-yellow);color:var(--ink);margin-left:auto}
+  .tela-input{opacity:.75;pointer-events:none}
+  .tela-campo{font-style:italic}
+
   /* exemplo de conversa */
   .demo{background:var(--bb-blue-deep);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);padding:16px;display:flex;flex-direction:column;gap:12px}
   .demo-rotulo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:var(--bb-yellow);opacity:.8}
@@ -152,10 +174,19 @@
         <h1>TÁ A FIM DE ASSISTIR O QUÊ HOJE?</h1>
         <p class="subline">Não precisa saber o nome do filme. Conta pra <b>Val</b> o tema, o clima ou um filme que você curtiu. Ela encontra opções nos <b>streamings que você assina</b>.</p>
 
-        <div class="sem-ideia">TÁ SEM IDEIA? VÊ SE ALGUMA DESSAS TE PEGA:</div>
+        <form class="pedido" id="form-pedido">
+          <div class="pedido-rot">1 · QUAIS STREAMINGS VOCÊ ASSINA?</div>
+          <div class="pedido-plats" id="home-plats" role="group" aria-label="Streamings que você assina"></div>
+          <div class="pedido-rot">2 · O QUE VOCÊ TÁ A FIM DE VER?</div>
+          <div class="pedido-linha">
+            <input id="home-q" maxlength="300" autocomplete="off" placeholder="Do seu jeito: tema, clima, um filme que você curtiu…" aria-label="O que você quer assistir?" />
+            <button type="submit">PERGUNTAR PRA VAL</button>
+          </div>
+        </form>
+
+        <div class="sem-ideia">OU COMEÇA POR UMA DESSAS:</div>
         <div class="sugestoes" id="sugestoes"></div>
-        <button class="outras" onclick="novasSugestoes()">↻ Me dá outras ideias</button>
-        <div><a href="/chat" class="cta-big">▶ FALAR COM A VAL</a></div>
+        <button class="outras" type="button" onclick="novasSugestoes()">↻ Me dá outras ideias</button>
       </div>
 
       <div class="demo-wrap">
@@ -164,7 +195,12 @@
           <div class="tela-topo"><span class="tela-logo">VHS CLUB</span><span class="tela-tag">ACHE O FILME CERTO</span></div>
           <div class="tela-plats" id="tela-plats"></div>
           <div class="tela-chat" id="tela-chat"></div>
-          <div class="tela-input"><span id="tela-digitando" class="tela-campo">Pergunta pra Val…</span><span class="tela-pegar" id="tela-pegar">PEGAR</span></div>
+          <div class="tela-input"><span id="tela-digitando" class="tela-campo">(demonstração)</span><span class="tela-pegar" id="tela-pegar">ENVIAR</span></div>
+        </div>
+        <div class="demo-ctrl">
+          <button type="button" id="demo-pausa" onclick="pausarDemo()">⏸ PAUSAR</button>
+          <button type="button" onclick="repetirDemo()">↺ REPETIR</button>
+          <a id="demo-experimentar" href="/chat">▶ EXPERIMENTAR ESTA CONVERSA</a>
         </div>
       </div>
     </div>
@@ -221,13 +257,42 @@
   // Sugestões que mudam a cada visita (e no botão "outras ideias"). Clicar já abre a conversa com o pedido.
   function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
   function linkChat(pedido) { return "/chat?q=" + encodeURIComponent(pedido); }
+
+  // Streamings escolhidos na home (mesma memória do chat). Nenhum marcado = TODOS.
+  const HOME_PLATS = [["Todos","todos"],["Netflix","netflix"],["HBO Max","hbo"],["Prime Video","prime"],["Disney+","disney"],["Apple TV+","apple"]];
+  let escolhidos = [];
+  try { const s = JSON.parse(localStorage.getItem("vhs_plats_v1")); if (Array.isArray(s)) escolhidos = s; } catch {}
+  function pintarPlats() {
+    const marcados = escolhidos.length ? escolhidos : ["Todos"];
+    document.getElementById("home-plats").innerHTML = HOME_PLATS.map(([n, cls]) =>
+      `<button type="button" class="hp ${cls}" aria-pressed="${marcados.includes(n)}" onclick="alternarPlat('${n}')">${n.toUpperCase()}</button>`).join("");
+  }
+  function alternarPlat(n) {
+    if (n === "Todos") escolhidos = ["Todos"];
+    else {
+      escolhidos = escolhidos.filter((x) => x !== "Todos");
+      escolhidos = escolhidos.includes(n) ? escolhidos.filter((x) => x !== n) : [...escolhidos, n];
+    }
+    pintarPlats();
+  }
+  function irProChat(pedido) {
+    try { localStorage.setItem("vhs_plats_v1", JSON.stringify(escolhidos.length ? escolhidos : ["Todos"])); } catch {}
+    location.href = pedido ? linkChat(pedido) : "/chat";
+  }
+  pintarPlats();
+  document.getElementById("form-pedido").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = document.getElementById("home-q").value.trim();
+    if (!q) { document.getElementById("home-q").focus(); return; }
+    irProChat(q);
+  });
   function novasSugestoes() {
     document.getElementById("sugestoes").innerHTML = window.VHS_SUGESTOES.rodada()
-      .map((t) => `<a class="sug" href="${linkChat(t)}">${esc(t)}</a>`).join("");
+      .map((t) => `<a class="sug" href="${linkChat(t)}" onclick="event.preventDefault(); irProChat(this.textContent)">${esc(t)}</a>`).join("");
   }
   novasSugestoes();
   document.getElementById("prateleiras").innerHTML = window.VHS_SUGESTOES.PRATELEIRAS.slice(0, 6)
-    .map((p) => `<a class="prat" href="${linkChat(p.pedido)}"><span class="etiqueta">PRATELEIRA DA VAL</span><h3>${esc(p.nome)}</h3><span class="abrir">▶ ABRIR ESSA PRATELEIRA</span></a>`).join("");
+    .map((p) => `<a class="prat" href="${linkChat(p.pedido)}" onclick="event.preventDefault(); irProChat(${esc(JSON.stringify(p.pedido))})"><span class="etiqueta">PRATELEIRA DA VAL</span><h3>${esc(p.nome)}</h3><span class="abrir">▶ ABRIR ESSA PRATELEIRA</span></a>`).join("");
 
   /* ===== Demonstração animada: réplica da tela do chat, com dados REAIS dos filmes (/api/demo).
      Não chama a Val (Gemini) — as falas são roteiro de exemplo. */
@@ -246,7 +311,19 @@
       filmes: [[18785, "Ninguém lembra da noite anterior — e você vai rir de tudo.", "Caos e ressaca"], [8363, "Dois amigos, uma festa e todos os planos dando errado.", "Amizade e vergonha alheia"], [12153, "Exagerado do começo ao fim, do jeito que tem que ser.", "Besteirol raiz"]],
       fecha: "Se fosse eu, hoje ia de Se Beber, Não Case! — risada garantida sem pensar em nada." },
   ];
-  const dorme = (ms) => new Promise((r) => setTimeout(r, ms));
+  let pausado = false, geracao = 0;
+  const REINICIO = Symbol("reinicio");
+  async function dorme(ms) {
+    const g = geracao;
+    await new Promise((r) => setTimeout(r, ms));
+    while (pausado && g === geracao) await new Promise((r) => setTimeout(r, 200));
+    if (g !== geracao) throw REINICIO;
+  }
+  function pausarDemo() {
+    pausado = !pausado;
+    document.getElementById("demo-pausa").textContent = pausado ? "▶ CONTINUAR" : "⏸ PAUSAR";
+  }
+  function repetirDemo() { pausado = false; document.getElementById("demo-pausa").textContent = "⏸ PAUSAR"; geracao++; }
   const telaChat = document.getElementById("tela-chat");
   const campo = document.getElementById("tela-digitando");
   const pegar = document.getElementById("tela-pegar");
@@ -269,9 +346,10 @@
   }
 
   async function rodarCena(c) {
+    document.getElementById("demo-experimentar").onclick = (e) => { e.preventDefault(); irProChat(c.pedido); };
     telaChat.innerHTML = "";
     platsEl.innerHTML = PLATS.map(([n, cls]) => `<span class="tp ${cls}" data-n="${n}">${n.toUpperCase()}</span>`).join("");
-    campo.textContent = "Pergunta pra Val…"; campo.classList.remove("escrevendo");
+    campo.textContent = "(demonstração)"; campo.classList.remove("escrevendo");
     bolha("val", "Tá a fim de assistir o quê hoje? Antes, marca aí os streamings que você assina 👆");
     await dorme(1200);
     for (const n of c.plats) {               // marca os streamings
@@ -283,7 +361,7 @@
     for (const ch of c.pedido) { campo.textContent += ch; await dorme(55); }   // digita
     await dorme(400);
     pegar.classList.add("apertou"); await dorme(150); pegar.classList.remove("apertou");
-    campo.classList.remove("escrevendo"); campo.textContent = "Pergunta pra Val…";
+    campo.classList.remove("escrevendo"); campo.textContent = "(demonstração)";
     bolha("voce", esc(c.pedido));
     const pensando = bolha("val pensando", "conferindo a prateleira de hoje…");
     await dorme(1600);
@@ -307,7 +385,11 @@
         for (const f of r.filmes || []) dadosFilmes[f.id] = f;
       }
     } catch {}
-    for (let i = 0; ; i = (i + 1) % CENAS.length) await rodarCena(CENAS[i]);
+    let i = 0;
+    while (true) {
+      try { await rodarCena(CENAS[i]); i = (i + 1) % CENAS.length; }
+      catch (e) { if (e !== REINICIO) throw e; }   // "Repetir": recomeça a cena atual
+    }
   }
   demo();
 </script>

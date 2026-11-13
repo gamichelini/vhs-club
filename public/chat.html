@@ -207,6 +207,13 @@
   }
   .chip.chip-outras{background:none;border-style:dashed;box-shadow:none;color:var(--bb-yellow);border-color:var(--bb-yellow)}
   .chip.chip-outras::before{content:""}
+  .typing .body{display:flex;flex-direction:column;gap:6px}
+  .etapa{font-style:italic}
+  .espera-acoes{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .espera-tempo{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;opacity:.7}
+  .btn-mini{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;background:var(--ink);color:var(--bb-yellow);border:2px solid var(--ink);padding:3px 10px}
+  .btn-mini.claro{background:var(--paper);color:var(--ink)}
+  .drawer .acts a{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;text-decoration:none;color:#fff;background:var(--red);border:2px solid var(--ink);padding:3px 8px}
 </style>
 </head>
 <body>
@@ -217,10 +224,11 @@
   </div>
 
   <header>
-    <div class="ticket"><span>VHS&nbsp;CLUB</span></div>
+    <a class="ticket" href="/" title="Voltar pra página inicial" style="text-decoration:none"><span>VHS&nbsp;CLUB</span></a>
     <div class="tagline">ACHE O FILME CERTO NOS SEUS STREAMINGS<small>★ FALA O QUE TÁ A FIM · A VAL MOSTRA O QUE TEM NA SUA ASSINATURA ★</small></div>
     <div class="header-right">
       <div id="user-info" class="user-info" style="display:flex">
+        <button class="btn-header" onclick="novaConversa()" title="Começar uma conversa nova">＋ NOVA</button>
         <button class="btn-header btn-list" onclick="abrirDrawer()" title="Minhas fitas">📼 <span id="wl-count">0</span></button>
       </div>
       <div class="open-sign">● ABERTO</div>
@@ -244,7 +252,7 @@
     <div id="chat"></div>
     <div class="composer">
       <input id="input" autocomplete="off" placeholder="Pergunta pra Val o que assistir..." />
-      <button id="send" onclick="send()">PEGAR</button>
+      <button id="send" onclick="send()">ENVIAR</button>
     </div>
     <div class="live-badge">🔌 disponibilidade conferida <b>NA HORA</b> via JustWatch/TMDB · Brasil · só assinatura</div>
   </main>
@@ -264,13 +272,25 @@ const drawer = document.getElementById('drawer');
 const wlCount = document.getElementById('wl-count');
 
 let activePlatforms = ['Todos']; // multi-seleção: array de plataformas ativas; ['Todos'] = sem filtro
-let conversa = []; // mensagens da conversa atual
+let conversa = []; // mensagens da conversa atual (salva no navegador: sobrevive ao refresh)
+const LS_CONVERSA = 'vhs_conversa_v1';
+function salvarConversa() { gravarLS(LS_CONVERSA, conversa.slice(-40)); }
 let watchlistLocal = lerLS(LS_FITAS, []); // [{movie_id, titulo, capa, plataforma, ano, assistido, rating}]
 
 // ===== Início (sem login) =====
 function init() {
   atualizarContador();
   restaurarStreamings();
+  // Conversa anterior neste navegador? Mostra de volta (botão "＋ NOVA" começa do zero)
+  const salva = lerLS(LS_CONVERSA, []);
+  const qUrl = new URLSearchParams(location.search).get('q');
+  if (Array.isArray(salva) && salva.length && !qUrl) {
+    conversa = salva;
+    for (const m of conversa) bubble(m.role === 'assistant' ? 'clerk' : 'me', m.content, false, { semRolar: true });
+    chat.scrollTop = chat.scrollHeight;
+    input.focus();
+    return;
+  }
   if (!escolheuStreamings()) document.getElementById('shelf').classList.add('aberta');
   const q = new URLSearchParams(location.search).get('q');
   mostrarBoasVindas(!q);
@@ -282,6 +302,16 @@ function init() {
     input.focus();
   }
 }
+
+function novaConversa() {
+  if (requisicaoAtual) requisicaoAtual.abort();
+  conversa = [];
+  salvarConversa();
+  chat.innerHTML = '';
+  mostrarBoasVindas(true);
+  input.focus();
+}
+window.novaConversa = novaConversa;
 
 // Sugestões clicáveis na primeira tela (mesmo banco da página inicial, muda a cada visita)
 function mostrarChipsIniciais() {
@@ -347,7 +377,7 @@ function renderCardRico(d) {
   const temImdb = d.notaImdb !== null && d.notaImdb !== undefined;
   const notaShow = temImdb ? d.notaImdb : d.nota;
   const ratingTag = (notaShow !== null && notaShow !== undefined)
-    ? `<span class="card-rating" title="${temImdb ? 'Nota do IMDb' : 'Nota da TMDB — o IMDb não tem nota pra esse filme agora'}"><span class="nota">${Number(notaShow).toFixed(1)}</span><span class="star">★</span> ${temImdb ? 'IMDb' : 'TMDB'}</span>`
+    ? `<span class="card-rating" title="${temImdb ? 'Nota do IMDb' : 'Nota IMDb indisponível nesta consulta; exibindo TMDB'}"><span class="nota">${Number(notaShow).toFixed(1)}</span><span class="star">★</span> ${temImdb ? 'IMDb' : 'TMDB'}</span>`
     : '';
   const altaTag = d.emAlta
     ? `<span class="card-alta">🔥 ${d.emAlta === 'internet' ? 'FALADO NA INTERNET' : d.emAlta === 'hoje' ? 'BOMBANDO HOJE' : 'EM ALTA'}</span>`
@@ -364,7 +394,7 @@ function renderCardRico(d) {
   // Botão direto pro streaming (1º da lista); demais plataformas ficam nos detalhes
   const pPrincipal = (d.plataformas || []).find((p) => BUSCA_PLATAFORMA[p]);
   const btnAssistir = pPrincipal
-    ? `<a class="btn-assistir ${BUSCA_PLATAFORMA[pPrincipal].cls}" href="${BUSCA_PLATAFORMA[pPrincipal].url(d.titulo)}" target="_blank" rel="noopener">▶ ASSISTIR NA ${esc(pPrincipal.toUpperCase())}</a>`
+    ? `<a class="btn-assistir ${BUSCA_PLATAFORMA[pPrincipal].cls}" href="${BUSCA_PLATAFORMA[pPrincipal].url(d.titulo)}" target="_blank" rel="noopener" title="Abre a busca da ${esc(pPrincipal)} com o nome do filme">🔎 BUSCAR NA ${esc(pPrincipal.toUpperCase())}</a>`
     : (d.linkOndeAssistir ? `<a class="btn-assistir" href="${esc(d.linkOndeAssistir)}" target="_blank" rel="noopener">▶ ONDE ASSISTIR</a>` : '');
   const sinopse = d.sinopse ? `<p class="card-sinopse">${esc(d.sinopse)}</p>` : '';
   const fonte = `<div class="card-fonte">📺 Na assinatura: <b>${esc(plats || '—')}</b> · conferido ${esc(horaFmt(d.consultadoEm || Date.now()))} via JustWatch/TMDB${d.linkOndeAssistir ? ` · <a href="${esc(d.linkOndeAssistir)}" target="_blank" rel="noopener">ver fonte</a>` : ''}</div>`;
@@ -437,13 +467,14 @@ function fmtRaw(s) {
   return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
 }
 
-function bubble(role, text, raw) {
+function bubble(role, text, raw, opts = {}) {
   const d = document.createElement('div');
   d.className = 'msg ' + (role === 'clerk' ? 'clerk' : 'me');
   d.innerHTML = `<div class="who">${role === 'clerk' ? 'VAL · BALCÃO' : 'VOCÊ'}</div><div class="body">${raw ? fmtRaw(text) : fmt(text)}</div>`;
   chat.appendChild(d);
   aplicarVerMais(d);
-  chat.scrollTop = chat.scrollHeight;
+  if (opts.rolarProInicio) chat.scrollTop = Math.max(0, d.offsetTop - chat.offsetTop - 8); // resposta nova: começa do topo dela
+  else if (!opts.semRolar) chat.scrollTop = chat.scrollHeight;
   marcarFitasJaSalvas(d);
   return d;
 }
@@ -464,9 +495,17 @@ function aplicarVerMais(bolha) {
 function typing() {
   const d = document.createElement('div');
   d.className = 'msg clerk typing';
-  d.innerHTML = `<div class="who">VAL · BALCÃO</div><div class="body dots">conferindo a prateleira de hoje</div>`;
+  d.innerHTML = `<div class="who">VAL · BALCÃO</div><div class="body"><span class="etapa dots">Recebi! Indo na prateleira</span><div class="espera-acoes"><span class="espera-tempo">0s</span><button class="btn-mini claro" onclick="cancelarPedido()">✕ CANCELAR</button></div></div>`;
   chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
+  const t0 = Date.now();
+  const tempo = d.querySelector('.espera-tempo');
+  d.__relogio = setInterval(() => {
+    const seg = Math.round((Date.now() - t0) / 1000);
+    tempo.textContent = seg < 40 ? `${seg}s` : `${seg}s · tá demorando mais que o normal`;
+  }, 1000);
+  d.etapa = (texto) => { d.querySelector('.etapa').textContent = texto; };
+  d.fim = () => { clearInterval(d.__relogio); d.remove(); };
   return d;
 }
 
@@ -552,9 +591,23 @@ function confirmarStreamings(btn) {
 window.confirmarStreamings = confirmarStreamings;
 
 // ===== Send =====
+let requisicaoAtual = null; // AbortController da busca em andamento (pra cancelar)
+const TEMPO_MAXIMO_MS = 150000;
+
+function cancelarPedido() { if (requisicaoAtual) { requisicaoAtual.__motivo = 'cancelou'; requisicaoAtual.abort(); } }
+window.cancelarPedido = cancelarPedido;
+
+function bolhaErro(msg, textoOriginal) {
+  const d = bubble('clerk', msg, true);
+  if (textoOriginal) {
+    d.querySelector('.body').insertAdjacentHTML('beforeend', '<div style="margin-top:8px"><button class="chip">↻ TENTAR DE NOVO</button></div>');
+    d.querySelector('.body .chip').onclick = (e) => { e.target.closest('div').remove(); input.value = textoOriginal; send.__semBolha = true; send(); };
+  }
+}
+
 async function send() {
   const text = input.value.trim();
-  if (!text) return;
+  if (!text || requisicaoAtual) return;
   if (!escolheuStreamings()) {
     input.value = '';
     bubble('me', text);
@@ -568,33 +621,68 @@ async function send() {
   if (!send.__semBolha) bubble('me', text);
   send.__semBolha = false;
   conversa.push({ role: 'user', content: text });
+  salvarConversa();
   const t = typing();
+  const ctrl = new AbortController();
+  requisicaoAtual = ctrl;
+  const relogioMax = setTimeout(() => { ctrl.__motivo = 'tempo'; ctrl.abort(); }, TEMPO_MAXIMO_MS);
+  let reply = null, erro = null;
   try {
     const pedidosAnteriores = lerLS(LS_PEDIDOS, []);
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Accept": "text/event-stream" },
       body: JSON.stringify({ messages: conversa, plataformas: activePlatforms, watchlist: watchlistLocal, pedidosAnteriores }),
+      signal: ctrl.signal,
     });
-    // Guarda o pedido (últimos 15) pra Val lembrar do seu gosto da próxima vez
     gravarLS(LS_PEDIDOS, [...pedidosAnteriores.filter((p) => p !== text), text].slice(-15));
-    const data = await res.json();
-    t.remove();
-    if (data.erro) {
-      bubble('clerk', data.erro, true);
+    if ((res.headers.get('content-type') || '').includes('text/event-stream')) {
+      // Lê as etapas ao vivo: "data: {...}\n\n"
+      const leitor = res.body.getReader();
+      const dec = new TextDecoder();
+      let buf = '';
+      while (true) {
+        const { value, done } = await leitor.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        const blocos = buf.split('\n\n');
+        buf = blocos.pop();
+        for (const b of blocos) {
+          const linha = b.split('\n').find((l) => l.startsWith('data: '));
+          if (!linha) continue;
+          const ev = JSON.parse(linha.slice(6));
+          if (ev.etapa) t.etapa(ev.etapa);
+          if (ev.reply) reply = ev.reply;
+          if (ev.erro) erro = ev.erro;
+        }
+      }
     } else {
-      const reply = data.reply || "Eita, deu ruído na fita. Pergunta de novo?";
-      bubble('clerk', reply);
-      conversa.push({ role: "assistant", content: reply });
+      const data = await res.json();
+      reply = data.reply; erro = data.erro;
     }
   } catch (err) {
-    t.remove();
-    bubble('clerk', "Opa, não consegui falar com o balcão. Tenta de novo?", true);
+    if (ctrl.__motivo === 'cancelou') erro = '__cancelou';
+    else if (ctrl.__motivo === 'tempo') erro = 'Demorei demais e parei pra não te deixar esperando. O balcão deve estar cheio.';
+    else erro = 'Opa, não consegui falar com o balcão.';
     console.error(err);
   } finally {
+    clearTimeout(relogioMax);
+    t.fim();
+    requisicaoAtual = null;
     sendBtn.disabled = false;
-    input.focus();
   }
+  if (erro === '__cancelou') {
+    conversa.pop(); salvarConversa(); // pedido cancelado não entra no histórico
+    bolhaErro('Beleza, cancelei. Quer pedir de outro jeito?', text);
+  } else if (erro || !reply) {
+    conversa.pop(); salvarConversa();
+    bolhaErro((erro || 'Eita, deu ruído na fita.') + ' Quer tentar de novo?', text);
+  } else {
+    bubble('clerk', reply, false, { rolarProInicio: true });
+    conversa.push({ role: "assistant", content: reply });
+    salvarConversa();
+  }
+  if (!drawer.classList.contains('open')) input.focus();
 }
 window.send = send;
 input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
@@ -715,14 +803,35 @@ function marcarFitasJaSalvas(scope) {
 }
 
 // ===== Drawer (Minhas Fitas) =====
+function linkBuscaFita(w) {
+  const plat = String(w.plataforma || '').split(' · ').find((p) => BUSCA_PLATAFORMA[p]);
+  return plat ? `<a href="${BUSCA_PLATAFORMA[plat].url(w.titulo)}" target="_blank" rel="noopener">🔎 BUSCAR NA ${esc(plat.toUpperCase())}</a>` : '';
+}
 function abrirDrawer() {
   renderDrawer();
   drawer.classList.add('open');
+  drawer.setAttribute('role', 'dialog');
+  drawer.setAttribute('aria-modal', 'true');
+  const fechar = drawer.querySelector('.close');
+  if (fechar) fechar.focus();
 }
+// Esc fecha o painel; Tab fica preso dentro dele enquanto aberto
+document.addEventListener('keydown', (e) => {
+  if (!drawer.classList.contains('open')) return;
+  if (e.key === 'Escape') { fecharDrawer(); return; }
+  if (e.key === 'Tab') {
+    const foc = [...drawer.querySelectorAll('button, a[href]')].filter((el) => !el.disabled);
+    if (!foc.length) return;
+    const prim = foc[0], ult = foc[foc.length - 1];
+    if (e.shiftKey && document.activeElement === prim) { e.preventDefault(); ult.focus(); }
+    else if (!e.shiftKey && document.activeElement === ult) { e.preventDefault(); prim.focus(); }
+  }
+});
 window.abrirDrawer = abrirDrawer;
 
 function fecharDrawer() {
   drawer.classList.remove('open');
+  input.focus();
 }
 window.fecharDrawer = fecharDrawer;
 
@@ -741,6 +850,7 @@ function renderDrawer() {
         <div class="acts">
           <button onclick="marcarVisto(${w.movie_id}, ${!w.assistido})">${w.assistido ? '↺ NÃO VI AINDA' : '✓ JÁ ASSISTI'}</button>
           <button class="remove" onclick="removerFita(${w.movie_id})">REMOVER</button>
+          ${linkBuscaFita(w)}
         </div>
       </div>
     </div>
