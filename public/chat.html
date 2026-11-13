@@ -154,25 +154,6 @@
 </style>
 </head>
 <body>
-  <!-- LOGIN / CADASTRO MODAL -->
-  <div id="overlay" class="overlay">
-    <div class="auth-box">
-      <h2 id="auth-title">ENTRAR NO VHS CLUB</h2>
-      <p id="auth-sub">A Val tá esperando você no balcão. Faz login pra ela te reconhecer das próximas vezes.</p>
-      <div class="auth-form">
-        <label for="email">EMAIL</label>
-        <input id="email" type="email" autocomplete="email" placeholder="seu@email.com" />
-        <label for="senha">SENHA</label>
-        <input id="senha" type="password" autocomplete="current-password" placeholder="••••••" />
-        <button id="auth-btn" onclick="submitAuth()">ENTRAR</button>
-        <div id="auth-msg" class="auth-msg"></div>
-      </div>
-      <div class="auth-switch">
-        <span id="auth-switch-text">Não tem conta?</span> <a id="auth-switch-link" onclick="toggleAuthMode()">Cria uma agora</a>
-      </div>
-    </div>
-  </div>
-
   <!-- DRAWER MINHAS FITAS -->
   <div id="drawer" class="drawer">
     <h2>📼 MINHAS FITAS <button class="close" onclick="fecharDrawer()">✕</button></h2>
@@ -183,10 +164,8 @@
     <div class="ticket"><span>VHS&nbsp;CLUB</span></div>
     <div class="tagline">SUA LOCADORA DE BAIRRO<small>★ FITAS · DICAS · NOSTALGIA ★</small></div>
     <div class="header-right">
-      <div id="user-info" class="user-info">
-        <span id="user-email"></span>
+      <div id="user-info" class="user-info" style="display:flex">
         <button class="btn-header btn-list" onclick="abrirDrawer()" title="Minhas fitas">📼 <span id="wl-count">0</span></button>
-        <button class="btn-header" onclick="sair()">SAIR</button>
       </div>
       <div class="open-sign">● ABERTO</div>
     </div>
@@ -212,142 +191,32 @@
   </main>
 
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-// Busca as chaves públicas do backend em vez de hardcoded.
-const cfg = await fetch("/api/config").then(r => r.json());
-const supa = createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
-  auth: { autoRefreshToken: true, persistSession: true }
-});
+// Sem login: lista de fitas, notas e pedidos anteriores ficam salvos NESTE navegador (localStorage).
+const LS_FITAS = 'vhs_fitas_v1';
+const LS_PEDIDOS = 'vhs_pedidos_v1';
+function lerLS(k, padrao) { try { return JSON.parse(localStorage.getItem(k)) ?? padrao; } catch { return padrao; } }
+function gravarLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
 const chat = document.getElementById('chat');
 const input = document.getElementById('input');
 const sendBtn = document.getElementById('send');
-const overlay = document.getElementById('overlay');
 const drawer = document.getElementById('drawer');
-const userInfo = document.getElementById('user-info');
-const userEmail = document.getElementById('user-email');
-const authMsg = document.getElementById('auth-msg');
-const authTitle = document.getElementById('auth-title');
-const authSub = document.getElementById('auth-sub');
-const authBtn = document.getElementById('auth-btn');
-const authSwitchText = document.getElementById('auth-switch-text');
-const authSwitchLink = document.getElementById('auth-switch-link');
 const wlCount = document.getElementById('wl-count');
 
 let activePlatforms = ['Todos']; // multi-seleção: array de plataformas ativas; ['Todos'] = sem filtro
-let conversa = []; // mensagens da SESSÃO atual; histórico antigo fica no servidor
-let usuarioLogado = null;
-let modoAuth = 'login'; // 'login' ou 'signup'
-let watchlistLocal = []; // cache em memória
+let conversa = []; // mensagens da conversa atual
+let watchlistLocal = lerLS(LS_FITAS, []); // [{movie_id, titulo, capa, plataforma, ano, assistido, rating}]
 
-// ===== Auth =====
-function showAuthMsg(text, isErr = false) {
-  authMsg.textContent = text;
-  authMsg.classList.toggle('err', isErr);
-}
-
-async function submitAuth() {
-  const email = document.getElementById('email').value.trim();
-  const senha = document.getElementById('senha').value;
-  if (!email || !senha) { showAuthMsg('Preenche email e senha.', true); return; }
-  authBtn.disabled = true;
-  authBtn.textContent = modoAuth === 'login' ? 'ENTRANDO...' : 'CRIANDO CONTA...';
-  try {
-    if (modoAuth === 'login') {
-      const { error } = await supa.auth.signInWithPassword({ email, password: senha });
-      if (error) throw error;
-    } else {
-      const { error } = await supa.auth.signUp({ email, password: senha });
-      if (error) throw error;
-      showAuthMsg('Conta criada! Cheque seu email pra confirmar (pode estar em spam) e depois faz login.');
-      modoAuth = 'login';
-      atualizarModoAuth();
-      return;
-    }
-  } catch (e) {
-    showAuthMsg(traduzirErro(e.message || 'Erro desconhecido'), true);
-  } finally {
-    authBtn.disabled = false;
-    authBtn.textContent = modoAuth === 'login' ? 'ENTRAR' : 'CRIAR CONTA';
-  }
-}
-window.submitAuth = submitAuth;
-
-function traduzirErro(msg) {
-  if (/invalid login credentials/i.test(msg)) return 'Email ou senha errados.';
-  if (/email not confirmed/i.test(msg)) return 'Email ainda não confirmado. Cheque sua caixa de entrada.';
-  if (/user already registered/i.test(msg)) return 'Esse email já tem conta. Tenta fazer login.';
-  if (/password should be at least/i.test(msg)) return 'Senha precisa de pelo menos 6 caracteres.';
-  if (/unable to validate email/i.test(msg)) return 'Email inválido.';
-  return msg;
-}
-
-function toggleAuthMode() {
-  modoAuth = modoAuth === 'login' ? 'signup' : 'login';
-  atualizarModoAuth();
-}
-window.toggleAuthMode = toggleAuthMode;
-
-function atualizarModoAuth() {
-  if (modoAuth === 'login') {
-    authTitle.textContent = 'ENTRAR NO VHS CLUB';
-    authSub.textContent = 'A Val tá esperando você no balcão. Faz login pra ela te reconhecer das próximas vezes.';
-    authBtn.textContent = 'ENTRAR';
-    authSwitchText.textContent = 'Não tem conta?';
-    authSwitchLink.textContent = 'Cria uma agora';
-  } else {
-    authTitle.textContent = 'CRIAR CONTA NO VHS CLUB';
-    authSub.textContent = 'Conta nova: a Val passa a lembrar do que você gosta e separa fitas pra você ver depois.';
-    authBtn.textContent = 'CRIAR CONTA';
-    authSwitchText.textContent = 'Já tem conta?';
-    authSwitchLink.textContent = 'Entra aqui';
-  }
-  showAuthMsg('');
-}
-
-async function sair() {
-  await supa.auth.signOut();
-  location.reload();
-}
-window.sair = sair;
-
-// ===== Estado inicial =====
-let chatInicializado = false; // evita renderizar boas-vindas mais de uma vez
-
-async function init() {
-  const { data: { session } } = await supa.auth.getSession();
-  if (session && session.user) {
-    aoLogar(session.user);
-  } else {
-    overlay.classList.remove('hidden');
-  }
-  supa.auth.onAuthStateChange((event, sess) => {
-    if (sess && sess.user) aoLogar(sess.user);
-    else {
-      chatInicializado = false;
-      overlay.classList.remove('hidden');
-      userInfo.style.display = 'none';
-    }
-  });
-}
-
-async function aoLogar(user) {
-  usuarioLogado = user;
-  overlay.classList.add('hidden');
-  userInfo.style.display = 'flex';
-  userEmail.textContent = user.email;
-  if (chatInicializado) return; // já tá pronto, não duplica boas-vindas
-  chatInicializado = true;
-  chat.innerHTML = '';
-  conversa = [];
-  await carregarWatchlist();
+// ===== Início (sem login) =====
+function init() {
+  atualizarContador();
   mostrarBoasVindas();
+  input.focus();
 }
 
 // ===== Boas-vindas =====
 function mostrarBoasVindas() {
-  const novo = (watchlistLocal.length === 0);
+  const novo = (watchlistLocal.length === 0 && lerLS(LS_PEDIDOS, []).length === 0);
   if (novo) {
     bubble('clerk',
       "E aí, tudo bem? Sou a **Val**, aqui do balcão do VHS Club. 📼\n\n" +
@@ -544,15 +413,14 @@ async function send() {
   conversa.push({ role: 'user', content: text });
   const t = typing();
   try {
-    const { data: { session } } = await supa.auth.getSession();
+    const pedidosAnteriores = lerLS(LS_PEDIDOS, []);
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${session.access_token}`,
-      },
-      body: JSON.stringify({ messages: conversa, plataformas: activePlatforms }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: conversa, plataformas: activePlatforms, watchlist: watchlistLocal, pedidosAnteriores }),
     });
+    // Guarda o pedido (últimos 15) pra Val lembrar do seu gosto da próxima vez
+    gravarLS(LS_PEDIDOS, [...pedidosAnteriores.filter((p) => p !== text), text].slice(-15));
     const data = await res.json();
     t.remove();
     if (data.erro) {
@@ -574,17 +442,16 @@ async function send() {
 window.send = send;
 input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
 
-// ===== Watchlist =====
-async function carregarWatchlist() {
-  try {
-    const { data: { session } } = await supa.auth.getSession();
-    const res = await fetch("/api/watchlist", {
-      headers: { "Authorization": `Bearer ${session.access_token}` }
-    });
-    const data = await res.json();
-    watchlistLocal = data.lista || [];
-    atualizarContador();
-  } catch (e) { console.error(e); }
+// ===== Watchlist (salva no navegador) =====
+function salvarFitas() { gravarLS(LS_FITAS, watchlistLocal); atualizarContador(); }
+function upsertFita(f) {
+  const i = watchlistLocal.findIndex((w) => w.movie_id === f.movie_id);
+  if (i >= 0) watchlistLocal[i] = { ...watchlistLocal[i], ...f };
+  else watchlistLocal.unshift({ assistido: false, rating: null, ...f });
+  salvarFitas();
+}
+function dadosDoCard(card) {
+  return { movie_id: parseInt(card.dataset.id), titulo: card.dataset.titulo, capa: card.dataset.capa, plataforma: card.dataset.plat, ano: card.dataset.ano };
 }
 
 function atualizarContador() {
@@ -605,20 +472,10 @@ async function acaoFita(btn) {
   const txtAntes = btn.textContent;
   btn.textContent = '...';
   try {
-    const { data: { session } } = await supa.auth.getSession();
-    const auth = { "Authorization": `Bearer ${session.access_token}` };
-
     if (acao === 'salvar') {
-      const res = await fetch("/api/watchlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...auth },
-        body: JSON.stringify({ movie_id, titulo, capa, plataforma, ano }),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error('falha ao salvar');
+      upsertFita(dadosDoCard(card));
       btn.textContent = '✓ NA SUA LISTA';
       btn.classList.add('done');
-      await carregarWatchlist();
     } else if (acao === 'visto') {
       // NÃO marca direto. Substitui o botão pelas opções inline ❤️ AMEI / 👎 NÃO CURTI
       btn.outerHTML = `<div class="rating-expand">
@@ -627,7 +484,8 @@ async function acaoFita(btn) {
       </div>`;
       return;
     } else if (acao === 'nao_curti') {
-      // Phase 1: confirmação visual. Phase 3: salva em user_movie_feedback pra calibrar.
+      // Anota pra Val não recomendar parecidos
+      upsertFita({ ...dadosDoCard(card), rating: 'nao_curti' });
       btn.textContent = '✓ ANOTADO';
       btn.classList.add('done');
     }
@@ -661,25 +519,12 @@ async function ratingFita(btn, valor) {
   const rateBox = btn.closest('.rating-expand');
   if (rateBox) rateBox.querySelectorAll('button').forEach((b) => (b.disabled = true));
   try {
-    const { data: { session } } = await supa.auth.getSession();
-    const auth = { "Authorization": `Bearer ${session.access_token}` };
-    // 1) Garante watchlist com assistido=true
-    await fetch("/api/watchlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...auth },
-      body: JSON.stringify({ movie_id, titulo, capa, plataforma, ano }),
-    });
-    await fetch(`/api/watchlist/${movie_id}/visto`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json", ...auth },
-      body: JSON.stringify({ assistido: true, rating: valor }),
-    });
+    upsertFita({ movie_id, titulo, capa, plataforma, ano, assistido: true, rating: valor });
     // 2) Substitui a expansão por um indicador "✓ marcado"
     if (rateBox) {
       const label = valor === 'amei' ? '❤️ MARCADO COMO AMEI' : '👎 MARCADO COMO NÃO CURTI';
       rateBox.outerHTML = `<button class="btn-action done" disabled>${label}</button>`;
     }
-    await carregarWatchlist();
   } catch (e) {
     console.error(e);
     if (rateBox) rateBox.querySelectorAll('button').forEach((b) => (b.disabled = false));
@@ -744,29 +589,16 @@ function renderDrawer() {
   `).join('');
 }
 
-async function marcarVisto(movie_id, assistido) {
-  const { data: { session } } = await supa.auth.getSession();
-  await fetch(`/api/watchlist/${movie_id}/visto`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${session.access_token}`,
-    },
-    body: JSON.stringify({ assistido }),
-  });
-  await carregarWatchlist();
+function marcarVisto(movie_id, assistido) {
+  upsertFita({ movie_id, assistido });
   renderDrawer();
 }
 window.marcarVisto = marcarVisto;
 
-async function removerFita(movie_id) {
+function removerFita(movie_id) {
   if (!confirm('Remover essa fita da sua lista?')) return;
-  const { data: { session } } = await supa.auth.getSession();
-  await fetch(`/api/watchlist/${movie_id}`, {
-    method: "DELETE",
-    headers: { "Authorization": `Bearer ${session.access_token}` }
-  });
-  await carregarWatchlist();
+  watchlistLocal = watchlistLocal.filter((w) => w.movie_id !== movie_id);
+  salvarFitas();
   renderDrawer();
 }
 window.removerFita = removerFita;

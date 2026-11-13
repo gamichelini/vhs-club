@@ -11,12 +11,9 @@
  */
 
 import express from "express";
-import { createClient } from "@supabase/supabase-js";
 
 const TMDB_KEY = process.env.TMDB_KEY;
 const GEMINI_KEY = process.env.GEMINI_KEY;
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const OMDB_KEY = process.env.OMDB_KEY; // opcional: nota IMDb nos cards (sem ela, usa nota TMDB)
 const REGIAO = "BR";
 // Cascata de modelos: tenta o melhor primeiro, cai pra alternativas em caso de overload.
@@ -34,31 +31,9 @@ const MODELOS = [
 const TMDB = "https://api.themoviedb.org/3";
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 
-if (!TMDB_KEY || !GEMINI_KEY || !SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error("\n⚠️  Faltam chaves no .env. Necessárias: TMDB_KEY, GEMINI_KEY, SUPABASE_URL, SUPABASE_ANON_KEY.\n");
+if (!TMDB_KEY || !GEMINI_KEY) {
+  console.error("\n⚠️  Faltam chaves no .env. Necessárias: TMDB_KEY, GEMINI_KEY (OMDB_KEY é opcional).\n");
   process.exit(1);
-}
-
-// Cliente Supabase com chave pública (anon). Usado pra validar JWT de usuários.
-// Pra operações por usuário, criamos um cliente novo com o JWT dele em userSupabase().
-const supabaseAnon = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
-
-// Cria um cliente Supabase autenticado COMO o usuário (respeita RLS).
-function userSupabase(jwt) {
-  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: false },
-    global: { headers: { Authorization: `Bearer ${jwt}` } },
-  });
-}
-
-// Valida JWT do usuário no header Authorization. Retorna { user, jwt } ou null.
-async function autenticar(req) {
-  const auth = req.headers.authorization || "";
-  const jwt = auth.startsWith("Bearer ") ? auth.slice(7) : null;
-  if (!jwt) return null;
-  const { data: { user }, error } = await supabaseAnon.auth.getUser(jwt);
-  if (error || !user) return null;
-  return { user, jwt };
 }
 
 /* ---------- cache simples em memória (corta custo/latência) ---------- */
@@ -889,46 +864,11 @@ async function conversar(messages, plataforma, contextoUsuario = "") {
 /* ---------- servidor ---------- */
 const app = express();
 app.use(express.json());
-// Endpoint público de config: entrega as chaves PUBLIC do Supabase pro frontend
-// (são chaves de design público — não confundir com service_role).
-app.get("/api/config", (_req, res) => {
-  res.json({ supabaseUrl: SUPABASE_URL, supabaseAnonKey: SUPABASE_ANON_KEY });
-});
-
 // Rota /chat serve a aplicação principal (chat com a Val)
 app.get("/chat", (_req, res) => res.sendFile("chat.html", { root: "public" }));
 
 // Estáticos: serve landing (/) e qualquer outro arquivo de public/
 app.use(express.static("public"));
-
-/* ---------- helpers de histórico e watchlist (Supabase) ---------- */
-
-// Busca as últimas N mensagens do usuário (mais antigas primeiro).
-async function historicoConversa(sb, limite = 6) {
-  const { data } = await sb.from("conversations")
-    .select("role, content, created_at")
-    .order("created_at", { ascending: false })
-    .limit(limite);
-  if (!data) return [];
-  // Sanitiza histórico antigo: remove markers wrapper [[VHSCARD:...]] que possam ter sido
-  // salvos antes do fix (Val não deve ver esse formato — confunde ela e ela tenta replicar).
-  // Converte [[VHSCARD:base64]] de volta pra placeholder simples [filme indicado anteriormente].
-  const limpos = data.map((m) => ({
-    ...m,
-    content: typeof m.content === "string"
-      ? m.content.replace(/\[\[VHSCARD:[^\]]+\]\]/g, "[filme indicado]")
-      : m.content,
-  }));
-  return limpos.reverse(); // ascending (antigas → recentes)
-}
-
-// Busca toda a watchlist do usuário, com flag assistido.
-async function watchlistUsuario(sb) {
-  const { data } = await sb.from("watchlist")
-    .select("movie_id, titulo, capa, plataforma, ano, assistido, rating")
-    .order("created_at", { ascending: false });
-  return data || [];
-}
 
 // Traduz cards já renderizados ([[VHSCARD:base64]]) pra texto simples que a Val entende,
 // sem expor o formato interno. Ex.: "[já mostrado: A Chegada (2016)]".
@@ -947,17 +887,17 @@ function cardsParaTexto(texto) {
 function resumirContextoUsuario(historico, watchlist) {
   const linhas = [];
   if (watchlist.length) {
-    const aVer = watchlist.filter((w) => !w.assistido && w.rating !== "nao_curti").map((w) => w.titulo);
-    const vistosSemRating = watchlist.filter((w) => w.assistido && !w.rating).map((w) => w.titulo);
-    const amados = watchlist.filter((w) => w.rating === "amei").map((w) => w.titulo);
-    const naoCurtiu = watchlist.filter((w) => w.rating === "nao_curti").map((w) => w.titulo);
+    const aVer = watchlist.filter((w) => !w.assistido && w.rating !== "nao_curti").map((w) => String(w.titulo).slice(0, 80));
+    const vistosSemRating = watchlist.filter((w) => w.assistido && !w.rating).map((w) => String(w.titulo).slice(0, 80));
+    const amados = watchlist.filter((w) => w.rating === "amei").map((w) => String(w.titulo).slice(0, 80));
+    const naoCurtiu = watchlist.filter((w) => w.rating === "nao_curti").map((w) => String(w.titulo).slice(0, 80));
     if (amados.length) linhas.push(`AMOU (use como referência forte — pessoa adora esse tipo de filme): ${amados.slice(0, 15).join(", ")}.`);
     if (naoCurtiu.length) linhas.push(`NÃO CURTIU (NÃO recomendar parecidos): ${naoCurtiu.slice(0, 15).join(", ")}.`);
     if (vistosSemRating.length) linhas.push(`Já viu (prefira outros se houver, mas se for o melhor encaixe pro pedido atual, pode citar de novo): ${vistosSemRating.slice(0, 15).join(", ")}.`);
     if (aVer.length) linhas.push(`Fitas separadas pra ver depois (já tá no radar dela): ${aVer.slice(0, 10).join(", ")}.`);
   }
-  // historico aqui = só pedidos de conversas ANTERIORES (já sem os da sessão atual)
-  const pedidosAntigos = historico.filter((m) => m.role === "user").map((m) => `"${String(m.content).slice(0, 120)}"`);
+  // historico = pedidos de conversas ANTERIORES (strings guardadas no navegador)
+  const pedidosAntigos = historico.map((t) => `"${String(t).slice(0, 120)}"`);
   if (pedidosAntigos.length) {
     linhas.push(`Em conversas anteriores essa pessoa já pediu: ${pedidosAntigos.join("; ")}. Use só pra conhecer o gosto dela — NÃO é o assunto de agora.`);
   } else {
@@ -968,108 +908,30 @@ function resumirContextoUsuario(historico, watchlist) {
 
 app.post("/api/chat", async (req, res) => {
   try {
-    const auth = await autenticar(req);
-    if (!auth) return res.status(401).json({ erro: "Sem login. Faz login pra falar com a Val." });
-    const sb = userSupabase(auth.jwt);
-    const { messages, plataformas, plataforma } = req.body;
-    // Aceita plataformas (array, formato novo) ou plataforma (string única, antigo)
+    const { messages, plataformas, plataforma, watchlist, pedidosAnteriores } = req.body || {};
     const plats = Array.isArray(plataformas) ? plataformas : (plataformas ? [plataformas] : (plataforma ? [plataforma] : ["Todos"]));
-    const platsCsv = plats.join(", ");
 
     // Conversa ATUAL vem do navegador. Cards renderizados viram texto simples pra Val.
-    const sessao = (Array.isArray(messages) ? messages : []).map((m) => ({
-      role: m.role,
+    const sessao = (Array.isArray(messages) ? messages : []).slice(-30).map((m) => ({
+      role: m.role === "assistant" ? "assistant" : "user",
       content: cardsParaTexto(m.content),
     }));
+    if (!sessao.length) return res.status(400).json({ erro: "Manda alguma coisa pra Val." });
 
-    // Histórico do banco serve só como CONTEXTO de gosto (conversas anteriores).
-    // Remove do histórico o que já faz parte da sessão atual, pra não duplicar.
-    const [historicoBruto, watchlist] = await Promise.all([historicoConversa(sb, 12), watchlistUsuario(sb)]);
+    // Sem login: lista de fitas e pedidos anteriores ficam no navegador e chegam aqui como contexto.
     const textosSessao = new Set(sessao.filter((m) => m.role === "user").map((m) => m.content.trim()));
-    const historico = historicoBruto.filter((m) => !(m.role === "user" && textosSessao.has(String(m.content).trim())));
-    const contextoUsuario = resumirContextoUsuario(historico, watchlist);
+    const historico = (Array.isArray(pedidosAnteriores) ? pedidosAnteriores : [])
+      .map(String).filter((t) => !textosSessao.has(t.trim())).slice(-10);
+    const fitas = (Array.isArray(watchlist) ? watchlist : []).slice(0, 200);
+    const contextoUsuario = resumirContextoUsuario(historico, fitas);
 
-    const msgsCompletas = sessao;
-
-    const { texto: replyRaw, idsConfirmados, validados } = await conversar(msgsCompletas, plats, contextoUsuario);
-    // Pós-processa: substitui marcadores de filme da Val por cards ricos com dados frescos
-    // da TMDB. Também filtra filmes que não estão nas plataformas selecionadas pelo usuário.
+    const { texto: replyRaw, idsConfirmados, validados } = await conversar(sessao, plats, contextoUsuario);
     const reply = await enriquecerResposta(replyRaw, plats, idsConfirmados, validados);
-
-    // Salva: última mensagem do usuário + resposta da Val.
-    // IMPORTANTE: salvamos a versão RAW (com [FILME:id|Título|opinião]) e NÃO a enriquecida
-    // (com [[VHSCARD:base64]]). Caso contrário, Val vê o formato wrapper nas respostas antigas
-    // e tenta replicar literalmente — gerando [[VHSCARD:77|título|...]] em texto plano que o
-    // frontend não consegue renderizar. Raw é mais limpa, menor e o formato que a Val sabe emitir.
-    const ultima = messages[messages.length - 1];
-    if (ultima && ultima.role === "user") {
-      await sb.from("conversations").insert([
-        { user_id: auth.user.id, role: "user", content: ultima.content, plataforma: platsCsv || null },
-        { user_id: auth.user.id, role: "assistant", content: replyRaw, plataforma: platsCsv || null },
-      ]);
-    }
-
     res.json({ reply });
   } catch (e) {
     console.error(e);
     res.status(500).json({ erro: "Deu ruído na fita aqui no servidor." });
   }
-});
-
-/* ---------- endpoints de watchlist (assistir depois) ---------- */
-
-app.get("/api/watchlist", async (req, res) => {
-  try {
-    const auth = await autenticar(req);
-    if (!auth) return res.status(401).json({ erro: "Sem login." });
-    const sb = userSupabase(auth.jwt);
-    const lista = await watchlistUsuario(sb);
-    res.json({ lista });
-  } catch (e) { console.error(e); res.status(500).json({ erro: "Erro ao ler suas fitas." }); }
-});
-
-app.post("/api/watchlist", async (req, res) => {
-  try {
-    const auth = await autenticar(req);
-    if (!auth) return res.status(401).json({ erro: "Sem login." });
-    const sb = userSupabase(auth.jwt);
-    const { movie_id, titulo, capa, plataforma, ano } = req.body;
-    if (!movie_id || !titulo) return res.status(400).json({ erro: "Faltam dados do filme." });
-    const { error } = await sb.from("watchlist").upsert(
-      { user_id: auth.user.id, movie_id, titulo, capa: capa || null, plataforma: plataforma || null, ano: ano || null },
-      { onConflict: "user_id,movie_id" }
-    );
-    if (error) throw error;
-    res.json({ ok: true });
-  } catch (e) { console.error(e); res.status(500).json({ erro: "Erro ao salvar na sua lista." }); }
-});
-
-app.delete("/api/watchlist/:movie_id", async (req, res) => {
-  try {
-    const auth = await autenticar(req);
-    if (!auth) return res.status(401).json({ erro: "Sem login." });
-    const sb = userSupabase(auth.jwt);
-    const { error } = await sb.from("watchlist").delete().eq("movie_id", req.params.movie_id);
-    if (error) throw error;
-    res.json({ ok: true });
-  } catch (e) { console.error(e); res.status(500).json({ erro: "Erro ao remover." }); }
-});
-
-app.patch("/api/watchlist/:movie_id/visto", async (req, res) => {
-  try {
-    const auth = await autenticar(req);
-    if (!auth) return res.status(401).json({ erro: "Sem login." });
-    const sb = userSupabase(auth.jwt);
-    const { assistido, rating } = req.body;
-    const patch = {};
-    if (assistido !== undefined) patch.assistido = !!assistido;
-    if (rating !== undefined) patch.rating = rating; // 'amei' | 'nao_curti' | null
-    const { error } = await sb.from("watchlist")
-      .update(patch)
-      .eq("movie_id", req.params.movie_id);
-    if (error) throw error;
-    res.json({ ok: true });
-  } catch (e) { console.error(e); res.status(500).json({ erro: "Erro ao marcar." }); }
 });
 
 const PORT = process.env.PORT || 3000;

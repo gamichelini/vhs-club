@@ -94,7 +94,7 @@
   <!-- TOP BAR -->
   <div class="top-bar">
     <a href="/" class="ticket-small"><span>VHS&nbsp;CLUB</span></a>
-    <a href="/chat" class="entrar">ENTRAR</a>
+    <a href="/chat" class="entrar">ABRIR O CHAT</a>
   </div>
 
   <!-- HERO -->
@@ -159,21 +159,8 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>📼 VHS CLUB · feito com café e VT323<br>catálogo via TMDB · IA via Google Gemini · banco no Supabase</p>
+    <p>📼 VHS CLUB · feito com café e VT323<br>catálogo via TMDB · IA via Google Gemini</p>
   </footer>
 
-<script type="module">
-// Se já tá logado, manda direto pro chat (sem precisar passar pela landing toda vez)
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-const cfg = await fetch("/api/config").then(r => r.json()).catch(() => null);
-if (cfg) {
-  const supa = createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth: { persistSession: true } });
-  const { data: { session } } = await supa.auth.getSession();
-  if (session && session.user) {
-    // Já logado, redireciona
-    location.replace("/chat");
-  }
-}
-</script>
 </body>
 </html>

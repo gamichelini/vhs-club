@@ -65,7 +65,7 @@ vhs-club/
 
 ## Chaves no `.env`
 
-`TMDB_KEY`, `GEMINI_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` e `OMDB_KEY` (nota IMDb —
+`TMDB_KEY`, `GEMINI_KEY` e `OMDB_KEY` (nota IMDb —
 grátis em https://www.omdbapi.com/apikey.aspx; sem ela, o card mostra a nota da TMDB).
 
 ## Trocar o modelo

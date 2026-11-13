@@ -71,9 +71,9 @@ Só pergunta antes de entregar quando não há pista nenhuma ("oi"). Rejeitou tu
 
 ## 6. Stack técnica (atualizado 12/11/2026)
 
-**Backend** (`server.js`): Node 22 + Express, Gemini (function calling), TMDB, OMDb, Supabase.
+**Backend** (`server.js`): Node 22 + Express, Gemini (function calling), TMDB, OMDb. Sem login, sem banco.
 
-**Frontend:** `public/index.html` (landing) + `public/chat.html` (chat em `/chat`, login Supabase, watchlist).
+**Frontend:** `public/index.html` (landing) + `public/chat.html` (chat em `/chat`, entra direto; lista de fitas salva no navegador).
 Card: pôster, plataforma, nota IMDb (fallback TMDB), trailer, frase da Val, selo 🔥. Acima de 12 cards, botão "VER MAIS".
 
 **Modelos — cascata** (testada em 12/11/2026):
@@ -96,7 +96,7 @@ Card: pôster, plataforma, nota IMDb (fallback TMDB), trailer, frase da Val, sel
 
 **Nota IMDb:** OMDb API (free, 1.000/dia), cache de 7 dias.
 
-**Histórico:** conversa atual vem do navegador (cards viram `[já mostrado: Título (ano) · id N]`); conversas anteriores do Supabase entram só como contexto de gosto.
+**Histórico:** conversa atual vem do navegador (cards viram `[já mostrado: Título (ano) · id N]`). Pedidos anteriores (últimos 15) e a lista de fitas ficam no `localStorage` e vão como contexto de gosto.
 
 ---
 
@@ -104,7 +104,7 @@ Card: pôster, plataforma, nota IMDb (fallback TMDB), trailer, frase da Val, sel
 
 - **Chaves de API ficam só no servidor** — nunca vão pro navegador
 - `.env` local não é commitado (no `.gitignore`)
-- Login via Supabase; conversas e watchlist ficam salvas por usuário (RLS)
+- Sem login: nada de dado pessoal no servidor; lista e histórico ficam só no navegador da pessoa
 - No Render, as chaves entram via Environment Variables (criptografadas)
 
 ---
@@ -180,6 +180,7 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
 13. **(12/11/2026) Reescrita da Val** — prompt de ~540 linhas de bronca ("ERRO GRAVÍSSIMO", "PROIBIDÃO") deixava a Val robótica e cheia de perguntas antes de entregar. Virou ~110 linhas positivas com o fluxo leque → afinar → veredito. Regras duras migraram pro código.
 14. **(12/11/2026) Histórico duplicado corrigido** — a Val recebia a conversa 2x (banco + navegador) e com cards em base64; causava arrastar tema antigo.
 15. **(12/11/2026) Validação em lote + nota IMDb + Radar 🔥** — ver seção 6.
+16. **(12/11/2026) Login removido** — Gabriel pediu pra entrar direto. O projeto Supabase já não existia (DNS não resolvia), então o login nem funcionava. Lista de fitas e memória de gosto passaram pro navegador. Contra: não sincroniza entre aparelhos.
 
 ---
 
