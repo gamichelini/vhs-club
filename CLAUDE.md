@@ -18,7 +18,9 @@ disponíveis na assinatura dos streamings do Brasil. Detalhes de produto e decis
 - Ferramenta principal da Val: `validar_titulos` (lote, filtra por plataforma no servidor).
 - Regras duras ficam no CÓDIGO, não no prompt: card só com id confirmado por ferramenta,
   filtro de plataforma/assinatura, sem card repetido, leque curto é completado pelo servidor.
-- Radar 🔥 (TMDB Trending, atualiza a cada 12h em memória). Reddit planejado (precisa app OAuth).
+- Radar 🔥 (atualiza a cada 12h em memória): TMDB Trending + "burburinho da internet" — Gemini 2.5-flash com
+  busca Google pesquisa o que tá sendo comentado no BR; cada título passa pela TMDB (ano ±1, só as 5 plataformas).
+  Qualidade mediana (traz muito lançamento). Gabriel NÃO quer Top 10 da Netflix (ele mesmo vê). Reddit = próximo passo (precisa app OAuth).
 
 ## Rodar e testar
 ```bash

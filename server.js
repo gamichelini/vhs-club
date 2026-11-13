@@ -185,7 +185,7 @@ async function validarTitulos(titulos, plats = []) {
     if (!ok) return { ...base, status: "fora" };
     const plataformas = limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes);
     const alta = emAlta(f.id);
-    return { ...base, status: "disponivel", plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}) };
+    return { ...base, status: "disponivel", plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}), ...(motivoAlta(f.id) ? { por_que_estao_falando: motivoAlta(f.id) } : {}) };
   });
 
   const disponiveis = resultados.filter((r) => r?.status === "disponivel")
@@ -224,6 +224,66 @@ const RADAR_VALIDADE_MS = 12 * 60 * 60 * 1000;
 let radar = { atualizadoEm: 0, filmes: new Map() }; // id -> { titulo, ano, fontes: Set }
 let radarCarregando = null;
 
+// BURBURINHO DA INTERNET: o Gemini pesquisa no Google (X/Twitter, TikTok, Reddit, Letterboxd, sites de
+// cinema) o que tá sendo comentado no Brasil, e cada título passa pela TMDB: só fica o que está de
+// verdade em streaming por assinatura no BR. Roda em segundo plano (demora ~30s) junto com o radar.
+const MODELOS_BUSCA = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
+async function buzzDaInternet() {
+  const hoje = new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
+  const pedido = `Hoje é ${hoje}. Use a busca do Google pra descobrir quais FILMES (não séries) estão sendo mais comentados nas redes sociais e na internet no Brasil NESTA SEMANA (X/Twitter, TikTok, Reddit, Letterboxd, sites e canais de cinema). Só filmes que já dá pra assistir em streaming por assinatura no Brasil. Priorize o que as PESSOAS estão comentando (viralizou, final polêmico, virou meme, todo mundo recomendando) — não liste só lançamentos. No motivo, diga o que estão falando, não a data de estreia. Responda SÓ com JSON, sem markdown: [{"titulo":"título em português ou original","ano":2026,"motivo":"por que estão falando dele, máx 15 palavras"}]. Até 20 filmes.`;
+  for (const modelo of MODELOS_BUSCA) {
+    try {
+      const r = await fetch(`${GEMINI_BASE}/${modelo}:generateContent`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-goog-api-key": GEMINI_KEY },
+        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: pedido }] }], tools: [{ google_search: {} }] }),
+      });
+      const d = await r.json();
+      if (d.error) { console.warn(`[buzz] ${modelo}: ${d.error.code}`); continue; }
+      if (!d.candidates?.[0]?.groundingMetadata?.webSearchQueries?.length) { console.warn(`[buzz] ${modelo} não pesquisou`); continue; }
+      const txt = (d.candidates[0].content?.parts || []).map((p) => p.text || "").join("");
+      const lista = JSON.parse((txt.match(/\[[\s\S]*\]/) || ["[]"])[0]);
+      if (Array.isArray(lista) && lista.length) return lista.slice(0, 25);
+    } catch (e) {
+      console.warn(`[buzz] ${modelo} falhou:`, e.message);
+    }
+  }
+  return [];
+}
+
+// Título do buzz -> filme da TMDB que está em streaming no BR (null se não achar ou não estiver).
+async function filmeDoBuzz(item) {
+  const titulo = String(item?.titulo || "").trim();
+  if (!titulo) return null;
+  const ano = Number(item.ano) || null;
+  const d = await tmdb("/search/movie", { query: titulo });
+  // Ano tem que bater (±1) — evita trocar "A Odisseia (2026)" por um homônimo de 2016
+  const res = (d.results || []).slice(0, 6)
+    .filter((m) => !ano || Math.abs((+String(m.release_date || "").slice(0, 4) || 0) - ano) <= 1);
+  // Só conta se estiver numa das 5 plataformas principais
+  const principais = new Set(idsDePlataformas(["Netflix", "HBO Max", "Prime Video", "Disney+", "Apple TV+"]));
+  for (const m of res.slice(0, 3)) {
+    const s = await streamingDe(m.id);
+    if (s.ids.some((id) => principais.has(id))) return m;
+  }
+  return null;
+}
+
+async function atualizarBuzz() {
+  const lista = await buzzDaInternet();
+  const achados = await mapLimitado(lista, 5, async (item) => ({ item, m: await filmeDoBuzz(item) }));
+  let n = 0;
+  for (const a of achados) {
+    if (!a?.m) continue;
+    const e = radar.filmes.get(a.m.id) || { id: a.m.id, titulo: a.m.title, ano: (a.m.release_date || "").slice(0, 4), fontes: new Set() };
+    e.fontes.add("internet");
+    e.motivo = String(a.item.motivo || "").slice(0, 160);
+    radar.filmes.set(a.m.id, e);
+    n++;
+  }
+  console.log(`[buzz] ${lista.length} filmes comentados na internet → ${n} estão em streaming no BR`);
+}
+
 async function atualizarRadar() {
   const filmes = new Map();
   const somar = (m, fonte) => {
@@ -241,6 +301,8 @@ async function atualizarRadar() {
   [...(sem1.results || []), ...(sem2.results || [])].forEach((m) => somar(m, "tmdb_semana"));
   radar = { atualizadoEm: Date.now(), filmes };
   console.log(`[radar] atualizado: ${filmes.size} filmes em alta`);
+  // Burburinho da internet em segundo plano (não trava o servidor nem a resposta da Val)
+  atualizarBuzz().catch((e) => console.warn("[buzz] falhou:", e.message));
 }
 
 async function garantirRadar() {
@@ -255,10 +317,16 @@ async function garantirRadar() {
 }
 
 // "hoje" se tá no trending do dia; "semana" se só no da semana; null se não tá em alta.
+// Rótulo do selo 🔥: comentado na internet > bombando hoje > em alta na semana. null = não tá.
 function emAlta(movieId) {
   const e = radar.filmes.get(Number(movieId));
   if (!e) return null;
+  if (e.fontes.has("internet")) return "internet";
   return e.fontes.has("tmdb_hoje") ? "hoje" : "semana";
+}
+// Por que tá em alta (só quando veio do burburinho da internet)
+function motivoAlta(movieId) {
+  return radar.filmes.get(Number(movieId))?.motivo || null;
 }
 
 // Ferramenta da Val: filmes em alta que estão nas plataformas da pessoa.
@@ -266,13 +334,14 @@ async function radarEmAlta(plats = []) {
   await garantirRadar();
   const semFiltro = !plats.length || plats.includes("Todos");
   const pidsSel = semFiltro ? null : new Set(idsDePlataformas(plats));
-  const candidatos = [...radar.filmes.values()];
+  const peso = (f) => (f.fontes.has("internet") ? 0 : f.fontes.has("tmdb_hoje") ? 1 : 2);
+  const candidatos = [...radar.filmes.values()].sort((a, b) => peso(a) - peso(b));
   const res = await mapLimitado(candidatos, 8, async (f) => {
     const s = await streamingDe(f.id);
     const ok = pidsSel ? s.ids.some((id) => pidsSel.has(id)) : s.ids.length > 0;
     if (!ok) return null;
     const plataformas = limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes);
-    return { id: f.id, titulo: f.titulo, ano: f.ano, plataformas, em_alta: emAlta(f.id) };
+    return { id: f.id, titulo: f.titulo, ano: f.ano, plataformas, em_alta: emAlta(f.id), ...(f.motivo ? { por_que_estao_falando: f.motivo } : {}) };
   });
   return { em_alta_nas_plataformas: res.filter(Boolean) };
 }
@@ -578,7 +647,7 @@ function limparGruposVazios(txt) {
 const tools = [
   { name: "validar_titulos", description: "FERRAMENTA PRINCIPAL. Recebe uma lista de títulos de filmes (até 40; use 'Título (ano)' pra desambiguar) e devolve, numa chamada só, quais estão disponíveis na assinatura das plataformas da pessoa agora — com id, título oficial, ano, plataformas e nota.",
     parameters: { type: "object", properties: { titulos: { type: "array", items: { type: "string" } } }, required: ["titulos"] } },
-  { name: "radar_em_alta", description: "Filmes que estão em alta AGORA (bombando hoje ou na semana) e disponíveis nas plataformas da pessoa. Use quando ela pedir 'o que tá bombando', 'lançamento', 'o que todo mundo tá vendo', ou pra temperar um leque com algo do momento.",
+  { name: "radar_em_alta", description: "Filmes em alta AGORA e disponíveis nas plataformas da pessoa: os mais comentados na internet no Brasil (redes sociais, Reddit, Letterboxd, sites de cinema — vem com por_que_estao_falando) e os mais buscados do dia/semana. Use quando ela pedir 'o que tá bombando', 'lançamento', 'o que todo mundo tá vendo', ou pra temperar um leque com algo do momento.",
     parameters: { type: "object", properties: {} } },
   { name: "buscar_filme", description: "Acha o ID de um filme pelo título (ex.: 'Conta Comigo').",
     parameters: { type: "object", properties: { titulo: { type: "string" } }, required: ["titulo"] } },
@@ -681,7 +750,7 @@ Todo card precisa de um id que veio de ferramenta NESTA conversa. Sem isso, o fi
 1. Pense você mesma em 25 a 35 filmes que encaixam, cobrindo ângulos variados do pedido (clássicos, recentes, nacionais, menos óbvios). Use seu repertório de cinéfila — não dependa de lista de popularidade.
 2. Chame **validar_titulos** UMA vez com a lista inteira (use "Título (ano)" quando houver risco de confusão). Ela devolve quais estão nas plataformas, com id, título oficial, ano e nota — e às vezes também parecidos_disponiveis: aproveite os que encaixam.
 3. Se sobraram poucos (menos de 8), chame validar_titulos de novo com outros 20 candidatos. Pode usar filmes_parecidos(id) a partir de uma boa referência pra achar mais.
-4. Pedido de "lançamento", "o que tá bombando", "o que todo mundo tá vendo" → use **radar_em_alta**. Num leque comum, se algum filme vier com em_alta, você pode comentar ("esse tá todo mundo falando essa semana").
+4. Pedido de "lançamento", "o que tá bombando", "o que todo mundo tá vendo" → use **radar_em_alta**. Num leque comum, se algum filme vier com em_alta, comente com naturalidade — se vier por_que_estao_falando, use isso (ex.: "esse viralizou no TikTok essa semana por causa do final").
 Nunca narre o processo ("deixa eu ver", "consultei"). Você simplesmente sabe o que tem na prateleira.
 
 # FORMATO DO CARD

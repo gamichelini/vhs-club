@@ -92,7 +92,7 @@ Card: pôster, plataforma, nota IMDb (fallback TMDB), trailer, frase da Val, sel
 
 **Garantias no código (não no prompt):** card só sai com id confirmado por ferramenta (se a Val citar sem validar, o servidor manda ela validar); filtro de plataforma + assinatura; sem card repetido; canais "Amazon Channel" escondidos; leque com menos de 10 é completado com filmes que ela validou; grupos vazios somem.
 
-**Radar 🔥:** TMDB Trending (dia + semana), em memória, atualiza a cada 12h. Reddit planejado (exige app OAuth grátis; API bloqueia acesso anônimo).
+**Radar 🔥:** atualiza a cada 12h, em memória. Fontes: (1) burburinho da internet — Gemini com busca Google pesquisa X/TikTok/Reddit/Letterboxd/sites e devolve filme + motivo; cada título é conferido na TMDB (ano ±1, só as 5 plataformas); selo "FALADO NA INTERNET" e a Val pode citar o motivo; (2) TMDB Trending dia/semana. Top 10 oficial da Netflix foi testado e descartado (o Gabriel quer burburinho, não ranking que ele mesmo vê). Reddit/Letterboxd bloqueiam acesso anônimo — Reddit exige app OAuth grátis.
 
 **Nota IMDb:** OMDb API (free, 1.000/dia), cache de 7 dias.
 

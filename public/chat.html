@@ -257,7 +257,7 @@ function renderCardRico(d) {
     ? `<span class="card-rating"><span class="nota">${Number(notaShow).toFixed(1)}</span><span class="star">★</span> ${temImdb ? 'IMDb' : 'TMDB'}</span>`
     : '';
   const altaTag = d.emAlta
-    ? `<span class="card-alta">🔥 ${d.emAlta === 'hoje' ? 'BOMBANDO HOJE' : 'EM ALTA'}</span>`
+    ? `<span class="card-alta">🔥 ${d.emAlta === 'internet' ? 'FALADO NA INTERNET' : d.emAlta === 'hoje' ? 'BOMBANDO HOJE' : 'EM ALTA'}</span>`
     : '';
   // Trailer: usa o key do YouTube se vier, senão fallback pra busca no YouTube
   const trailerUrl = d.trailer
