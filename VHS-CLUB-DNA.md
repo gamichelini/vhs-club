@@ -181,6 +181,13 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
 14. **(12/11/2026) Histórico duplicado corrigido** — a Val recebia a conversa 2x (banco + navegador) e com cards em base64; causava arrastar tema antigo.
 15. **(12/11/2026) Validação em lote + nota IMDb + Radar 🔥** — ver seção 6.
 16. **(12/11/2026) Login removido** — Gabriel pediu pra entrar direto. O projeto Supabase já não existia (DNS não resolvia), então o login nem funcionava. Lista de fitas e memória de gosto passaram pro navegador. Contra: não sincroniza entre aparelhos.
+16b. **(13/11/2026) Feedback de teste aplicado:**
+   - **Critérios garantidos no código:** duração máxima (vale pra conversa toda) e quantidade ("me indica 3", "só um") são lidos da mensagem; `validar_titulos` corta filme longo e devolve `duracao_min`; o servidor tira card que passe do tempo ou do número pedido e apaga o texto que citava o filme removido. Teste: "suspense até 2h, 3 opções" → 3 filmes ≤ 2h; "só um" → 1.
+   - **Card:** duração, classificação indicativa, motivo da Val em destaque, botão "ASSISTIR NA [PLATAFORMA]" (abre a busca da plataforma), sinopse em "Ver detalhes", fonte e horário da consulta de disponibilidade.
+   - **Celular/leitura:** cabeçalho compacto, streamings recolhidos em "MEUS STREAMINGS · N SELECIONADOS" (lembra a escolha), texto em IBM Plex Sans (retrô só no logo/títulos/botões), textura de TV mais leve e atrás do texto.
+   - **Primeira tela:** sugestões clicáveis (banco em `public/sugestoes.js`, 3 por rodada — 1 tema fácil + 1 combinação inesperada + 1 momento da pessoa — com "↻ outras ideias").
+   - **Página inicial nova:** "Tá a fim de assistir o quê hoje?", sugestões rotativas, campo livre (manda direto pro chat via `/chat?q=`), exemplo de conversa (ET), e só 3 seções: Quem é a Val, O que pedir (prateleiras da Val), Onde ela procura.
+   - **Achado:** o `gemini-3-flash` grátis tem limite de **20 pedidos/dia** (cada resposta da Val gasta 3-5). Com a cota estourada, cai nos modelos lite (respostas vazias às vezes → servidor pede de novo 1x).
 
 ---
 

@@ -99,7 +99,7 @@ async function ondeAssistir(movieId) {
   if (hit) return hit;
   const d = await tmdb(`/movie/${movieId}/watch/providers`);
   const br = d.results?.[REGIAO] || {};
-  const out = { streaming: (br.flatrate || []).map((p) => p.provider_name), link: br.link || null };
+  const out = { streaming: (br.flatrate || []).map((p) => p.provider_name), link: br.link || null, consultadoEm: Date.now() };
   cacheSet(ck, out);
   return out;
 }
@@ -163,9 +163,72 @@ async function notaImdb(imdbId) {
   }
 }
 
+// Ficha curta do filme: duração (min) e classificação indicativa no Brasil. Cache de 7 dias.
+async function fichaFilme(movieId) {
+  const ck = `ficha:${movieId}`;
+  const hit = cacheGet(ck);
+  if (hit) return hit;
+  const m = await tmdb(`/movie/${movieId}`, { append_to_response: "release_dates" });
+  const br = (m.release_dates?.results || []).find((r) => r.iso_3166_1 === "BR");
+  const classificacao = (br?.release_dates || []).map((r) => r.certification).find(Boolean) || null;
+  const out = { duracao: m.runtime || null, classificacao };
+  cacheSet(ck, out, 7 * 24 * 60);
+  return out;
+}
+
+/* ---------- CRITÉRIOS DA PESSOA (garantidos no código) ----------
+   Duração máxima (vale pra conversa toda, o mais recente manda) e quantidade de opções (só a última msg). */
+const NUMEROS = { um: 1, uma: 1, dois: 2, duas: 2, tres: 3, quatro: 4, cinco: 5, seis: 6, sete: 7, oito: 8, nove: 9, dez: 10 };
+function normalizar(t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+
+function duracaoDoTexto(t) {
+  const n = normalizar(t);
+  if (/(sem limite de tempo|tanto faz o tempo|pode ser longo|nao importa a duracao)/.test(n)) return 0; // 0 = remove limite
+  const gatilho = /(ate|no maximo|maximo de|menos de|nao passe de|que nao passe|tenho so|so tenho|so tenho uns|tenho uns|de no maximo|curtinho de|com ate)\s+/g;
+  let achado = null, m;
+  while ((m = gatilho.exec(n)) !== null) {
+    const resto = n.slice(m.index + m[0].length, m.index + m[0].length + 30);
+    let min = null, x;
+    if ((x = resto.match(/^(?:uma\s+)?hora\s+e\s+meia/))) min = 90;
+    else if ((x = resto.match(/^(\d+)\s*h(?:oras?)?\s*(?:e\s*)?(\d{1,2})?\s*(?:min|m)?\b/))) min = +x[1] * 60 + (+x[2] || 0);
+    else if ((x = resto.match(/^(\d{2,3})\s*(?:min|minutos)\b/))) min = +x[1];
+    else if ((x = resto.match(/^(uma|duas|tres)\s+horas?(\s+e\s+meia)?/))) min = NUMEROS[x[1]] * 60 + (x[2] ? 30 : 0);
+    if (min && min >= 30 && min <= 400) achado = min;
+  }
+  return achado;
+}
+
+function quantidadeDoTexto(t) {
+  const n = normalizar(t);
+  if (/\b(so|apenas|somente)\s+(um|uma|1)\b|\b(um|uma|1)\s+(filme\s+)?so\b/.test(n)) return 1;
+  const x = n.match(/\b(\d{1,2}|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s+(opcoes|opcao|filmes|sugestoes|indicacoes|titulos|dicas|opcoes de filme)\b/);
+  if (!x) return null;
+  const q = /^\d+$/.test(x[1]) ? +x[1] : NUMEROS[x[1]];
+  return q >= 1 && q <= 20 ? q : null;
+}
+
+function extrairCriterios(sessao) {
+  let duracaoMax = null;
+  const doUsuario = sessao.filter((m) => m.role === "user").map((m) => m.content);
+  for (const t of doUsuario) {
+    const d = duracaoDoTexto(t);
+    if (d === 0) duracaoMax = null; else if (d) duracaoMax = d;
+  }
+  const quantidade = quantidadeDoTexto(doUsuario[doUsuario.length - 1] || "");
+  return { duracaoMax, quantidade };
+}
+
+function textoCriterios(c) {
+  const linhas = [];
+  if (c.duracaoMax) linhas.push(`- Duração MÁXIMA: ${c.duracaoMax} minutos. Nenhum filme mais longo — o validar_titulos já corta os que passam e te diz a duração de cada um.`);
+  if (c.quantidade) linhas.push(`- Quantidade pedida: EXATAMENTE ${c.quantidade} ${c.quantidade === 1 ? "filme" : "filmes"} nesta resposta (sem leque grande, sem grupos extras).`);
+  return linhas.length ? `\n\n# LIMITES QUE A PESSOA DEU (mandam mais que qualquer outra instrução)\n${linhas.join("\n")}\nNunca diga que um filme "cabe no tempo" sem a duração vinda da ferramenta.` : "";
+}
+
 // Valida uma LISTA de títulos de uma vez: acha cada um na TMDB e devolve só os que estão
 // na assinatura das plataformas escolhidas. É a ferramenta principal da Val pra montar o leque.
-async function validarTitulos(titulos, plats = []) {
+async function validarTitulos(titulos, plats = [], criterios = {}) {
+  const durMax = criterios.duracaoMax || null;
   const lista = (Array.isArray(titulos) ? titulos : []).map((t) => String(t).trim()).filter(Boolean).slice(0, 40);
   const semFiltro = !plats.length || plats.includes("Todos");
   const pidsSel = semFiltro ? null : new Set(idsDePlataformas(plats));
@@ -184,14 +247,17 @@ async function validarTitulos(titulos, plats = []) {
     const base = { pedido: bruto, id: f.id, titulo: f.title, ano: (f.release_date || "").slice(0, 4) };
     if (!ok) return { ...base, status: "fora" };
     const plataformas = limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes);
+    const ficha = await fichaFilme(f.id).catch(() => ({}));
+    if (durMax && ficha.duracao && ficha.duracao > durMax) return { ...base, status: "longo", duracao_min: ficha.duracao };
     const alta = emAlta(f.id);
-    return { ...base, status: "disponivel", plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}), ...(motivoAlta(f.id) ? { por_que_estao_falando: motivoAlta(f.id) } : {}) };
+    return { ...base, status: "disponivel", duracao_min: ficha.duracao || null, plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}), ...(motivoAlta(f.id) ? { por_que_estao_falando: motivoAlta(f.id) } : {}) };
   });
 
   const disponiveis = resultados.filter((r) => r?.status === "disponivel")
     .map(({ status, pedido, ...r }) => r);
-  const fora = resultados.filter((r) => r && r.status !== "disponivel").map((r) => r.pedido);
-  const out = { disponiveis, fora_das_plataformas_ou_nao_achados: fora };
+  const fora = resultados.filter((r) => r && r.status !== "disponivel" && r.status !== "longo").map((r) => r.pedido);
+  const longos = resultados.filter((r) => r?.status === "longo").map((r) => `${r.titulo} (${r.duracao_min} min)`);
+  const out = { disponiveis, fora_das_plataformas_ou_nao_achados: fora, ...(longos.length ? { cortados_por_passar_do_tempo: longos } : {}) };
 
   // Sobrou pouco? Puxa parecidos (TMDB) dos melhores achados que também estão nas plataformas.
   if (disponiveis.length < 12 && disponiveis.length > 0) {
@@ -205,8 +271,10 @@ async function validarTitulos(titulos, plats = []) {
       const s = await streamingDe(m.id);
       const ok = pidsSel ? s.ids.some((id) => pidsSel.has(id)) : s.ids.length > 0;
       if (!ok) return null;
+      const ficha = await fichaFilme(m.id).catch(() => ({}));
+      if (durMax && ficha.duracao && ficha.duracao > durMax) return null;
       const alta = emAlta(m.id);
-      return { id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), plataformas: limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes), nota: m.vote_average ? Math.round(m.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}) };
+      return { id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), duracao_min: ficha.duracao || null, plataformas: limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes), nota: m.vote_average ? Math.round(m.vote_average * 10) / 10 : null, ...(alta ? { em_alta: alta } : {}) };
     });
     const ext = extras.filter(Boolean).slice(0, 12);
     if (ext.length) {
@@ -377,7 +445,7 @@ async function enriquecerFilme(movieId) {
   try {
     const m = await tmdb(`/movie/${movieId}`, { append_to_response: "external_ids" });
     const imdbId = m.imdb_id || m.external_ids?.imdb_id || null;
-    const [wp, tr, nImdb] = await Promise.all([ondeAssistir(movieId), trailerYoutubeId(movieId), notaImdb(imdbId)]);
+    const [wp, tr, nImdb, ficha] = await Promise.all([ondeAssistir(movieId), trailerYoutubeId(movieId), notaImdb(imdbId), fichaFilme(movieId).catch(() => ({}))]);
     const out = {
       imdbId,
       notaImdb: nImdb,   // nota IMDb (OMDb); null se não tiver chave/nota → front usa `nota` (TMDB)
@@ -391,6 +459,10 @@ async function enriquecerFilme(movieId) {
       capa: posterUrl(m.poster_path),
       plataformas: limparPlataformas(wp.streaming || []),
       trailer: tr,
+      duracao: ficha.duracao || m.runtime || null,      // minutos
+      classificacao: ficha.classificacao || null,       // ex.: "14", "L"
+      linkOndeAssistir: wp.link || null,                // página TMDB/JustWatch com todos os links
+      consultadoEm: wp.consultadoEm || Date.now(),      // quando a disponibilidade foi conferida
     };
     cacheSet(ck, out);
     return out;
@@ -403,7 +475,7 @@ async function enriquecerFilme(movieId) {
 // Pós-processa a resposta da Val: encontra marcadores de filme e substitui por
 // cards ricos. Processa linha a linha pra capturar a opinião da Val que vem na
 // linha logo após o marcador.
-async function enriquecerResposta(texto, plats = [], idsPermitidos = null, validados = []) {
+async function enriquecerResposta(texto, plats = [], idsPermitidos = null, validados = [], criterios = {}) {
   // 0a) Corta bordão de robô no começo da resposta ("Boa escolha.", "Ótima escolha!", "Perfeito!")
   texto = texto.replace(/^\s*(?:boa|ótima|excelente)\s+escolha[.!]*\s*|^\s*perfeito[.!]+\s*/i, "");
   // 0) Remove auto-flagelo e "vamos zerar" no início da resposta — herança de sessões antigas
@@ -480,8 +552,19 @@ async function enriquecerResposta(texto, plats = [], idsPermitidos = null, valid
   // Helper: monta marcador final pro frontend (ou null se inválido)
   // tituloDeclarado: o título que a Val escreveu no marcador (campo 2)
   const jaEmitidos = new Set();
+  const removidosPorCriterio = []; // títulos tirados por duração/quantidade (pra limpar o texto que cita eles)
   function marcadorPara(id, valDiz, tituloDeclarado = "") {
     if (jaEmitidos.has(id)) return null; // mesmo filme 2x na resposta
+    const dd = dados[id];
+    if (criterios.duracaoMax && dd?.duracao && dd.duracao > criterios.duracaoMax) {
+      console.warn(`[criterio] ${dd.titulo} tem ${dd.duracao} min > ${criterios.duracaoMax}, removido`);
+      removidosPorCriterio.push(dd.titulo, tituloDeclarado);
+      return null;
+    }
+    if (criterios.quantidade && jaEmitidos.size >= criterios.quantidade) {
+      removidosPorCriterio.push(dd?.titulo, tituloDeclarado);
+      return null;
+    }
     if (idsPermitidos && !idsPermitidos.has(id)) {
       console.warn(`[filtro] Filme ${id} "${tituloDeclarado}" sem confirmação de ferramenta, removido`);
       return null;
@@ -605,7 +688,7 @@ async function enriquecerResposta(texto, plats = [], idsPermitidos = null, valid
 
   // LEQUE CURTO? Se a Val validou mais filmes do que mostrou (e não é a rodada do veredito),
   // completa com os que ela mesma escolheu e validou, logo depois do último card.
-  const ehVeredito = /se fosse eu/i.test(txt);
+  const ehVeredito = /se fosse eu/i.test(txt) || !!criterios.quantidade;
   const emitidos = out.filter((l) => l.includes("[[VHSCARD:")).length;
   if (!ehVeredito && emitidos > 0 && emitidos < 10 && validados.length) {
     const sobra = [];
@@ -624,7 +707,13 @@ async function enriquecerResposta(texto, plats = [], idsPermitidos = null, valid
       out.splice(ultimo + 1, 0, "", "**Mais na prateleira nessa pegada**", "", ...sobra.flatMap((c) => [c, ""]));
     }
   }
-  return limparGruposVazios(out.join("\n"));
+  // Texto que cita filme removido por critério (ex.: veredito "ia de **Glass Onion**") sai junto
+  let final = out;
+  const tirados = removidosPorCriterio.filter(Boolean).map((t) => normalizar(t)).filter((t) => t.length >= 3);
+  if (tirados.length) {
+    final = out.filter((l) => l.includes("[[VHSCARD:") || !tirados.some((t) => normalizar(l).includes(t)));
+  }
+  return limparGruposVazios(final.join("\n"));
 }
 
 // Se todos os cards de um grupo foram filtrados, o título **do grupo** some junto.
@@ -646,7 +735,7 @@ function limparGruposVazios(txt) {
 /* ---------- ferramentas da Val (formato Gemini: functionDeclarations) ---------- */
 const tools = [
   { name: "validar_titulos", description: "FERRAMENTA PRINCIPAL. Recebe uma lista de títulos de filmes (até 40; use 'Título (ano)' pra desambiguar) e devolve, numa chamada só, quais estão disponíveis na assinatura das plataformas da pessoa agora — com id, título oficial, ano, plataformas e nota.",
-    parameters: { type: "object", properties: { titulos: { type: "array", items: { type: "string" } } }, required: ["titulos"] } },
+    parameters: { type: "object", properties: { titulos: { type: "array", items: { type: "string" } }, duracao_max_min: { type: "integer", description: "Duração máxima em minutos, se a pessoa deu limite de tempo." } }, required: ["titulos"] } },
   { name: "radar_em_alta", description: "Filmes em alta AGORA e disponíveis nas plataformas da pessoa: os mais comentados na internet no Brasil (redes sociais, Reddit, Letterboxd, sites de cinema — vem com por_que_estao_falando) e os mais buscados do dia/semana. Use quando ela pedir 'o que tá bombando', 'lançamento', 'o que todo mundo tá vendo', ou pra temperar um leque com algo do momento.",
     parameters: { type: "object", properties: {} } },
   { name: "buscar_filme", description: "Acha o ID de um filme pelo título (ex.: 'Conta Comigo').",
@@ -662,8 +751,12 @@ const tools = [
 // Monta URL pública da capa do filme na TMDB (tamanho w300 ≈ 300px, leve e nítido).
 function posterUrl(path) { return path ? `https://image.tmdb.org/t/p/w300${path}` : null; }
 
-async function executarTool(nome, input, plats = []) {
-  if (nome === "validar_titulos") return await validarTitulos(input.titulos, plats);
+async function executarTool(nome, input, plats = [], criterios = {}) {
+  if (nome === "validar_titulos") {
+    // Limite de tempo: vale o mais restritivo entre o que a Val passou e o que a pessoa disse
+    const lims = [criterios.duracaoMax, input.duracao_max_min].filter((x) => Number(x) > 0).map(Number);
+    return await validarTitulos(input.titulos, plats, { duracaoMax: lims.length ? Math.min(...lims) : null });
+  }
   if (nome === "radar_em_alta") return await radarEmAlta(plats);
   if (nome === "buscar_filme") {
     const d = await tmdb("/search/movie", { query: input.titulo });
@@ -738,6 +831,8 @@ Manda um leque menor (4 a 8) bem na mira do que ela disse e fecha com o VEREDITO
 
 **3. VEREDITO — o seu palpite, sempre que você estreitou.**
 Uma ou duas frases: "Se fosse eu, hoje ia de **X** — porque você falou que queria Y." Cite o que a pessoa disse. É aqui que você mostra que entende de cinema.
+
+**LIMITES DA PESSOA MANDAM MAIS QUE O LEQUE.** Se ela pediu um número ("me indica 3", "só um"), entregue exatamente esse número. Se deu limite de tempo ("até 2h", "tenho 90 minutos"), passe duracao_max_min no validar_titulos e nunca indique filme mais longo. Use a duracao_min que a ferramenta devolve; não chute duração.
 
 Daí a conversa segue livre: ela pode pedir mais, mudar de ideia, perguntar de um filme. Se ela rejeitar tudo, não interrogue: mande outro leque com um ângulo diferente e pergunte de passagem o que não bateu.
 Só pergunte ANTES de entregar se não houver pista nenhuma ("oi", "tudo bem?") — aí responde simpática e curta (1-2 linhas), puxando uma direção, SEM chamar ferramenta.
@@ -857,7 +952,7 @@ function wrapResult(out) {
   return { result: out };
 }
 
-async function conversar(messages, plataforma, contextoUsuario = "") {
+async function conversar(messages, plataforma, contextoUsuario = "", criterios = {}) {
   // Converte [{role:"user|assistant", content:"texto"}] -> contents do Gemini
   const contents = messages.map((m) => ({
     role: m.role === "assistant" ? "model" : "user",
@@ -865,9 +960,9 @@ async function conversar(messages, plataforma, contextoUsuario = "") {
   }));
 
   // Anexa contexto do usuário ao system prompt (histórico, watchlist, vistos)
-  const systemTxt = contextoUsuario
+  const systemTxt = (contextoUsuario
     ? `${systemPrompt(plataforma)}\n\n# CONTEXTO DESTE USUÁRIO (informação invisível, NÃO mencione expressamente)\n${contextoUsuario}`
-    : systemPrompt(plataforma);
+    : systemPrompt(plataforma)) + textoCriterios(criterios);
 
   const body = {
     systemInstruction: { parts: [{ text: systemTxt }] },
@@ -881,6 +976,7 @@ async function conversar(messages, plataforma, contextoUsuario = "") {
   const validados = []; // filmes que validar_titulos confirmou neste turno (pra completar leque curto)
   for (const m of messages) for (const x of String(m.content ?? "").matchAll(/id (\d+)\]/g)) idsConfirmados.add(Number(x[1]));
   let jaCobrou = false;
+  let jaCobrouVazio = false;
 
   // validar_titulos resolve em lote, então poucas rodadas bastam
   for (let i = 0; i < 10; i++) {
@@ -904,7 +1000,7 @@ async function conversar(messages, plataforma, contextoUsuario = "") {
       const platsArr = Array.isArray(plataforma) ? plataforma : (plataforma ? [plataforma] : []);
       const respParts = await Promise.all(fnCalls.map(async (p) => {
         let out;
-        try { out = await executarTool(p.functionCall.name, p.functionCall.args || {}, platsArr); }
+        try { out = await executarTool(p.functionCall.name, p.functionCall.args || {}, platsArr, criterios); }
         catch (e) { out = { erro: String(e.message) }; }
         for (const x of JSON.stringify(out ?? {}).matchAll(/"id":(\d+)/g)) idsConfirmados.add(Number(x[1]));
         if (p.functionCall.name === "validar_titulos" && out?.disponiveis) validados.push(...out.disponiveis);
@@ -915,6 +1011,13 @@ async function conversar(messages, plataforma, contextoUsuario = "") {
     }
 
     const texto = parts.filter((p) => p.text && !p.thought).map((p) => p.text).join("\n").trim();
+    // Resposta vazia depois das ferramentas (acontece nos modelos lite): pede a resposta de novo, 1 vez
+    if (!texto && !jaCobrouVazio) {
+      jaCobrouVazio = true;
+      console.warn(`[val] resposta vazia (finishReason=${cand?.finishReason}) — pedindo de novo`);
+      contents.push({ role: "user", parts: [{ text: "[sistema, não é a pessoa] Sua última resposta veio vazia. Responda agora à pessoa usando os filmes que as ferramentas já confirmaram (se precisar, valide mais)." }] });
+      continue;
+    }
     // Citou filme sem confirmar em ferramenta? Manda validar antes de responder (1 vez).
     const naoConfirmados = [...texto.matchAll(/\[FILME:(\d+)\|([^|\]]*)/g)]
       .filter((x) => !idsConfirmados.has(Number(x[1]))).map((x) => x[2].trim() || x[1]);
@@ -994,8 +1097,9 @@ app.post("/api/chat", async (req, res) => {
     const fitas = (Array.isArray(watchlist) ? watchlist : []).slice(0, 200);
     const contextoUsuario = resumirContextoUsuario(historico, fitas);
 
-    const { texto: replyRaw, idsConfirmados, validados } = await conversar(sessao, plats, contextoUsuario);
-    const reply = await enriquecerResposta(replyRaw, plats, idsConfirmados, validados);
+    const criterios = extrairCriterios(sessao);
+    const { texto: replyRaw, idsConfirmados, validados } = await conversar(sessao, plats, contextoUsuario, criterios);
+    const reply = await enriquecerResposta(replyRaw, plats, idsConfirmados, validados, criterios);
     res.json({ reply });
   } catch (e) {
     console.error(e);

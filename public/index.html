@@ -4,140 +4,169 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VHS Club — ache o filme certo nos seus streamings</title>
-<meta name="description" content="A Val, atendente veterana, escolhe seu filme melhor que qualquer algoritmo. Conhece o catálogo do Brasil ao vivo. Tem opinião e te dá ela.">
+<meta name="description" content="Conta pra Val o tema, o clima ou um filme que você curtiu. Ela encontra opções nos streamings que você assina no Brasil.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root{ --bb-blue:#0a2a8c; --bb-blue-deep:#061a5c; --bb-yellow:#ffc20e; --paper:#f4ead2; --ink:#1a1205; --red:#d4341f; }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    font-family:'VT323',monospace; color:var(--paper); min-height:100vh;
+    font-family:'IBM Plex Sans',system-ui,sans-serif; color:var(--paper); min-height:100vh;
     background:
       repeating-linear-gradient(0deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px),
       radial-gradient(circle at 30% 10%, #15347f 0%, var(--bb-blue-deep) 60%, #03103f 100%);
     background-attachment:fixed;
   }
-  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;
-    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 2px, transparent 4px);
-    mix-blend-mode:multiply;}
+  /* textura de TV leve e atrás do conteúdo */
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 1px, transparent 2px, transparent 4px);}
+  .top-bar,section,footer{position:relative;z-index:1}
 
-  /* ===== HEADER MIN ===== */
-  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:3px solid var(--ink);background:var(--bb-yellow);box-shadow:0 4px 0 rgba(0,0,0,0.3);position:sticky;top:0;z-index:50}
-  .ticket-small{background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;padding:4px 14px;transform:skewX(-7deg);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-decoration:none;display:inline-block}
+  /* ===== TOPO ===== */
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:3px solid var(--ink);background:var(--bb-yellow);box-shadow:0 4px 0 rgba(0,0,0,0.3);position:sticky;top:0;z-index:50}
+  .ticket-small{background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;padding:3px 14px;transform:skewX(-7deg);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-decoration:none;display:inline-block}
   .ticket-small span{display:inline-block;transform:skewX(7deg)}
-  .top-bar .entrar{font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;background:var(--red);color:#fff;border:3px solid var(--ink);padding:6px 16px;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
-  .top-bar .entrar:active{transform:translate(3px,3px);box-shadow:none}
+  .top-bar .entrar{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;background:var(--red);color:#fff;border:3px solid var(--ink);padding:5px 14px;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
 
-  /* ===== HERO ===== */
-  .hero{padding:80px 24px 100px;text-align:center;position:relative}
-  .ticket-huge{display:inline-block;background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:clamp(60px,12vw,140px);letter-spacing:2px;padding:18px 36px;transform:skewX(-7deg);border:6px solid var(--ink);box-shadow:10px 10px 0 var(--ink);line-height:.9;margin-bottom:30px}
-  .ticket-huge span{display:inline-block;transform:skewX(7deg)}
-  .hero .tagline{font-family:'Bebas Neue',sans-serif;color:var(--bb-yellow);font-size:clamp(20px,3vw,30px);letter-spacing:3px;margin-bottom:30px;line-height:1.1}
-  .hero .subline{font-family:'VT323',monospace;color:var(--paper);font-size:clamp(20px,2vw,26px);max-width:700px;margin:0 auto 40px;line-height:1.4;padding:0 14px}
-  .hero .subline em{color:var(--bb-yellow);font-style:normal}
-  .cta-big{display:inline-block;font-family:'Anton',sans-serif;font-size:clamp(22px,2.5vw,30px);letter-spacing:2px;background:var(--red);color:#fff;border:5px solid var(--ink);padding:18px 40px;text-decoration:none;box-shadow:8px 8px 0 var(--ink);transition:transform .08s}
-  .cta-big:active{transform:translate(8px,8px);box-shadow:none}
-  .cta-big::before{content:"▶ ";font-family:'Anton',sans-serif}
-  .open-badge{display:inline-block;margin-top:20px;font-family:'Bebas Neue',sans-serif;color:#7CFC00;font-size:14px;letter-spacing:2px}
-  .open-badge::before{content:"●";color:#7CFC00;margin-right:6px;animation:blink 1.6s steps(1) infinite}
-  @keyframes blink{50%{opacity:.35}}
+  /* ===== PRIMEIRA TELA ===== */
+  .hero{padding:48px 20px 64px}
+  .hero-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-family:'Anton',sans-serif;font-size:clamp(38px,5.5vw,64px);line-height:1;letter-spacing:1px;color:var(--bb-yellow);text-shadow:4px 4px 0 var(--ink);margin-bottom:18px}
+  .hero .subline{font-size:clamp(17px,1.6vw,20px);line-height:1.5;max-width:560px;margin-bottom:22px}
+  .hero .subline b{color:var(--bb-yellow)}
+  .sem-ideia{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:var(--bb-yellow);margin-bottom:10px}
+  .sugestoes{display:flex;flex-direction:column;gap:10px;align-items:flex-start;margin-bottom:12px}
+  .sug{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;font-weight:600;text-align:left;cursor:pointer;background:var(--paper);color:var(--ink);border:3px solid var(--ink);padding:10px 14px;box-shadow:4px 4px 0 var(--ink);text-decoration:none;transition:transform .08s}
+  .sug::before{content:"💬 "}
+  .sug:hover{background:var(--bb-yellow);transform:translate(-1px,-1px)}
+  .sug:active{transform:translate(4px,4px);box-shadow:none}
+  .outras{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;background:none;border:none;color:var(--bb-yellow);text-decoration:underline;padding:4px 0;margin-bottom:22px}
+  .hero-form{display:flex;gap:8px;flex-wrap:wrap;max-width:560px}
+  .hero-form input{flex:1;min-width:200px;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;background:#fff;border:3px solid var(--ink);padding:12px 14px;color:var(--ink);outline:none}
+  .hero-form input:focus{box-shadow:0 0 0 3px var(--bb-yellow)}
+  .hero-form button{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;cursor:pointer;background:var(--red);color:#fff;border:3px solid var(--ink);padding:10px 18px;box-shadow:4px 4px 0 var(--ink)}
+  .hero-form button:active{transform:translate(4px,4px);box-shadow:none}
 
-  /* ===== SECTIONS ===== */
-  section.bloco{padding:80px 24px;border-top:6px solid var(--ink);position:relative}
+  /* exemplo de conversa */
+  .demo{background:var(--bb-blue-deep);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);padding:16px;display:flex;flex-direction:column;gap:12px}
+  .demo-rotulo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:var(--bb-yellow);opacity:.8}
+  .bal{max-width:92%;font-size:15px;line-height:1.45;padding:10px 12px;border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,.4)}
+  .bal .quem{display:block;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1.5px;margin-bottom:2px}
+  .bal.voce{align-self:flex-end;background:var(--bb-blue);color:#fff}
+  .bal.val{align-self:flex-start;background:var(--paper);color:var(--ink);border-left:8px solid var(--bb-yellow)}
+  .bal.val .quem{color:var(--red)}
+  .mini{display:flex;justify-content:space-between;gap:8px;background:#fff;border:2px solid var(--ink);padding:6px 8px;margin-top:6px;font-size:14px}
+  .mini b{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px}
+  .mini span{font-family:'Bebas Neue',sans-serif;letter-spacing:.8px;white-space:nowrap}
+
+  /* ===== SEÇÕES ===== */
+  section.bloco{padding:64px 20px;border-top:6px solid var(--ink)}
   section.bloco.amarela{background:var(--bb-yellow);color:var(--ink)}
   section.bloco.papel{background:var(--paper);color:var(--ink)}
   .container{max-width:1080px;margin:0 auto}
+  .titulo-secao{font-family:'Anton',sans-serif;font-size:clamp(32px,4.5vw,48px);letter-spacing:1px;text-align:center;margin-bottom:14px;line-height:1}
+  .sub-secao{font-size:clamp(16px,1.5vw,19px);line-height:1.5;text-align:center;margin:0 auto 36px;max-width:640px;opacity:.9}
 
-  .titulo-secao{font-family:'Anton',sans-serif;font-size:clamp(34px,5vw,52px);letter-spacing:2px;text-align:center;margin-bottom:18px;line-height:1}
-  .sub-secao{font-family:'VT323',monospace;font-size:clamp(18px,1.6vw,22px);text-align:center;margin-bottom:50px;opacity:.85;max-width:600px;margin-left:auto;margin-right:auto}
+  /* quem é a Val */
+  .val-card{max-width:760px;margin:0 auto;background:var(--bb-blue);color:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:26px;font-size:17px;line-height:1.6}
+  .val-card p+p{margin-top:12px}
+  .val-card em{color:var(--bb-yellow);font-style:normal;font-weight:600}
 
-  /* === 3 REGRAS === */
-  .grid-regras{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-  .regra{background:var(--bb-blue);color:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:28px 24px;position:relative}
-  .regra .num{position:absolute;top:-22px;left:-12px;background:var(--red);color:#fff;font-family:'Anton',sans-serif;font-size:32px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-6deg)}
-  .regra h3{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:1px;color:var(--bb-yellow);margin-bottom:14px;margin-top:8px}
-  .regra p{font-family:'VT323',monospace;font-size:20px;line-height:1.3}
-  .regra p em{color:var(--bb-yellow);font-style:normal}
+  /* prateleiras */
+  .prateleiras{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+  .prat{display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-height:120px;background:var(--bb-blue);color:var(--paper);border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:16px;text-decoration:none;transition:transform .08s}
+  .prat:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+  .prat .etiqueta{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--bb-yellow)}
+  .prat h3{font-family:'Anton',sans-serif;font-weight:400;font-size:22px;letter-spacing:.5px;line-height:1.1}
+  .prat .abrir{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;color:var(--bb-yellow)}
+  .livre{text-align:center;margin-top:26px;font-size:16px}
 
-  /* === PLATAFORMAS === */
-  .grid-plats{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:30px}
-  .plat-tag{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:10px 20px;border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink);color:#fff}
-  .plat-tag.netflix{background:#e50914}
-  .plat-tag.hbo{background:#7e2fd6}
-  .plat-tag.prime{background:#00a8e1}
-  .plat-tag.disney{background:#113cd1}
-  .plat-tag.apple{background:#1a1a1a}
+  /* onde procura */
+  .grid-plats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+  .plat-tag{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:10px 18px;border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink);color:#fff}
+  .plat-tag.netflix{background:#e50914}.plat-tag.hbo{background:#7e2fd6}.plat-tag.prime{background:#00a8e1}.plat-tag.disney{background:#113cd1}.plat-tag.apple{background:#1a1a1a}
+  .como-confere{max-width:700px;margin:30px auto 0;font-size:15px;line-height:1.6;text-align:center}
+  .cta-big{display:inline-block;font-family:'Anton',sans-serif;font-size:24px;letter-spacing:1px;background:var(--red);color:#fff;border:4px solid var(--ink);padding:14px 32px;text-decoration:none;box-shadow:6px 6px 0 var(--ink);margin-top:30px}
+  .centro{text-align:center}
 
-  /* === CTA FIM === */
-  .cta-bloco{text-align:center}
-  .cta-bloco .titulo-secao{margin-bottom:30px}
-  .cta-bloco .quote{font-family:'VT323',monospace;font-size:clamp(20px,2vw,26px);line-height:1.4;max-width:600px;margin:0 auto 40px;color:var(--ink)}
+  footer{padding:26px 20px;text-align:center;border-top:3px solid var(--ink);background:var(--ink);color:var(--bb-yellow)}
+  footer p{font-size:14px;line-height:1.6;opacity:.8}
 
-  /* === FOOTER === */
-  footer{padding:30px 24px;text-align:center;border-top:3px solid var(--ink);background:var(--ink);color:var(--bb-yellow)}
-  footer p{font-family:'VT323',monospace;font-size:17px;line-height:1.5;opacity:.8}
-  footer a{color:var(--bb-yellow);text-decoration:underline}
-
-  /* === RESPONSIVO === */
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .hero{padding:32px 16px 48px}
+  }
   @media (max-width:600px){
-    .top-bar{padding:10px 16px}
-    .hero{padding:50px 14px 70px}
-    .ticket-huge{padding:12px 24px;box-shadow:6px 6px 0 var(--ink);border-width:4px}
-    section.bloco{padding:60px 18px}
-    .cta-big{padding:14px 28px}
+    section.bloco{padding:48px 16px}
+    .sug{font-size:15px}
+    .demo{box-shadow:6px 6px 0 var(--ink)}
   }
 </style>
 </head>
 <body>
-  <!-- TOP BAR -->
   <div class="top-bar">
     <a href="/" class="ticket-small"><span>VHS&nbsp;CLUB</span></a>
-    <a href="/chat" class="entrar">ABRIR O CHAT</a>
+    <a href="/chat" class="entrar">FALAR COM A VAL</a>
   </div>
 
-  <!-- HERO -->
+  <!-- PRIMEIRA TELA -->
   <section class="hero">
-    <div class="ticket-huge"><span>VHS&nbsp;CLUB</span></div>
-    <div class="tagline">ACHE O FILME CERTO NOS SEUS STREAMINGS</div>
-    <p class="subline">
-      Fala pra <em>Val</em> o que você tá a fim de ver — um gênero, um clima, um filme que você curtiu. Ela te mostra tudo que combina e que está <em>agora</em> na assinatura dos seus streamings no Brasil, com nota do IMDb e trailer. Depois afina com você e dá o palpite dela.
-    </p>
-    <a href="/chat" class="cta-big">ENTRAR NA LOCADORA</a>
-    <div class="open-badge">ABERTO 24H · CATÁLOGO BR VERIFICADO AO VIVO</div>
-  </section>
+    <div class="hero-grid">
+      <div>
+        <h1>TÁ A FIM DE ASSISTIR O QUÊ HOJE?</h1>
+        <p class="subline">Não precisa saber o nome do filme. Conta pra <b>Val</b> o tema, o clima ou um filme que você curtiu. Ela encontra opções nos <b>streamings que você assina</b>.</p>
 
-  <!-- TRÊS REGRAS -->
-  <section class="bloco amarela">
-    <div class="container">
-      <h2 class="titulo-secao">COMO FUNCIONA</h2>
-      <p class="sub-secao">Uma conversa, não um catálogo infinito pra rolar.</p>
-      <div class="grid-regras">
-        <div class="regra">
-          <div class="num">1</div>
-          <h3>VOCÊ FALA, EU ENCHO A PRATELEIRA</h3>
-          <p>"Comédia", "tô cansado", "algo tipo Interestelar" — já basta. Sem questionário: eu te mostro de cara <em>tudo</em> que combina, separado por estilo, com nota do IMDb, trailer e onde assistir.</p>
+        <div class="sem-ideia">TÁ SEM IDEIA? VÊ SE ALGUMA DESSAS TE PEGA:</div>
+        <div class="sugestoes" id="sugestoes"></div>
+        <button class="outras" onclick="novasSugestoes()">↻ Me dá outras ideias</button>
+
+        <form class="hero-form" action="/chat" method="get">
+          <input name="q" maxlength="300" autocomplete="off" placeholder="Ou escreve do seu jeito…" aria-label="O que você quer assistir?" />
+          <button type="submit">FALAR COM A VAL</button>
+        </form>
+      </div>
+
+      <div class="demo" aria-label="Exemplo de conversa com a Val">
+        <div class="demo-rotulo">★ EXEMPLO DE CONVERSA</div>
+        <div class="bal voce"><span class="quem">VOCÊ</span>Quero um filme de ET</div>
+        <div class="bal val"><span class="quem">VAL</span>Separei vários, do contato misterioso à invasão com pipoca. Uns deles:
+          <div class="mini"><b>A Chegada</b><span>HBO MAX · ★ 7.9</span></div>
+          <div class="mini"><b>Distrito 9</b><span>HBO MAX · ★ 7.9</span></div>
+          <div class="mini"><b>Super 8</b><span>NETFLIX · ★ 7.0</span></div>
         </div>
-        <div class="regra">
-          <div class="num">2</div>
-          <h3>SÓ O QUE TÁ NA SUA ASSINATURA</h3>
-          <p>Marca os streamings que você tem e eu confiro o catálogo <em>ao vivo</em>. Nada de aluguel escondido nem filme que sumiu da Netflix ontem. E eu te aviso o que tá 🔥 sendo comentado na internet.</p>
-        </div>
-        <div class="regra">
-          <div class="num">3</div>
-          <h3>A GENTE AFINA E EU DOU MEU PALPITE</h3>
-          <p>Uma pergunta rápida pra acertar o tom e eu fecho: <em>"se fosse eu, hoje ia de tal — porque você falou isso"</em>. Atendente bom não fica em cima do muro.</p>
-        </div>
+        <div class="bal val"><span class="quem">VAL</span>Pra eu afinar: você quer mais mistério ou mais ação?</div>
       </div>
     </div>
   </section>
 
-  <!-- PLATAFORMAS -->
+  <!-- QUEM É A VAL -->
+  <section class="bloco amarela">
+    <div class="container">
+      <h2 class="titulo-secao">QUEM É A VAL</h2>
+      <div class="val-card">
+        <p>Passei anos atrás do balcão de uma locadora. Vi muita gente rodar a prateleira inteira e sair com o mesmo filme de sempre. Hoje eu atendo aqui, numa tela, mas o trabalho é o mesmo: <em>achar o filme certo pra sua noite</em>.</p>
+        <p>Você fala do seu jeito, eu te mostro tudo o que combina e, se você quiser, dou meu palpite. Tenho opinião, não fico em cima do muro, e não te indico filme que não está na sua assinatura.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- O QUE PEDIR -->
   <section class="bloco papel">
     <div class="container">
-      <h2 class="titulo-secao">A PRATELEIRA</h2>
-      <p class="sub-secao">Marca as que você assina — eu só te mostro o que tá nelas, no Brasil, hoje.</p>
+      <h2 class="titulo-secao">O QUE VOCÊ PODE PEDIR</h2>
+      <p class="sub-secao">Tema, clima, um filme de referência, quanto tempo você tem. Algumas prateleiras da Val pra começar:</p>
+      <div class="prateleiras" id="prateleiras"></div>
+      <p class="livre">Não é um menu: pode pedir do jeito que vier na cabeça.</p>
+    </div>
+  </section>
+
+  <!-- ONDE PROCURA -->
+  <section class="bloco amarela">
+    <div class="container">
+      <h2 class="titulo-secao">ONDE ELA PROCURA</h2>
+      <p class="sub-secao">Você marca os streamings que assina e a Val só te mostra o que está neles, no Brasil, hoje.</p>
       <div class="grid-plats">
         <div class="plat-tag netflix">NETFLIX</div>
         <div class="plat-tag hbo">HBO MAX</div>
@@ -145,22 +174,27 @@
         <div class="plat-tag disney">DISNEY+</div>
         <div class="plat-tag apple">APPLE TV+</div>
       </div>
+      <p class="como-confere">A disponibilidade é conferida na hora da conversa pelos dados do JustWatch (via TMDB), só na assinatura, sem aluguel. A nota é do IMDb (ou da TMDB quando o IMDb não tiver), e cada filme vem com duração, classificação indicativa e trailer.</p>
+      <div class="centro"><a href="/chat" class="cta-big">▶ FALAR COM A VAL</a></div>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
-  <section class="bloco amarela">
-    <div class="container cta-bloco">
-      <h2 class="titulo-secao">PRONTO PRA PARAR DE ROLAR O CATÁLOGO?</h2>
-      <p class="quote">Você rola por 40 minutos, cansa a vista e fecha sem escolher nada. Clássico. Bora resolver isso?</p>
-      <a href="/chat" class="cta-big">FALAR COM A VAL</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <p>📼 VHS CLUB · feito com café e VT323<br>catálogo via TMDB · notas via IMDb · IA via Google Gemini</p>
+    <p>📼 VHS CLUB · catálogo via TMDB/JustWatch · notas via IMDb · IA via Google Gemini</p>
   </footer>
 
+<script src="/sugestoes.js"></script>
+<script>
+  // Sugestões que mudam a cada visita (e no botão "outras ideias"). Clicar já abre a conversa com o pedido.
+  function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+  function linkChat(pedido) { return "/chat?q=" + encodeURIComponent(pedido); }
+  function novasSugestoes() {
+    document.getElementById("sugestoes").innerHTML = window.VHS_SUGESTOES.rodada()
+      .map((t) => `<a class="sug" href="${linkChat(t)}">${esc(t)}</a>`).join("");
+  }
+  novasSugestoes();
+  document.getElementById("prateleiras").innerHTML = window.VHS_SUGESTOES.PRATELEIRAS.slice(0, 6)
+    .map((p) => `<a class="prat" href="${linkChat(p.pedido)}"><span class="etiqueta">PRATELEIRA DA VAL</span><h3>${esc(p.nome)}</h3><span class="abrir">▶ ABRIR ESSA PRATELEIRA</span></a>`).join("");
+</script>
 </body>
 </html>

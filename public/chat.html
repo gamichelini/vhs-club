@@ -6,7 +6,7 @@
 <title>VHS Club — ache o filme certo nos seus streamings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{ --bb-blue:#0a2a8c; --bb-blue-deep:#061a5c; --bb-yellow:#ffc20e; --paper:#f4ead2; --ink:#1a1205; --red:#d4341f; }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -151,6 +151,62 @@
   .body .card-alta{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.5px;background:var(--red);color:#fff;padding:2px 6px;border:2px solid var(--ink);display:inline-flex;align-items:center;gap:3px;line-height:1}
   .body .card-fita.escondido{display:none}
   .btn-ver-mais{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;background:var(--bb-yellow);color:var(--ink);border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.4);padding:8px 14px;margin:6px 0 10px;cursor:pointer}
+
+  /* ===== v2 (12/11/2026): leitura, celular e cards compactos ===== */
+  /* Retrô só no logo/títulos/botões; texto corrido em fonte legível */
+  .msg{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;line-height:1.45}
+  .chip{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:14px;padding:8px 12px}
+  #input{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:17px}
+  .drawer .fita-item small,.drawer .vazio{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:14px}
+  /* textura de TV mais leve e POR TRÁS do conteúdo */
+  body::after{z-index:1;background:repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 1px, transparent 2px, transparent 4px)}
+  header{padding:8px 14px;gap:10px}
+  .ticket{font-size:24px;padding:2px 12px}
+  .tagline{font-size:17px}
+  .tagline small{font-size:12px}
+  /* streamings recolhidos num botão */
+  .shelf-bar{max-width:760px;width:100%;margin:0 auto;padding:10px 14px 0;position:relative;z-index:5}
+  .btn-streamings{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;background:var(--paper);color:var(--ink);border:3px solid var(--ink);padding:5px 12px;box-shadow:2px 2px 0 rgba(0,0,0,.4)}
+  .btn-streamings b{color:var(--red)}
+  .shelf{display:none;padding-top:8px}
+  .shelf.aberta{display:flex}
+  /* card compacto */
+  .body .card-fita{padding:8px;gap:6px;margin:8px 0}
+  .body .card-top{flex-direction:row !important;align-items:flex-start !important;gap:10px}
+  .body .card-poster{width:72px !important;min-height:0;aspect-ratio:2/3;height:auto;align-self:flex-start !important}
+  .body .card-actions .btn-action{flex:1;min-width:70px}
+  .body .card-title{font-size:19px;text-align:left !important}
+  .body .card-meta{justify-content:flex-start !important;text-align:left !important;font-size:12px;color:var(--ink)}
+  .body .card-badge{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.5px;border:2px solid var(--ink);padding:1px 5px;line-height:1.2;background:#fff}
+  .body .card-badge.cl-L{background:#1f9d3a;color:#fff}.body .card-badge.cl-10{background:#2b8fd6;color:#fff}.body .card-badge.cl-12{background:#f2c200}
+  .body .card-badge.cl-14{background:#e8761b;color:#fff}.body .card-badge.cl-16{background:#d4341f;color:#fff}.body .card-badge.cl-18{background:#111;color:#fff}
+  .body .card-val-diz{margin:2px 0 0;padding:6px 8px}
+  .body .card-val-diz .label{font-size:11px}
+  .body .card-val-diz .texto{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:14px;line-height:1.4;font-weight:600}
+  .body .card-actions{margin-top:0}
+  .body .btn-assistir{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.8px;border:2px solid var(--ink);padding:7px 8px;text-align:center;box-shadow:2px 2px 0 rgba(0,0,0,.4);flex:2;min-width:120px;text-decoration:none;color:#fff;background:#1a1a1a;display:flex;align-items:center;justify-content:center}
+  .body .btn-assistir.netflix{background:#e50914}.body .btn-assistir.hbo{background:#7e2fd6}.body .btn-assistir.prime{background:#00a8e1}
+  .body .btn-assistir.disney{background:#113cd1}.body .btn-assistir.apple{background:#1a1a1a}
+  .body .btn-trailer{background:var(--ink);color:var(--bb-yellow)}
+  .body details.card-detalhes{border-top:2px dashed rgba(0,0,0,.25);padding-top:4px}
+  .body details.card-detalhes summary{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;color:var(--bb-blue);list-style:none}
+  .body details.card-detalhes summary::before{content:"▸ "}
+  .body details.card-detalhes[open] summary::before{content:"▾ "}
+  .body details.card-detalhes .card-sinopse{display:block;-webkit-line-clamp:unset;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:14px;line-height:1.45;opacity:.9;margin:4px 0 6px}
+  .body .card-fonte{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:12px;opacity:.7;margin-top:6px}
+  .body .card-fonte a{color:var(--bb-blue);font-weight:600}
+  @media (max-width:600px){
+    .tagline small,.open-sign{display:none}
+    .tagline{font-size:14px;flex:1;min-width:0}
+    header{flex-wrap:nowrap}
+    .ticket{font-size:20px}
+    main{padding:8px 10px}
+    .msg{max-width:96%}
+    .composer{padding-top:8px}
+    .live-badge{font-size:11px;padding:4px}
+  }
+  .chip.chip-outras{background:none;border-style:dashed;box-shadow:none;color:var(--bb-yellow);border-color:var(--bb-yellow)}
+  .chip.chip-outras::before{content:""}
 </style>
 </head>
 <body>
@@ -171,7 +227,9 @@
     </div>
   </header>
 
-  <div class="shelf">
+  <div class="shelf-bar">
+    <button class="btn-streamings" id="btn-streamings" onclick="toggleStreamings()">📺 MEUS STREAMINGS · <b id="streamings-resumo">TODOS</b> ▾</button>
+  <div class="shelf" id="shelf">
     <span class="shelf-label">PRATELEIRA:</span>
     <button class="plat todos"   data-on="1" data-name="Todos"       onclick="pickPlat(this,'Todos')">TODOS</button>
     <button class="plat netflix" data-on="0" data-name="Netflix"     onclick="pickPlat(this,'Netflix')">NETFLIX</button>
@@ -180,6 +238,7 @@
     <button class="plat disney"  data-on="0" data-name="Disney+"     onclick="pickPlat(this,'Disney+')">DISNEY+</button>
     <button class="plat apple"   data-on="0" data-name="Apple TV+"   onclick="pickPlat(this,'Apple TV+')">APPLE TV+</button>
   </div>
+  </div>
 
   <main>
     <div id="chat"></div>
@@ -187,9 +246,10 @@
       <input id="input" autocomplete="off" placeholder="Pergunta pra Val o que assistir..." />
       <button id="send" onclick="send()">PEGAR</button>
     </div>
-    <div class="live-badge">🔌 catálogo do Brasil verificado <b>AO VIVO</b></div>
+    <div class="live-badge">🔌 disponibilidade conferida <b>NA HORA</b> via JustWatch/TMDB · Brasil · só assinatura</div>
   </main>
 
+<script src="/sugestoes.js"></script>
 <script type="module">
 // Sem login: lista de fitas, notas e pedidos anteriores ficam salvos NESTE navegador (localStorage).
 const LS_FITAS = 'vhs_fitas_v1';
@@ -210,22 +270,45 @@ let watchlistLocal = lerLS(LS_FITAS, []); // [{movie_id, titulo, capa, plataform
 // ===== Início (sem login) =====
 function init() {
   atualizarContador();
-  mostrarBoasVindas();
-  input.focus();
+  restaurarStreamings();
+  const q = new URLSearchParams(location.search).get('q');
+  mostrarBoasVindas(!q);
+  if (q) {
+    history.replaceState(null, '', '/chat');
+    input.value = q.slice(0, 300);
+    send();
+  } else {
+    input.focus();
+  }
+}
+
+// Sugestões clicáveis na primeira tela (mesmo banco da página inicial, muda a cada visita)
+function mostrarChipsIniciais() {
+  const d = document.createElement('div');
+  d.className = 'chips-bloco chips-iniciais';
+  const pintar = () => {
+    const ideias = (window.VHS_SUGESTOES ? window.VHS_SUGESTOES.rodada() : ['Quero um filme de ET', 'Suspense sem terror', 'Tenho só 90 minutos']);
+    d.innerHTML = ideias.map((t) => `<button class="chip" onclick="enviarChip(this)">${esc(t)}</button>`).join('')
+      + `<button class="chip chip-outras" onclick="event.stopPropagation(); this.parentElement.__pintar()">↻ outras ideias</button>`;
+  };
+  d.__pintar = pintar;
+  pintar();
+  chat.appendChild(d);
 }
 
 // ===== Boas-vindas =====
-function mostrarBoasVindas() {
+function mostrarBoasVindas(comChips = true) {
+  setTimeout(() => { if (comChips) mostrarChipsIniciais(); }, 0);
   const novo = (watchlistLocal.length === 0 && lerLS(LS_PEDIDOS, []).length === 0);
   if (novo) {
     bubble('clerk',
       "E aí, tudo bem? Sou a **Val**, aqui do balcão do VHS Club. 📼\n\n" +
-      "Me diz: tá a fim de que estilo de filme hoje? Ou me fala um filme que você curtiu que eu acho parecidos.",
+      "Tá a fim de assistir o quê hoje? Não precisa saber o nome do filme: me conta o tema, o clima ou um filme que você curtiu.\n\nTá sem ideia? Vê se alguma dessas te pega:",
       true
     );
   } else {
     bubble('clerk',
-      "Olha quem voltou! 📼 Tá a fim de que hoje? Me fala um estilo, um clima ou um filme que você curtiu.",
+      "Olha quem voltou! 📼 Tá a fim de assistir o quê hoje? Me conta o tema, o clima ou um filme que você curtiu.\n\nTá sem ideia? Vê se alguma dessas te pega:",
       true
     );
   }
@@ -245,30 +328,44 @@ function b64decode(b64) {
 }
 
 // Renderiza um card rico a partir dos dados enriquecidos da TMDB
+// Link pra abrir o filme direto no streaming (página de busca da plataforma com o título)
+const BUSCA_PLATAFORMA = {
+  'Netflix':     { cls: 'netflix', url: (t) => `https://www.netflix.com/search?q=${encodeURIComponent(t)}` },
+  'Prime Video': { cls: 'prime',   url: (t) => `https://www.primevideo.com/search/ref=atv_nb_sug?phrase=${encodeURIComponent(t)}` },
+  'Disney+':     { cls: 'disney',  url: (t) => `https://www.disneyplus.com/search?q=${encodeURIComponent(t)}` },
+  'HBO Max':     { cls: 'hbo',     url: (t) => `https://play.hbomax.com/search?q=${encodeURIComponent(t)}` },
+  'Apple TV+':   { cls: 'apple',   url: (t) => `https://tv.apple.com/br/search?term=${encodeURIComponent(t)}` },
+};
+function duracaoFmt(min) { if (!min) return ''; const h = Math.floor(min / 60), m = min % 60; return h ? `${h}h${m ? String(m).padStart(2, '0') : ''}` : `${m}min`; }
+function horaFmt(ts) { try { const d = new Date(ts); const hoje = new Date().toDateString() === d.toDateString(); return (hoje ? 'hoje' : d.toLocaleDateString('pt-BR')) + ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch { return ''; } }
+
+// Renderiza um card rico a partir dos dados enriquecidos da TMDB
 function renderCardRico(d) {
   const plats = (d.plataformas || []).join(' · ');
-  const metaParts = [];
-  if (d.genero) metaParts.push(esc(d.genero));
-  if (d.ano) metaParts.push(esc(d.ano));
-  const metaTexto = metaParts.join(' · ');
   const temImdb = d.notaImdb !== null && d.notaImdb !== undefined;
   const notaShow = temImdb ? d.notaImdb : d.nota;
   const ratingTag = (notaShow !== null && notaShow !== undefined)
-    ? `<span class="card-rating"><span class="nota">${Number(notaShow).toFixed(1)}</span><span class="star">★</span> ${temImdb ? 'IMDb' : 'TMDB'}</span>`
+    ? `<span class="card-rating" title="${temImdb ? 'Nota do IMDb' : 'Nota da TMDB — o IMDb não tem nota pra esse filme agora'}"><span class="nota">${Number(notaShow).toFixed(1)}</span><span class="star">★</span> ${temImdb ? 'IMDb' : 'TMDB'}</span>`
     : '';
   const altaTag = d.emAlta
     ? `<span class="card-alta">🔥 ${d.emAlta === 'internet' ? 'FALADO NA INTERNET' : d.emAlta === 'hoje' ? 'BOMBANDO HOJE' : 'EM ALTA'}</span>`
     : '';
-  // Trailer: usa o key do YouTube se vier, senão fallback pra busca no YouTube
+  const dur = d.duracao ? `<span class="card-badge" title="Duração">⏱ ${duracaoFmt(d.duracao)}</span>` : '';
+  const cl = d.classificacao ? `<span class="card-badge cl-${esc(d.classificacao)}" title="Classificação indicativa">${d.classificacao === 'L' ? 'LIVRE' : esc(d.classificacao) + ' ANOS'}</span>` : '';
+  const ano = d.ano ? `<span>${esc(d.ano)}</span>` : '';
   const trailerUrl = d.trailer
     ? `https://www.youtube.com/watch?v=${encodeURIComponent(d.trailer)}`
     : `https://www.youtube.com/results?search_query=${encodeURIComponent(d.titulo + ' ' + (d.ano || '') + ' trailer')}`;
-  const trailerLabel = d.trailer ? '▶ TRAILER' : '▶ BUSCAR TRAILER';
   const valDizBlock = d.valDiz
-    ? `<div class="card-val-diz"><span class="label">★ VAL DIZ</span><span class="texto">${esc(d.valDiz)}</span></div>`
+    ? `<div class="card-val-diz"><span class="label">★ POR QUE A VAL INDICOU</span><span class="texto">${esc(d.valDiz)}</span></div>`
     : '';
+  // Botão direto pro streaming (1º da lista); demais plataformas ficam nos detalhes
+  const pPrincipal = (d.plataformas || []).find((p) => BUSCA_PLATAFORMA[p]);
+  const btnAssistir = pPrincipal
+    ? `<a class="btn-assistir ${BUSCA_PLATAFORMA[pPrincipal].cls}" href="${BUSCA_PLATAFORMA[pPrincipal].url(d.titulo)}" target="_blank" rel="noopener">▶ ASSISTIR NA ${esc(pPrincipal.toUpperCase())}</a>`
+    : (d.linkOndeAssistir ? `<a class="btn-assistir" href="${esc(d.linkOndeAssistir)}" target="_blank" rel="noopener">▶ ONDE ASSISTIR</a>` : '');
   const sinopse = d.sinopse ? `<p class="card-sinopse">${esc(d.sinopse)}</p>` : '';
-  const platBlock = plats ? `<div class="card-plats">📺 ${esc(plats)}</div>` : '';
+  const fonte = `<div class="card-fonte">📺 Na assinatura: <b>${esc(plats || '—')}</b> · conferido ${esc(horaFmt(d.consultadoEm || Date.now()))} via JustWatch/TMDB${d.linkOndeAssistir ? ` · <a href="${esc(d.linkOndeAssistir)}" target="_blank" rel="noopener">ver fonte</a>` : ''}</div>`;
   const poster = d.capa
     ? `<img src="${esc(d.capa)}" alt="${esc(d.titulo)}" class="card-poster" loading="lazy" />`
     : `<div class="card-poster">${esc(d.titulo)}</div>`;
@@ -277,19 +374,26 @@ function renderCardRico(d) {
       ${poster}
       <div class="card-info">
         <h3 class="card-title">${esc(d.titulo)}</h3>
-        <div class="card-meta">${ratingTag}${altaTag}${metaTexto ? `<span>${metaTexto}</span>` : ''}</div>
-        ${platBlock}
+        <div class="card-meta">${ratingTag}${dur}${cl}${ano}${altaTag}</div>
         ${valDizBlock}
-        ${sinopse}
       </div>
     </div>
     <div class="card-actions">
-      <a class="btn-trailer" href="${trailerUrl}" target="_blank" rel="noopener">${trailerLabel}</a>
-      <button class="btn-action saving" data-acao="salvar" onclick="acaoFita(this)">+ ASSISTIR DEPOIS</button>
-      <button class="btn-action visto" data-acao="visto" onclick="acaoFita(this)">✓ JÁ ASSISTI</button>
-      <button class="btn-action ngostei" data-acao="nao_curti" onclick="acaoFita(this)">✗ NÃO CURTI</button>
+      ${btnAssistir}
+      <a class="btn-trailer" href="${trailerUrl}" target="_blank" rel="noopener">▶ TRAILER</a>
+      <button class="btn-action saving" data-acao="salvar" onclick="acaoFita(this)">+ DEPOIS</button>
     </div>
-  </div>`;
+    <details class="card-detalhes">
+      <summary>VER DETALHES</summary>
+      ${d.genero ? `<div class="card-meta" style="margin-top:4px">${esc(d.genero)}</div>` : ''}
+      ${sinopse}
+      <div class="card-actions">
+        <button class="btn-action visto" data-acao="visto" onclick="acaoFita(this)">✓ JÁ ASSISTI</button>
+        <button class="btn-action ngostei" data-acao="nao_curti" onclick="acaoFita(this)">✗ NÃO CURTI</button>
+      </div>
+      ${fonte}
+    </details>
+  </div>`.replace(/\n\s*/g, ''); // sem quebras: o fmt() transformaria cada \n em <br> dentro do card
 }
 
 // Renderiza markdown da Val em HTML
@@ -322,6 +426,8 @@ function fmt(s) {
   out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   out = out.replace(/\[(.+?)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
   out = out.replace(/\n/g, '<br>');
+  // tira os pulos de linha em volta dos cards (deixava buraco entre um card e outro)
+  out = out.replace(/(?:<br>)+(<div class="card-fita)/g, '$1').replace(/(<\/details><\/div>)(?:<br>)+/g, '$1');
   return out;
 }
 
@@ -400,8 +506,30 @@ function pickPlat(btn, name) {
     msg = `Anotado: vou olhar em <strong>${lista}</strong>. 📼`;
   }
   bubble('clerk', msg, true);
+  atualizarResumoStreamings();
+  try { localStorage.setItem('vhs_plats_v1', JSON.stringify(activePlatforms)); } catch {}
 }
 window.pickPlat = pickPlat;
+
+function atualizarResumoStreamings() {
+  const el = document.getElementById('streamings-resumo');
+  if (!el) return;
+  el.textContent = activePlatforms[0] === 'Todos' ? 'TODOS'
+    : activePlatforms.length === 1 ? activePlatforms[0].toUpperCase()
+    : `${activePlatforms.length} SELECIONADOS`;
+}
+function toggleStreamings() { document.getElementById('shelf').classList.toggle('aberta'); }
+window.toggleStreamings = toggleStreamings;
+
+// Restaura os streamings escolhidos da última visita
+function restaurarStreamings() {
+  let salvos = null;
+  try { salvos = JSON.parse(localStorage.getItem('vhs_plats_v1')); } catch {}
+  if (!Array.isArray(salvos) || !salvos.length || salvos[0] === 'Todos') return;
+  document.querySelectorAll('.plat').forEach((p) => { p.dataset.on = salvos.includes(p.dataset.name) ? '1' : '0'; });
+  activePlatforms = salvos;
+  atualizarResumoStreamings();
+}
 
 // ===== Send =====
 async function send() {
@@ -409,6 +537,7 @@ async function send() {
   if (!text) return;
   input.value = '';
   sendBtn.disabled = true;
+  document.querySelectorAll('.chips-iniciais').forEach((b) => b.remove());
   bubble('me', text);
   conversa.push({ role: 'user', content: text });
   const t = typing();
@@ -467,7 +596,7 @@ async function acaoFita(btn) {
   const plataforma = card.dataset.plat;
   const ano = card.dataset.ano;
   const acao = btn.dataset.acao;
-  const originais = { salvar: '+ ASSISTIR DEPOIS', visto: '✓ JÁ ASSISTI', nao_curti: '✗ NÃO CURTI' };
+  const originais = { salvar: '+ DEPOIS', visto: '✓ JÁ ASSISTI', nao_curti: '✗ NÃO CURTI' };
   btn.disabled = true;
   const txtAntes = btn.textContent;
   btn.textContent = '...';
@@ -500,9 +629,10 @@ window.acaoFita = acaoFita;
 // Clique numa chip = manda o texto da chip como sua próxima mensagem
 function enviarChip(btn) {
   const texto = btn.textContent.trim();
-  // Remove as chips daquela rodada (já era)
+  // Remove as chips daquela rodada (já era) — inclusive as iniciais
   const bloco = btn.closest('.chips-bloco');
   if (bloco) bloco.remove();
+  document.querySelectorAll('.chips-iniciais').forEach((b) => b.remove());
   input.value = texto;
   send();
 }
