@@ -478,6 +478,8 @@ async function enriquecerFilme(movieId) {
 async function enriquecerResposta(texto, plats = [], idsPermitidos = null, validados = [], criterios = {}) {
   // 0a) Corta bordão de robô no começo da resposta ("Boa escolha.", "Ótima escolha!", "Perfeito!")
   texto = texto.replace(/^\s*(?:boa|ótima|excelente)\s+escolha[.!]*\s*|^\s*perfeito[.!]+\s*/i, "");
+  // 0b) O site já apresenta a Val: corta "E aí, tudo certo? Sou a Val, do VHS Club." no começo
+  texto = texto.replace(/^\s*(?:(?:e a[íi]|oi|ol[áa]|opa)[^.!?\n]{0,40}[.!?]\s*)?(?:(?:aqui (?:[ée] )?a|sou a) val[^.!?\n]{0,60}[.!?]\s*)/i, "");
   // 0) Remove auto-flagelo e "vamos zerar" no início da resposta — herança de sessões antigas
   let txt = texto.replace(
     /^[ \t]*(?:e a[íi]!?\s*)?(?:como\s+a\s+gente\s+deu\s+umas?\s+voltas?\s+errad[ao]s?[^.]*\.|vamos zerar[^.]*\.|esquece o que passou\.|olha[, ]+sinto muito[^.]*\.|vamos corrigir[^.]*\.|vacilo meu[, ]+desculpa\.|tem raz[ãa]o[, ]+vacilei[^.]*\.)\s*/i,
@@ -1036,6 +1038,21 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
 /* ---------- servidor ---------- */
 const app = express();
 app.use(express.json());
+// Dados reais (pôster, nota, duração, plataformas) pra demonstração animada da página inicial.
+// Não usa o Gemini — só TMDB/OMDb, com cache.
+app.get("/api/demo", async (req, res) => {
+  try {
+    const ids = String(req.query.ids || "").split(",").map(Number).filter((n) => n > 0).slice(0, 6);
+    const filmes = (await Promise.all(ids.map((id) => enriquecerFilme(id)))).filter(Boolean)
+      .map((d) => ({ id: d.id, titulo: d.titulo, ano: d.ano, capa: d.capa, notaImdb: d.notaImdb, nota: d.nota,
+        duracao: d.duracao, classificacao: d.classificacao, plataformas: d.plataformas }));
+    res.set("Cache-Control", "public, max-age=3600").json({ filmes });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ filmes: [] });
+  }
+});
+
 // Rota /chat serve a aplicação principal (chat com a Val)
 app.get("/chat", (_req, res) => res.sendFile("chat.html", { root: "public" }));
 

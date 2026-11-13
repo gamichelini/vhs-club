@@ -271,6 +271,7 @@ let watchlistLocal = lerLS(LS_FITAS, []); // [{movie_id, titulo, capa, plataform
 function init() {
   atualizarContador();
   restaurarStreamings();
+  if (!escolheuStreamings()) document.getElementById('shelf').classList.add('aberta');
   const q = new URLSearchParams(location.search).get('q');
   mostrarBoasVindas(!q);
   if (q) {
@@ -299,16 +300,17 @@ function mostrarChipsIniciais() {
 // ===== Boas-vindas =====
 function mostrarBoasVindas(comChips = true) {
   setTimeout(() => { if (comChips) mostrarChipsIniciais(); }, 0);
+  const convite = comChips ? "\n\nTá sem ideia? Vê se alguma dessas te pega:" : "";
   const novo = (watchlistLocal.length === 0 && lerLS(LS_PEDIDOS, []).length === 0);
   if (novo) {
     bubble('clerk',
       "E aí, tudo bem? Sou a **Val**, aqui do balcão do VHS Club. 📼\n\n" +
-      "Tá a fim de assistir o quê hoje? Não precisa saber o nome do filme: me conta o tema, o clima ou um filme que você curtiu.\n\nTá sem ideia? Vê se alguma dessas te pega:",
+      "Tá a fim de assistir o quê hoje? Não precisa saber o nome do filme: me conta o tema, o clima ou um filme que você curtiu." + convite,
       true
     );
   } else {
     bubble('clerk',
-      "Olha quem voltou! 📼 Tá a fim de assistir o quê hoje? Me conta o tema, o clima ou um filme que você curtiu.\n\nTá sem ideia? Vê se alguma dessas te pega:",
+      "Olha quem voltou! 📼 Tá a fim de assistir o quê hoje? Me conta o tema, o clima ou um filme que você curtiu." + convite,
       true
     );
   }
@@ -505,7 +507,7 @@ function pickPlat(btn, name) {
       : activePlatforms.slice(0, -1).join(', ') + ' e ' + activePlatforms[activePlatforms.length - 1];
     msg = `Anotado: vou olhar em <strong>${lista}</strong>. 📼`;
   }
-  bubble('clerk', msg, true);
+  if (!pedidoPendente) bubble('clerk', msg, true); // escolhendo antes da 1ª busca: sem "Anotado" a cada clique
   atualizarResumoStreamings();
   try { localStorage.setItem('vhs_plats_v1', JSON.stringify(activePlatforms)); } catch {}
 }
@@ -531,14 +533,40 @@ function restaurarStreamings() {
   atualizarResumoStreamings();
 }
 
+// ===== Streamings antes da 1ª busca =====
+// Sem saber o que a pessoa assina, a busca não faz sentido: segura o pedido e pergunta primeiro.
+let pedidoPendente = null;
+function escolheuStreamings() { try { return !!localStorage.getItem('vhs_plats_v1'); } catch { return true; } }
+function pedirStreamings(texto) {
+  pedidoPendente = texto;
+  document.getElementById('shelf').classList.add('aberta');
+  const d = bubble('clerk', "Antes de eu procurar: quais streamings você assina? Marca ali em cima (ou deixa <strong>TODOS</strong>) e clica em pronto.", true);
+  d.querySelector('.body').insertAdjacentHTML('beforeend', '<div style="margin-top:8px"><button class="chip" onclick="confirmarStreamings(this)">✓ PRONTO, PODE PROCURAR</button></div>');
+}
+function confirmarStreamings(btn) {
+  try { localStorage.setItem('vhs_plats_v1', JSON.stringify(activePlatforms)); } catch {}
+  document.getElementById('shelf').classList.remove('aberta');
+  if (btn) btn.parentElement.remove();
+  if (pedidoPendente) { input.value = pedidoPendente; pedidoPendente = null; send.__semBolha = true; send(); }
+}
+window.confirmarStreamings = confirmarStreamings;
+
 // ===== Send =====
 async function send() {
   const text = input.value.trim();
   if (!text) return;
+  if (!escolheuStreamings()) {
+    input.value = '';
+    bubble('me', text);
+    document.querySelectorAll('.chips-iniciais').forEach((b) => b.remove());
+    pedirStreamings(text);
+    return;
+  }
   input.value = '';
   sendBtn.disabled = true;
   document.querySelectorAll('.chips-iniciais').forEach((b) => b.remove());
-  bubble('me', text);
+  if (!send.__semBolha) bubble('me', text);
+  send.__semBolha = false;
   conversa.push({ role: 'user', content: text });
   const t = typing();
   try {

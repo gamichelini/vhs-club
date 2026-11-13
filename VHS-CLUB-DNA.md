@@ -187,6 +187,8 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
    - **Celular/leitura:** cabeçalho compacto, streamings recolhidos em "MEUS STREAMINGS · N SELECIONADOS" (lembra a escolha), texto em IBM Plex Sans (retrô só no logo/títulos/botões), textura de TV mais leve e atrás do texto.
    - **Primeira tela:** sugestões clicáveis (banco em `public/sugestoes.js`, 3 por rodada — 1 tema fácil + 1 combinação inesperada + 1 momento da pessoa — com "↻ outras ideias").
    - **Página inicial nova:** "Tá a fim de assistir o quê hoje?", sugestões rotativas, campo livre (manda direto pro chat via `/chat?q=`), exemplo de conversa (ET), e só 3 seções: Quem é a Val, O que pedir (prateleiras da Val), Onde ela procura.
+   - **(13/11, pedido do Gabriel) Home sem caixa de texto:** só "FALAR COM A VAL" + sugestões — buscar sem saber os streamings não faz sentido. No chat, a 1ª busca só sai depois de escolher os streamings (o pedido fica guardado; botão "PRONTO, PODE PROCURAR"). A escolha fica salva no navegador.
+   - **Demonstração animada na home:** réplica da tela do chat que marca streamings, digita o pedido e mostra cards com dados REAIS (pôster/nota/duração/plataforma via `/api/demo`, sem gastar Gemini). 3 cenas em loop: ET, infância, comédia. As falas da Val na demo são roteiro.
    - **Achado:** o `gemini-3-flash` grátis tem limite de **20 pedidos/dia** (cada resposta da Val gasta 3-5). Com a cota estourada, cai nos modelos lite (respostas vazias às vezes → servidor pede de novo 1x).
 
 ---

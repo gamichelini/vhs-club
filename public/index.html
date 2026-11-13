@@ -43,11 +43,6 @@
   .sug:hover{background:var(--bb-yellow);transform:translate(-1px,-1px)}
   .sug:active{transform:translate(4px,4px);box-shadow:none}
   .outras{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;background:none;border:none;color:var(--bb-yellow);text-decoration:underline;padding:4px 0;margin-bottom:22px}
-  .hero-form{display:flex;gap:8px;flex-wrap:wrap;max-width:560px}
-  .hero-form input{flex:1;min-width:200px;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;background:#fff;border:3px solid var(--ink);padding:12px 14px;color:var(--ink);outline:none}
-  .hero-form input:focus{box-shadow:0 0 0 3px var(--bb-yellow)}
-  .hero-form button{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;cursor:pointer;background:var(--red);color:#fff;border:3px solid var(--ink);padding:10px 18px;box-shadow:4px 4px 0 var(--ink)}
-  .hero-form button:active{transform:translate(4px,4px);box-shadow:none}
 
   /* exemplo de conversa */
   .demo{background:var(--bb-blue-deep);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -91,6 +86,41 @@
   .cta-big{display:inline-block;font-family:'Anton',sans-serif;font-size:24px;letter-spacing:1px;background:var(--red);color:#fff;border:4px solid var(--ink);padding:14px 32px;text-decoration:none;box-shadow:6px 6px 0 var(--ink);margin-top:30px}
   .centro{text-align:center}
 
+  /* ===== DEMONSTRAÇÃO ANIMADA (réplica do chat) ===== */
+  .demo-wrap{display:flex;flex-direction:column;gap:8px}
+  .demo-rotulo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:var(--bb-yellow);opacity:.85}
+  .tela{background:var(--bb-blue-deep);border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);height:520px;display:flex;flex-direction:column;overflow:hidden}
+  .tela-topo{background:var(--bb-yellow);border-bottom:4px solid var(--ink);padding:6px 10px;display:flex;align-items:center;gap:8px}
+  .tela-logo{background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:15px;padding:1px 8px;border:2px solid var(--ink);transform:skewX(-7deg)}
+  .tela-tag{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:1px;color:var(--ink)}
+  .tela-plats{display:flex;flex-wrap:wrap;gap:5px;padding:8px 10px 4px}
+  .tp{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.5px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:2px 7px;transition:all .2s}
+  .tp.on{color:#fff;transform:translate(1px,1px)}
+  .tp.on.netflix{background:#e50914}.tp.on.hbo{background:#7e2fd6}.tp.on.prime{background:#00a8e1}.tp.on.disney{background:#113cd1}.tp.on.apple{background:#1a1a1a}
+  .tp.pisca{outline:3px solid var(--bb-yellow)}
+  .tela-chat{flex:1;overflow:hidden;padding:8px 10px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+  .tb{max-width:90%;font-size:13px;line-height:1.4;padding:7px 9px;border:2px solid var(--ink);box-shadow:2px 2px 0 rgba(0,0,0,.4);animation:entra .3s ease-out}
+  @keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .tb.voce{align-self:flex-end;background:var(--bb-blue);color:#fff}
+  .tb.val{align-self:flex-start;background:var(--paper);color:var(--ink);border-left:6px solid var(--bb-blue)}
+  .tb.val.pensando{font-style:italic;opacity:.8}
+  .tc{display:flex;gap:7px;background:#fff;border:2px solid var(--ink);padding:5px;margin-top:5px;animation:entra .3s ease-out}
+  .tc img{width:38px;height:57px;object-fit:cover;border:2px solid var(--ink);flex-shrink:0;background:var(--bb-blue)}
+  .tc b{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:13px;letter-spacing:.3px;line-height:1.1}
+  .tc .bd{display:flex;flex-wrap:wrap;gap:3px;margin:3px 0}
+  .tc .bd span{font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:.5px;border:1.5px solid var(--ink);padding:0 4px;line-height:1.4}
+  .tc .bd .n{background:var(--bb-yellow)}
+  .tc .bd .pl{color:#fff;background:#1a1a1a}.tc .bd .pl.netflix{background:#e50914}.tc .bd .pl.hbo{background:#7e2fd6}.tc .bd .pl.disney{background:#113cd1}.tc .bd .pl.prime{background:#00a8e1}
+  .tc i{font-style:normal;font-size:11.5px;line-height:1.35;font-weight:600;display:block}
+  .tela-input{display:flex;gap:6px;border-top:3px solid var(--bb-yellow);padding:7px 10px;background:var(--bb-blue-deep)}
+  .tela-campo{flex:1;background:var(--paper);border:2px solid var(--ink);padding:6px 8px;font-size:13px;color:#777;min-height:32px;white-space:nowrap;overflow:hidden}
+  .tela-campo.escrevendo{color:var(--ink)}
+  .tela-campo.escrevendo::after{content:"|";animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .tela-pegar{font-family:'Anton',sans-serif;font-size:14px;background:var(--red);color:#fff;border:2px solid var(--ink);padding:5px 10px;transition:transform .1s}
+  .tela-pegar.apertou{transform:translate(2px,2px)}
+  @media (max-width:600px){ .tela{height:480px;box-shadow:6px 6px 0 var(--ink)} }
+
   footer{padding:26px 20px;text-align:center;border-top:3px solid var(--ink);background:var(--ink);color:var(--bb-yellow)}
   footer p{font-size:14px;line-height:1.6;opacity:.8}
 
@@ -121,22 +151,17 @@
         <div class="sem-ideia">TÁ SEM IDEIA? VÊ SE ALGUMA DESSAS TE PEGA:</div>
         <div class="sugestoes" id="sugestoes"></div>
         <button class="outras" onclick="novasSugestoes()">↻ Me dá outras ideias</button>
-
-        <form class="hero-form" action="/chat" method="get">
-          <input name="q" maxlength="300" autocomplete="off" placeholder="Ou escreve do seu jeito…" aria-label="O que você quer assistir?" />
-          <button type="submit">FALAR COM A VAL</button>
-        </form>
+        <div><a href="/chat" class="cta-big">▶ FALAR COM A VAL</a></div>
       </div>
 
-      <div class="demo" aria-label="Exemplo de conversa com a Val">
-        <div class="demo-rotulo">★ EXEMPLO DE CONVERSA</div>
-        <div class="bal voce"><span class="quem">VOCÊ</span>Quero um filme de ET</div>
-        <div class="bal val"><span class="quem">VAL</span>Separei vários, do contato misterioso à invasão com pipoca. Uns deles:
-          <div class="mini"><b>A Chegada</b><span>HBO MAX · ★ 7.9</span></div>
-          <div class="mini"><b>Distrito 9</b><span>HBO MAX · ★ 7.9</span></div>
-          <div class="mini"><b>Super 8</b><span>NETFLIX · ★ 7.0</span></div>
+      <div class="demo-wrap">
+        <div class="demo-rotulo">★ ASSIM FUNCIONA · DEMONSTRAÇÃO</div>
+        <div class="tela" id="tela" aria-label="Demonstração animada do chat com a Val">
+          <div class="tela-topo"><span class="tela-logo">VHS CLUB</span><span class="tela-tag">ACHE O FILME CERTO</span></div>
+          <div class="tela-plats" id="tela-plats"></div>
+          <div class="tela-chat" id="tela-chat"></div>
+          <div class="tela-input"><span id="tela-digitando" class="tela-campo">Pergunta pra Val…</span><span class="tela-pegar" id="tela-pegar">PEGAR</span></div>
         </div>
-        <div class="bal val"><span class="quem">VAL</span>Pra eu afinar: você quer mais mistério ou mais ação?</div>
       </div>
     </div>
   </section>
@@ -195,6 +220,88 @@
   novasSugestoes();
   document.getElementById("prateleiras").innerHTML = window.VHS_SUGESTOES.PRATELEIRAS.slice(0, 6)
     .map((p) => `<a class="prat" href="${linkChat(p.pedido)}"><span class="etiqueta">PRATELEIRA DA VAL</span><h3>${esc(p.nome)}</h3><span class="abrir">▶ ABRIR ESSA PRATELEIRA</span></a>`).join("");
+
+  /* ===== Demonstração animada: réplica da tela do chat, com dados REAIS dos filmes (/api/demo).
+     Não chama a Val (Gemini) — as falas são roteiro de exemplo. */
+  const PLATS = [["Netflix","netflix"],["HBO Max","hbo"],["Prime Video","prime"],["Disney+","disney"],["Apple TV+","apple"]];
+  const CENAS = [
+    { plats: ["Netflix", "HBO Max"], pedido: "Quero um filme de ET",
+      abre: "Separei vários, do contato misterioso à invasão com pipoca. Uns deles:",
+      filmes: [[329865, "Você sai dele repensando como fala com as pessoas."], [17654, "Começa como documentário e vira uma porrada sobre preconceito."], [37686, "Spielberg raiz: molecada, bicicleta e algo estranho na cidade."]],
+      fecha: "Pra eu afinar: você quer mais mistério ou mais ação?" },
+    { plats: ["Disney+", "HBO Max"], pedido: "Quero filmes que me lembrem da infância",
+      abre: "Sessão da Tarde liberada. Olha o que tem nas suas assinaturas:",
+      filmes: [[771, "Natal, armadilha caseira e aquele grito no espelho."], [8844, "O tabuleiro que todo mundo tinha medo de jogar."], [862, "O começo de tudo — e ainda funciona com qualquer idade."]],
+      fecha: "Quer mais anos 80 ou mais anos 90?" },
+    { plats: ["HBO Max"], pedido: "Uma comédia pra desligar a cabeça",
+      abre: "Desliga o cérebro e aperta o play:",
+      filmes: [[18785, "Ninguém lembra da noite anterior — e você vai rir de tudo."], [8363, "Dois amigos, uma festa e todos os planos dando errado."], [12153, "Exagerado do começo ao fim, do jeito que tem que ser."]],
+      fecha: "Se fosse eu, hoje ia de Se Beber, Não Case! — risada garantida sem pensar em nada." },
+  ];
+  const dorme = (ms) => new Promise((r) => setTimeout(r, ms));
+  const telaChat = document.getElementById("tela-chat");
+  const campo = document.getElementById("tela-digitando");
+  const pegar = document.getElementById("tela-pegar");
+  const platsEl = document.getElementById("tela-plats");
+  let dadosFilmes = {};
+
+  function bolha(cls, html) {
+    const d = document.createElement("div");
+    d.className = "tb " + cls; d.innerHTML = html;
+    telaChat.appendChild(d); telaChat.scrollTop = telaChat.scrollHeight;
+    return d;
+  }
+  function durFmt(m) { if (!m) return ""; const h = Math.floor(m / 60), r = m % 60; return h ? h + "h" + (r ? String(r).padStart(2, "0") : "") : r + "min"; }
+  function miniCard(id, frase, platsCena) {
+    const f = dadosFilmes[id]; if (!f) return "";
+    const nota = f.notaImdb ?? f.nota;
+    const plat = (f.plataformas || []).find((p) => platsCena.includes(p)) || (f.plataformas || [])[0] || "";
+    const cls = (PLATS.find((x) => x[0] === plat) || [, ""])[1];
+    return `<div class="tc">${f.capa ? `<img src="${f.capa}" alt="">` : "<img alt=''>"}<div><b>${esc(f.titulo)}</b><div class="bd">${nota ? `<span class="n">★ ${Number(nota).toFixed(1)} ${f.notaImdb ? "IMDb" : "TMDB"}</span>` : ""}${f.duracao ? `<span>⏱ ${durFmt(f.duracao)}</span>` : ""}${plat ? `<span class="pl ${cls}">${esc(plat)}</span>` : ""}</div><i>${esc(frase)}</i></div></div>`;
+  }
+
+  async function rodarCena(c) {
+    telaChat.innerHTML = "";
+    platsEl.innerHTML = PLATS.map(([n, cls]) => `<span class="tp ${cls}" data-n="${n}">${n.toUpperCase()}</span>`).join("");
+    campo.textContent = "Pergunta pra Val…"; campo.classList.remove("escrevendo");
+    bolha("val", "Tá a fim de assistir o quê hoje? Antes, marca aí os streamings que você assina 👆");
+    await dorme(1200);
+    for (const n of c.plats) {               // marca os streamings
+      const el = platsEl.querySelector(`[data-n="${n}"]`);
+      el.classList.add("pisca"); await dorme(350); el.classList.add("on"); el.classList.remove("pisca"); await dorme(350);
+    }
+    await dorme(500);
+    campo.classList.add("escrevendo"); campo.textContent = "";
+    for (const ch of c.pedido) { campo.textContent += ch; await dorme(55); }   // digita
+    await dorme(400);
+    pegar.classList.add("apertou"); await dorme(150); pegar.classList.remove("apertou");
+    campo.classList.remove("escrevendo"); campo.textContent = "Pergunta pra Val…";
+    bolha("voce", esc(c.pedido));
+    const pensando = bolha("val pensando", "conferindo a prateleira de hoje…");
+    await dorme(1600);
+    pensando.remove();
+    const resp = bolha("val", esc(c.abre));
+    for (const [id, frase] of c.filmes) {     // cards aparecendo
+      await dorme(500);
+      resp.insertAdjacentHTML("beforeend", miniCard(id, frase, c.plats));
+      telaChat.scrollTop = telaChat.scrollHeight;
+    }
+    await dorme(900);
+    bolha("val", esc(c.fecha));
+    await dorme(4500);
+  }
+
+  async function demo() {
+    const ids = CENAS.flatMap((c) => c.filmes.map((f) => f[0]));
+    try {
+      for (let k = 0; k < ids.length; k += 6) {
+        const r = await fetch("/api/demo?ids=" + ids.slice(k, k + 6).join(",")).then((x) => x.json());
+        for (const f of r.filmes || []) dadosFilmes[f.id] = f;
+      }
+    } catch {}
+    for (let i = 0; ; i = (i + 1) % CENAS.length) await rodarCena(CENAS[i]);
+  }
+  demo();
 </script>
 </body>
 </html>
