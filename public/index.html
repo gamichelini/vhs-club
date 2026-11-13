@@ -65,10 +65,10 @@
   .sub-secao{font-size:clamp(16px,1.5vw,19px);line-height:1.5;text-align:center;margin:0 auto 36px;max-width:640px;opacity:.9}
 
   /* quem é a Val */
-  .val-card{max-width:680px;margin:0 auto;background:var(--bb-blue);color:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:20px;font-size:17px;line-height:1.55;display:flex;gap:20px;align-items:center}
-  .val-retrato{width:140px;flex-shrink:0;border:4px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transform:rotate(-2deg);background:var(--bb-blue)}
+  .val-card{max-width:860px;margin:0 auto;background:var(--bb-blue);color:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:20px;font-size:18px;line-height:1.55;display:flex;gap:26px;align-items:center}
+  .val-retrato{width:340px;max-width:45%;height:auto;flex-shrink:0;border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink);transform:rotate(-1.5deg);display:block}
   .val-nome{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--bb-yellow);margin-bottom:6px}
-  @media (max-width:600px){ .val-card{flex-direction:column;text-align:center} .val-retrato{width:120px} }
+  @media (max-width:600px){ .val-card{flex-direction:column;text-align:center} .val-retrato{width:100%;max-width:340px} }
   .val-card p+p{margin-top:12px}
   .val-card em{color:var(--bb-yellow);font-style:normal;font-weight:600}
 
@@ -175,23 +175,7 @@
     <div class="container">
       <h2 class="titulo-secao">QUEM É A VAL</h2>
       <div class="val-card">
-        <svg class="val-retrato" viewBox="0 0 160 190" role="img" aria-label="Retrato ilustrado da Val, atendente do VHS Club">
-          <rect width="160" height="190" fill="#0a2a8c"/>
-          <g opacity=".18" fill="#ffc20e"><rect x="8" y="14" width="34" height="10"/><rect x="8" y="30" width="34" height="10"/><rect x="118" y="14" width="34" height="10"/><rect x="118" y="30" width="34" height="10"/><rect x="118" y="46" width="34" height="10"/></g>
-          <path d="M28 190c2-34 22-52 52-52s50 18 52 52z" fill="#d4341f" stroke="#1a1205" stroke-width="4"/>
-          <path d="M62 140l18 22 18-22" fill="#f4ead2" stroke="#1a1205" stroke-width="4" stroke-linejoin="round"/>
-          <rect x="88" y="160" width="30" height="14" fill="#ffc20e" stroke="#1a1205" stroke-width="3"/>
-          <text x="103" y="171" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="11" fill="#1a1205">VAL</text>
-          <rect x="70" y="118" width="20" height="22" fill="#c98b5f" stroke="#1a1205" stroke-width="4"/>
-          <path d="M36 86c-2-40 18-62 44-62s46 22 44 62c-1 22-8 40-14 46-6-14-6-30-6-30H56s0 16-6 30c-6-6-13-24-14-46z" fill="#1a1205"/>
-          <ellipse cx="80" cy="88" rx="30" ry="36" fill="#d99a6c" stroke="#1a1205" stroke-width="4"/>
-          <path d="M50 76c6-22 24-30 44-24 10 3 16 12 16 24-14-8-34-10-60 0z" fill="#1a1205"/>
-          <circle cx="68" cy="88" r="9" fill="none" stroke="#1a1205" stroke-width="3.5"/><circle cx="92" cy="88" r="9" fill="none" stroke="#1a1205" stroke-width="3.5"/>
-          <path d="M77 88h6" stroke="#1a1205" stroke-width="3.5"/>
-          <circle cx="68" cy="89" r="2.5" fill="#1a1205"/><circle cx="92" cy="89" r="2.5" fill="#1a1205"/>
-          <path d="M70 106c6 5 14 5 20-1" fill="none" stroke="#1a1205" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M60 74l12-3M88 71l12 3" stroke="#1a1205" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+        <img class="val-retrato" src="/val-balcao.jpg" width="900" height="900" loading="lazy" alt="Ilustração da Val, atendente do VHS Club, sorrindo atrás do balcão da locadora com uma fita na mão">
         <div>
           <div class="val-nome">VAL · BALCÃO DO VHS CLUB</div>
           <p>Passei anos atrás do balcão de uma locadora. Hoje eu atendo numa tela, mas o trabalho é o mesmo: <em>achar o filme certo pra você assistir agora</em>.</p>
