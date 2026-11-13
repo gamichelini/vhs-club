@@ -38,3 +38,7 @@ do `server.js` e roda contra as APIs reais (foi assim que o prompt foi calibrado
 - Deploy: Render (auto-deploy do `main` no GitHub `gamichelini/vhs-club`). Esta pasta ganhou git
   local em 12/11/2026 e ainda NÃO está ligada ao remoto — conferir antes de dar push.
 - No Render, cadastrar `OMDB_KEY` nas Environment Variables.
+
+## Próximos passos combinados
+- **Radar via TikTok (Apify)** — aprovado, aplicar depois. Plano completo em `VHS-CLUB-DNA.md` ("Próximo: Radar via TikTok").
+- Publicar no ar (GitHub → Render) quando o Gabriel disser "pode publicar".

@@ -195,6 +195,30 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
 
 ---
 
+### Próximo: Radar via TikTok (aprovado pelo Gabriel em 12/11/2026, aplicar depois)
+
+Objetivo: a Val saber o que o brasileiro tá REALMENTE comentando de filme (burburinho de gente, não ranking).
+
+**Por que TikTok:** é onde o BR fala de filme hoje ("dica de filme", "filme que me destruiu"). Alternativas descartadas:
+- X/Twitter: API paga e cara.
+- Reddit: criar app exige aprovação (Responsible Builder Policy) — tentado em 12/11, bloqueado.
+- Letterboxd: bloqueia robô (403).
+- YouTube: pouca gente usa pra decidir filme (Gabriel vetou). Obs.: a chave do Gemini (AI Studio) NÃO funciona na YouTube API.
+- Top 10 Netflix: Gabriel vetou ("isso eu abro e vejo").
+
+**Como vai funcionar:**
+1. 1x/dia o Radar roda o scraper de TikTok do **Apify** (Gabriel já usa no projeto da Advocacia) nas hashtags #dicadefilme, #filmenetflix, #filmeprime, #filmeshbomax (pegar os mais vistos da semana, ~100-200 vídeos).
+2. Gemini lê as legendas e extrai quais filmes estão sendo indicados (+ o que estão falando).
+3. Cada título é conferido na TMDB (ano ±1, só nas 5 plataformas) — mesma validação do buzz atual (`filmeDoBuzz` no `server.js`).
+4. Selo no card: **🔥 BOMBANDO NO TIKTOK**; a Val pode dizer "esse tá rodando muito no TikTok essa semana".
+
+**Pendências pra aplicar:**
+- Token do Apify (`APIFY_TOKEN`): pedir autorização ao Gabriel pra copiar do `.env` do projeto da Advocacia (`~/Documents/MARKETING/ADVOCACIA/IA/NOVAIA`) — ou ele cola um novo.
+- Calcular e mostrar o custo mensal exato do actor no Apify ANTES de ligar (estimativa: poucos dólares/mês).
+- Cadastrar `APIFY_TOKEN` também no Render.
+
+---
+
 ## 13. Filosofia
 
 Esta linha é o resumo do projeto inteiro:
