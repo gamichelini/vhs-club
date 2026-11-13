@@ -269,8 +269,22 @@
 // Sem login: lista de fitas, notas e pedidos anteriores ficam salvos NESTE navegador (localStorage).
 const LS_FITAS = 'vhs_fitas_v1';
 const LS_PEDIDOS = 'vhs_pedidos_v1';
+const LS_SESSAO = 'vhs_sessao_v1';
 function lerLS(k, padrao) { try { return JSON.parse(localStorage.getItem(k)) ?? padrao; } catch { return padrao; } }
 function gravarLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+// ID anônimo deste navegador — gerado uma vez, sem cookie, sem login.
+// Serve só pra agrupar perguntas da mesma pessoa no painel admin.
+function idSessaoAnonimo() {
+  let id = null;
+  try { id = localStorage.getItem(LS_SESSAO); } catch {}
+  if (!id) {
+    id = (crypto.randomUUID && crypto.randomUUID()) || ('s_' + Math.random().toString(36).slice(2) + Date.now().toString(36));
+    try { localStorage.setItem(LS_SESSAO, id); } catch {}
+  }
+  return id;
+}
+const sessaoId = idSessaoAnonimo();
 
 const chat = document.getElementById('chat');
 const input = document.getElementById('input');
@@ -644,7 +658,7 @@ async function send() {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "text/event-stream" },
-      body: JSON.stringify({ messages: conversa, plataformas: activePlatforms, watchlist: watchlistLocal, pedidosAnteriores }),
+      body: JSON.stringify({ messages: conversa, plataformas: activePlatforms, watchlist: watchlistLocal, pedidosAnteriores, sessaoId }),
       signal: ctrl.signal,
     });
     gravarLS(LS_PEDIDOS, [...pedidosAnteriores.filter((p) => p !== text), text].slice(-15));

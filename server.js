@@ -12,10 +12,21 @@
 
 import express from "express";
 import { readFileSync } from "node:fs";
+import { createClient } from "@supabase/supabase-js";
 
 const TMDB_KEY = process.env.TMDB_KEY;
 const GEMINI_KEY = process.env.GEMINI_KEY;
 const OMDB_KEY = process.env.OMDB_KEY; // opcional: nota IMDb nos cards (sem ela, usa nota TMDB)
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
+const ADMIN_SENHA = process.env.ADMIN_SENHA;
+
+// Centro de inteligência: toda pergunta que chega é salva (anônima) pra alimentar o aprendizado da Val.
+// Se as chaves não existirem, o site continua funcionando normal — só não salva.
+const supabase = SUPABASE_URL && SUPABASE_SECRET_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_SECRET_KEY, { auth: { persistSession: false } })
+  : null;
+if (!supabase) console.warn("[captura] Supabase off — SUPABASE_URL/SUPABASE_SECRET_KEY ausentes. Perguntas não serão salvas.");
 const REGIAO = "BR";
 // Cascata de modelos: tenta o melhor primeiro, cai pra alternativas em caso de overload.
 // O 1º é o mais "esperto" (mais disputado), o último é o mais estável (menos sobrecarga).
@@ -1273,9 +1284,19 @@ function resumirContextoUsuario(historico, watchlist) {
   return linhas.join("\n");
 }
 
+async function salvarPergunta(linha) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from("perguntas").insert(linha);
+    if (error) console.warn("[captura] falha ao salvar pergunta:", error.message);
+  } catch (e) {
+    console.warn("[captura] erro ao salvar pergunta:", e?.message || e);
+  }
+}
+
 app.post("/api/chat", async (req, res) => {
   try {
-    const { messages, plataformas, plataforma, watchlist, pedidosAnteriores } = req.body || {};
+    const { messages, plataformas, plataforma, watchlist, pedidosAnteriores, sessaoId } = req.body || {};
     let plats = Array.isArray(plataformas) ? plataformas : (plataformas ? [plataformas] : (plataforma ? [plataforma] : ["Todos"]));
     // "TODOS" = as 5 plataformas da prateleira (nada de Claro tv+, Looke etc. — o site só oferece essas 5)
     if (!plats.length || plats.includes("Todos")) plats = PRATELEIRA;
@@ -1323,12 +1344,104 @@ app.post("/api/chat", async (req, res) => {
     onEtapa("Buscando pôsteres, notas e trailers…");
     const reply = await enriquecerResposta(r.texto, plats, r.idsConfirmados, r.validados, criterios);
     clearInterval(pulso);
+
+    // Captura pro centro de inteligência (background, nunca atrasa a resposta).
+    const ultimoUser = [...sessao].reverse().find((m) => m.role === "user")?.content || "";
+    salvarPergunta({
+      sessao_id: typeof sessaoId === "string" ? sessaoId.slice(0, 64) : null,
+      pedido_bruto: ultimoUser.slice(0, 2000),
+      streamings: Array.isArray(plats) ? plats.slice(0, 20) : [],
+      resposta_val: { texto: String(reply || "").slice(0, 8000), ids: [...(r.idsConfirmados || [])].slice(0, 50) },
+      tema_casado: achado?.tema?.id ?? null,
+    });
+
     if (aoVivo) { enviar({ reply }); return res.end(); }
     res.json({ reply });
   } catch (e) {
     console.error(e);
     if (res.headersSent) { try { res.write(`data: ${JSON.stringify({ erro: "Deu ruído na fita aqui no servidor." })}\n\n`); res.end(); } catch {} return; }
     res.status(500).json({ erro: "Deu ruído na fita aqui no servidor." });
+  }
+});
+
+/* ---------- Painel /admin (centro de inteligência) ---------- */
+function escapar(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function paginaLogin(erro = "") {
+  return `<!doctype html><meta charset="utf-8"><title>Admin · VHS Club</title>
+<style>body{font-family:system-ui;background:#1a1a1a;color:#eee;display:grid;place-items:center;min-height:100vh;margin:0}
+form{background:#262626;padding:32px;border-radius:12px;min-width:280px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+h1{margin:0 0 20px;font-size:18px;letter-spacing:.1em}input{width:100%;padding:12px;background:#111;border:1px solid #444;color:#eee;border-radius:6px;font-size:14px;box-sizing:border-box}
+button{width:100%;padding:12px;margin-top:12px;background:#ff8c00;border:0;color:#111;font-weight:700;border-radius:6px;cursor:pointer;font-size:14px}
+.erro{color:#ff6b6b;margin-top:10px;font-size:13px}</style>
+<form method="get" action="/admin"><h1>🎬 ADMIN · VHS CLUB</h1>
+<input type="password" name="senha" placeholder="Senha" autofocus>
+<button type="submit">Entrar</button>
+${erro ? `<div class="erro">${escapar(erro)}</div>` : ""}
+</form>`;
+}
+
+function paginaAdmin(linhas, senha) {
+  const cards = linhas.map((p) => {
+    const quando = new Date(p.criado_em).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+    const titulos = Array.isArray(p?.resposta_val?.ids) ? p.resposta_val.ids.length : 0;
+    return `<tr>
+      <td class="t">${escapar(quando)}</td>
+      <td class="p">${escapar(p.pedido_bruto)}</td>
+      <td>${escapar((p.streamings || []).join(", "))}</td>
+      <td>${p.tema_casado ? `<span class="tema">${escapar(p.tema_casado)}</span>` : '<span class="sem">—</span>'}</td>
+      <td>${titulos} filmes</td>
+      <td><span class="st st-${escapar(p.status)}">${escapar(p.status)}</span></td>
+    </tr>`;
+  }).join("");
+  return `<!doctype html><meta charset="utf-8"><title>Admin · VHS Club</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui;background:#1a1a1a;color:#eee;margin:0;padding:24px}
+h1{margin:0 0 4px;font-size:22px;letter-spacing:.05em}.sub{color:#888;font-size:13px;margin-bottom:24px}
+.contador{display:inline-block;background:#262626;padding:8px 14px;border-radius:6px;margin-right:10px;font-size:13px}
+.contador b{color:#ff8c00;font-size:16px}
+table{width:100%;border-collapse:collapse;background:#262626;border-radius:8px;overflow:hidden;font-size:13px;margin-top:16px}
+th{text-align:left;padding:12px;background:#333;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:11px}
+td{padding:12px;border-top:1px solid #333;vertical-align:top}
+.t{color:#999;white-space:nowrap;font-variant-numeric:tabular-nums}
+.p{max-width:400px;color:#fff}
+.tema{background:#ff8c0022;color:#ff8c00;padding:2px 8px;border-radius:4px;font-size:11px}
+.sem{color:#555}
+.st{padding:2px 8px;border-radius:4px;font-size:11px;text-transform:uppercase}
+.st-pendente{background:#4a4a4a;color:#eee}
+.st-aprendida{background:#2d5a2d;color:#9fe29f}
+.st-ignorada{background:#3a1a1a;color:#e2a09f}
+.vazio{text-align:center;padding:60px;color:#666}
+</style>
+<h1>🎬 Centro de inteligência da Val</h1>
+<div class="sub">Últimas 200 perguntas que chegaram pela Val.</div>
+<div><span class="contador">Total exibido <b>${linhas.length}</b></span>
+<span class="contador">Com tema casado <b>${linhas.filter((p) => p.tema_casado).length}</b></span>
+<span class="contador">Sem tema <b>${linhas.filter((p) => !p.tema_casado).length}</b></span></div>
+${linhas.length === 0 ? '<div class="vazio">Nenhuma pergunta ainda. Quando alguém conversar com a Val, aparece aqui.</div>' : `
+<table><thead><tr><th>Quando</th><th>Pedido</th><th>Streamings</th><th>Tema casado</th><th>Resposta</th><th>Status</th></tr></thead>
+<tbody>${cards}</tbody></table>`}
+`;
+}
+
+app.get("/admin", async (req, res) => {
+  const senha = typeof req.query.senha === "string" ? req.query.senha : "";
+  if (!ADMIN_SENHA) return res.status(503).send(paginaLogin("Admin desligado: configure ADMIN_SENHA no .env."));
+  if (!senha) return res.send(paginaLogin());
+  if (senha !== ADMIN_SENHA) return res.status(401).send(paginaLogin("Senha errada."));
+  if (!supabase) return res.status(503).send(paginaLogin("Supabase não configurado."));
+  try {
+    const { data, error } = await supabase
+      .from("perguntas")
+      .select("criado_em,sessao_id,pedido_bruto,streamings,resposta_val,tema_casado,status")
+      .order("criado_em", { ascending: false })
+      .limit(200);
+    if (error) throw error;
+    res.send(paginaAdmin(data || [], senha));
+  } catch (e) {
+    res.status(500).send(paginaLogin("Erro ao ler perguntas: " + (e?.message || e)));
   }
 });
 
