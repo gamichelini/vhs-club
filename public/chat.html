@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VHS Club — Sua Locadora de Bairro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root{ --bb-blue:#0a2a8c; --bb-blue-deep:#061a5c; --bb-yellow:#ffc20e; --paper:#f4ead2; --ink:#1a1205; --red:#d4341f; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'VT323',monospace;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px),
+      radial-gradient(circle at 30% 10%, #15347f 0%, var(--bb-blue-deep) 60%, #03103f 100%);
+    color:var(--ink); height:100dvh; display:flex; flex-direction:column; overflow:hidden;
+  }
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode:multiply;}
+  header{background:var(--bb-yellow);border-bottom:6px solid var(--ink);padding:10px 16px;display:flex;align-items:center;gap:14px;position:relative;z-index:5;box-shadow:0 4px 0 rgba(0,0,0,0.3);flex-wrap:wrap}
+  .ticket{background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:30px;letter-spacing:1px;padding:4px 16px;transform:skewX(-7deg);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+  .ticket span{display:inline-block;transform:skewX(7deg)}
+  .tagline{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--ink);line-height:1;letter-spacing:1px}
+  .tagline small{display:block;font-size:14px;opacity:.7;letter-spacing:2px}
+  .header-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .open-sign{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;background:var(--red);padding:4px 12px;border:2px solid var(--ink);animation:blink 1.6s steps(1) infinite;letter-spacing:1px}
+  @keyframes blink{50%{opacity:.35}}
+  .user-info{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--ink);letter-spacing:1px;display:none;align-items:center;gap:8px}
+  .btn-header{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;background:var(--ink);color:var(--bb-yellow);border:2px solid var(--ink);padding:4px 10px;box-shadow:2px 2px 0 rgba(0,0,0,.4)}
+  .btn-header:hover{background:var(--bb-blue)}
+  .btn-list{background:var(--red);color:#fff}
+  .shelf{display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:760px;width:100%;margin:0 auto;padding:12px 14px 0;position:relative;z-index:5}
+  .shelf-label{font-family:'Bebas Neue',sans-serif;color:var(--bb-yellow);font-size:16px;letter-spacing:2px}
+  .plat{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;background:var(--paper);color:var(--ink);border:3px solid var(--ink);padding:5px 12px;box-shadow:2px 2px 0 rgba(0,0,0,.4);transition:transform .05s}
+  .plat[data-on="1"]{color:#fff;transform:translate(2px,2px);box-shadow:none}
+  .plat.todos[data-on="1"]{background:#1f9d3a}
+  .plat.netflix[data-on="1"]{background:#e50914}
+  .plat.hbo[data-on="1"]{background:#7e2fd6}
+  .plat.prime[data-on="1"]{background:#00a8e1}
+  .plat.disney[data-on="1"]{background:#113cd1}
+  .plat.apple[data-on="1"]{background:#1a1a1a}
+  main{flex:1;display:flex;flex-direction:column;max-width:760px;width:100%;margin:0 auto;padding:12px 14px;min-height:0;position:relative;z-index:5}
+  #chat{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:4px 2px 14px;scroll-behavior:smooth}
+  #chat::-webkit-scrollbar{width:10px}
+  #chat::-webkit-scrollbar-thumb{background:var(--bb-yellow);border:2px solid var(--ink)}
+  .msg{max-width:84%;font-size:20px;line-height:1.25;animation:pop .25s ease-out}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .clerk{align-self:flex-start}
+  .clerk .who{font-family:'Bebas Neue',sans-serif;color:var(--bb-yellow);font-size:16px;letter-spacing:2px;margin-bottom:3px}
+  .clerk .body{background:var(--paper);border:3px solid var(--ink);border-left:8px solid var(--bb-blue);padding:10px 14px;box-shadow:4px 4px 0 rgba(0,0,0,0.4)}
+  .me{align-self:flex-end;text-align:right}
+  .me .who{font-family:'Bebas Neue',sans-serif;color:#fff;font-size:16px;letter-spacing:2px;margin-bottom:3px}
+  .me .body{display:inline-block;text-align:left;background:var(--bb-blue);color:#fff;border:3px solid var(--ink);padding:10px 14px;box-shadow:4px 4px 0 rgba(0,0,0,0.4)}
+  .body a{color:var(--red);font-weight:bold}
+  .body strong{background:var(--bb-yellow);padding:0 3px;color:var(--ink)}
+  /* === CARD DE FILME COMPACTO === */
+  .body .card-fita{background:#fff;border:3px solid var(--ink);box-shadow:5px 5px 0 rgba(0,0,0,0.4);padding:10px;margin:10px 0;max-width:100%;display:flex;flex-direction:column;gap:8px}
+  .body .card-top{display:flex;gap:10px;align-items:stretch}
+  .body .card-poster{width:96px;height:auto;min-height:140px;flex-shrink:0;border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,0.3);background:var(--bb-blue);color:var(--bb-yellow);font-family:'VT323',monospace;font-size:12px;text-align:center;padding:6px;align-self:flex-start;display:flex;align-items:center;justify-content:center;overflow:hidden;object-fit:cover}
+  .body .card-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+  .body .card-title{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;color:var(--ink);word-break:break-word;line-height:1;margin:0}
+  .body .card-meta{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:1.2px;color:var(--bb-blue);margin:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .body .card-rating{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.5px;background:var(--bb-yellow);color:var(--ink);padding:2px 6px;border:2px solid var(--ink);display:inline-flex;align-items:center;gap:3px;line-height:1}
+  .body .card-rating .nota{font-size:13px;font-weight:bold}
+  .body .card-rating .star{color:var(--red);font-weight:bold}
+  .body .card-plats{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1px;color:var(--ink);margin:0;opacity:.75}
+  .body .card-val-diz{background:var(--bb-yellow);border:2px solid var(--ink);padding:6px 8px;margin:4px 0 2px;box-shadow:2px 2px 0 rgba(0,0,0,0.3)}
+  .body .card-val-diz .label{font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--red);display:block;margin-bottom:2px;line-height:1}
+  .body .card-val-diz .texto{font-family:'VT323',monospace;font-size:15px;line-height:1.2;color:var(--ink)}
+  .body .card-sinopse{font-family:'VT323',monospace;font-size:13px;line-height:1.25;color:var(--ink);opacity:.8;margin:2px 0 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .body .card-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+  .body .btn-action,.body .btn-trailer{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.8px;cursor:pointer;border:2px solid var(--ink);padding:6px 8px;text-align:center;box-shadow:2px 2px 0 rgba(0,0,0,0.4);transition:transform .08s;flex:1;min-width:80px;text-decoration:none;line-height:1.1;display:flex;align-items:center;justify-content:center}
+  .body .btn-action:hover:not(:disabled),.body .btn-trailer:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(0,0,0,0.4)}
+  .body .btn-action:disabled{cursor:default;opacity:.85}
+  .body .btn-action.saving{background:var(--bb-yellow);color:var(--ink)}
+  .body .btn-action.visto{background:#1f9d3a;color:#fff}
+  .body .btn-action.ngostei{background:#5a5a5a;color:#fff}
+  .body .btn-action.done{background:var(--ink);color:var(--bb-yellow);box-shadow:none;transform:translate(2px,2px)}
+  .body .btn-trailer{background:var(--red);color:#fff}
+  /* Mini-rating expansão depois de clicar JÁ ASSISTI */
+  .body .rating-expand{display:flex;gap:5px;flex:1;min-width:160px}
+  .body .btn-rate{flex:1;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.8px;cursor:pointer;border:2px solid var(--ink);padding:6px 8px;text-align:center;box-shadow:2px 2px 0 rgba(0,0,0,0.4);transition:transform .08s;line-height:1.1}
+  .body .btn-rate:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(0,0,0,0.4)}
+  .body .btn-rate.amei{background:#e63950;color:#fff}
+  .body .btn-rate.nao-curti{background:#5a5a5a;color:#fff}
+  /* === CHIPS DE REFINAMENTO === */
+  .chips-bloco{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px;padding-left:0}
+  .chip{font-family:'VT323',monospace;font-size:18px;line-height:1;cursor:pointer;background:var(--paper);color:var(--ink);border:3px solid var(--ink);padding:8px 14px;box-shadow:3px 3px 0 rgba(0,0,0,.4);transition:all .08s;text-align:left}
+  .chip::before{content:"💭 ";opacity:.6}
+  .chip:hover{background:var(--bb-yellow);transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.5)}
+  .chip:active{transform:translate(2px,2px);box-shadow:none}
+  /* Fallback: poster inline antiga (caso Val emita marcador sem id) */
+  .body .poster{display:inline-block;vertical-align:middle;width:90px;height:auto;margin:4px 8px 4px 4px;border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,0.4);background:#000}
+  @media (max-width:520px){
+    .body .card-top{flex-direction:column;align-items:center}
+    .body .card-poster{width:140px;align-self:center}
+    .body .card-info{width:100%}
+    .body .card-title,.body .card-meta{text-align:center;justify-content:center}
+  }
+  .typing .body{font-style:italic;opacity:.8}
+  .dots::after{content:"";animation:dots 1.2s steps(4) infinite}
+  @keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+  .composer{display:flex;gap:8px;border-top:4px solid var(--bb-yellow);padding-top:10px}
+  #input{flex:1;font-family:'VT323',monospace;font-size:22px;background:var(--paper);border:3px solid var(--ink);padding:10px 14px;color:var(--ink);outline:none}
+  #input:focus{box-shadow:0 0 0 3px var(--bb-yellow)}
+  #send{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:1px;cursor:pointer;background:var(--red);color:#fff;border:3px solid var(--ink);padding:0 20px;box-shadow:3px 3px 0 var(--ink)}
+  #send:active{transform:translate(3px,3px);box-shadow:none}
+  #send:disabled{opacity:.5;cursor:not-allowed}
+  .live-badge{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;color:var(--bb-yellow);text-align:center;padding:6px;opacity:.8}
+  .live-badge b{color:#7CFC00}
+
+  /* ===== LOGIN MODAL ===== */
+  .overlay{position:fixed;inset:0;background:rgba(3,16,63,0.92);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+  .overlay.hidden{display:none}
+  .auth-box{background:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);max-width:420px;width:100%;padding:24px}
+  .auth-box h2{font-family:'Anton',sans-serif;font-size:30px;letter-spacing:1px;color:var(--bb-blue);margin-bottom:4px}
+  .auth-box p{font-family:'VT323',monospace;font-size:18px;line-height:1.3;margin-bottom:16px}
+  .auth-form{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .auth-form label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1.5px;color:var(--ink)}
+  .auth-form input{font-family:'VT323',monospace;font-size:20px;background:#fff;border:3px solid var(--ink);padding:8px 12px;color:var(--ink);outline:none}
+  .auth-form input:focus{box-shadow:0 0 0 3px var(--bb-yellow)}
+  .auth-form button{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:1px;cursor:pointer;background:var(--red);color:#fff;border:3px solid var(--ink);padding:10px;box-shadow:4px 4px 0 var(--ink);margin-top:6px}
+  .auth-form button:active{transform:translate(4px,4px);box-shadow:none}
+  .auth-form button:disabled{opacity:.5;cursor:not-allowed}
+  .auth-switch{margin-top:14px;font-family:'VT323',monospace;font-size:17px;color:var(--ink)}
+  .auth-switch a{color:var(--red);font-weight:bold;cursor:pointer;text-decoration:underline}
+  .auth-msg{font-family:'VT323',monospace;font-size:17px;margin-top:10px;padding:8px;background:var(--bb-yellow);border:2px solid var(--ink);color:var(--ink);min-height:0}
+  .auth-msg:empty{display:none}
+  .auth-msg.err{background:#ffb1b1}
+
+  /* ===== WATCHLIST DRAWER ===== */
+  .drawer{position:fixed;top:0;right:0;width:min(440px,95vw);height:100dvh;background:var(--paper);border-left:6px solid var(--ink);box-shadow:-8px 0 0 rgba(0,0,0,0.3);z-index:90;transform:translateX(100%);transition:transform .25s ease-out;overflow-y:auto;padding:20px}
+  .drawer.open{transform:translateX(0)}
+  .drawer h2{font-family:'Anton',sans-serif;font-size:28px;letter-spacing:1px;color:var(--bb-blue);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+  .drawer .close{font-family:'Anton',sans-serif;font-size:18px;cursor:pointer;background:var(--ink);color:var(--bb-yellow);border:2px solid var(--ink);padding:2px 10px}
+  .fita-item{display:flex;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--ink)}
+  .fita-item img{width:70px;height:auto;border:3px solid var(--ink);box-shadow:2px 2px 0 rgba(0,0,0,0.4)}
+  .fita-item .info{flex:1;font-family:'VT323',monospace;font-size:17px;line-height:1.2}
+  .fita-item .info b{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px}
+  .fita-item .info small{display:block;opacity:.7;font-size:14px;margin-top:2px}
+  .fita-item .acts{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+  .fita-item .acts button{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.5px;cursor:pointer;background:var(--bb-blue);color:#fff;border:2px solid var(--ink);padding:3px 6px;text-align:center}
+  .fita-item .acts button.remove{background:var(--red)}
+  .fita-item.assistido{opacity:.55}
+  .fita-item.assistido img{filter:grayscale(.8)}
+  .drawer .vazio{font-family:'VT323',monospace;font-size:18px;line-height:1.3;text-align:center;margin-top:30px;color:var(--ink);opacity:.7}
+</style>
+</head>
+<body>
+  <!-- LOGIN / CADASTRO MODAL -->
+  <div id="overlay" class="overlay">
+    <div class="auth-box">
+      <h2 id="auth-title">ENTRAR NO VHS CLUB</h2>
+      <p id="auth-sub">A Val tá esperando você no balcão. Faz login pra ela te reconhecer das próximas vezes.</p>
+      <div class="auth-form">
+        <label for="email">EMAIL</label>
+        <input id="email" type="email" autocomplete="email" placeholder="seu@email.com" />
+        <label for="senha">SENHA</label>
+        <input id="senha" type="password" autocomplete="current-password" placeholder="••••••" />
+        <button id="auth-btn" onclick="submitAuth()">ENTRAR</button>
+        <div id="auth-msg" class="auth-msg"></div>
+      </div>
+      <div class="auth-switch">
+        <span id="auth-switch-text">Não tem conta?</span> <a id="auth-switch-link" onclick="toggleAuthMode()">Cria uma agora</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER MINHAS FITAS -->
+  <div id="drawer" class="drawer">
+    <h2>📼 MINHAS FITAS <button class="close" onclick="fecharDrawer()">✕</button></h2>
+    <div id="watchlist-content"></div>
+  </div>
+
+  <header>
+    <div class="ticket"><span>VHS&nbsp;CLUB</span></div>
+    <div class="tagline">SUA LOCADORA DE BAIRRO<small>★ FITAS · DICAS · NOSTALGIA ★</small></div>
+    <div class="header-right">
+      <div id="user-info" class="user-info">
+        <span id="user-email"></span>
+        <button class="btn-header btn-list" onclick="abrirDrawer()" title="Minhas fitas">📼 <span id="wl-count">0</span></button>
+        <button class="btn-header" onclick="sair()">SAIR</button>
+      </div>
+      <div class="open-sign">● ABERTO</div>
+    </div>
+  </header>
+
+  <div class="shelf">
+    <span class="shelf-label">PRATELEIRA:</span>
+    <button class="plat todos"   data-on="1" data-name="Todos"       onclick="pickPlat(this,'Todos')">TODOS</button>
+    <button class="plat netflix" data-on="0" data-name="Netflix"     onclick="pickPlat(this,'Netflix')">NETFLIX</button>
+    <button class="plat hbo"     data-on="0" data-name="HBO Max"     onclick="pickPlat(this,'HBO Max')">HBO MAX</button>
+    <button class="plat prime"   data-on="0" data-name="Prime Video" onclick="pickPlat(this,'Prime Video')">PRIME VIDEO</button>
+    <button class="plat disney"  data-on="0" data-name="Disney+"     onclick="pickPlat(this,'Disney+')">DISNEY+</button>
+    <button class="plat apple"   data-on="0" data-name="Apple TV+"   onclick="pickPlat(this,'Apple TV+')">APPLE TV+</button>
+  </div>
+
+  <main>
+    <div id="chat"></div>
+    <div class="composer">
+      <input id="input" autocomplete="off" placeholder="Pergunta pra Val o que assistir..." />
+      <button id="send" onclick="send()">PEGAR</button>
+    </div>
+    <div class="live-badge">🔌 catálogo do Brasil verificado <b>AO VIVO</b></div>
+  </main>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+// Busca as chaves públicas do backend em vez de hardcoded.
+const cfg = await fetch("/api/config").then(r => r.json());
+const supa = createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+  auth: { autoRefreshToken: true, persistSession: true }
+});
+
+const chat = document.getElementById('chat');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+const overlay = document.getElementById('overlay');
+const drawer = document.getElementById('drawer');
+const userInfo = document.getElementById('user-info');
+const userEmail = document.getElementById('user-email');
+const authMsg = document.getElementById('auth-msg');
+const authTitle = document.getElementById('auth-title');
+const authSub = document.getElementById('auth-sub');
+const authBtn = document.getElementById('auth-btn');
+const authSwitchText = document.getElementById('auth-switch-text');
+const authSwitchLink = document.getElementById('auth-switch-link');
+const wlCount = document.getElementById('wl-count');
+
+let activePlatforms = ['Todos']; // multi-seleção: array de plataformas ativas; ['Todos'] = sem filtro
+let conversa = []; // mensagens da SESSÃO atual; histórico antigo fica no servidor
+let usuarioLogado = null;
+let modoAuth = 'login'; // 'login' ou 'signup'
+let watchlistLocal = []; // cache em memória
+
+// ===== Auth =====
+function showAuthMsg(text, isErr = false) {
+  authMsg.textContent = text;
+  authMsg.classList.toggle('err', isErr);
+}
+
+async function submitAuth() {
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  if (!email || !senha) { showAuthMsg('Preenche email e senha.', true); return; }
+  authBtn.disabled = true;
+  authBtn.textContent = modoAuth === 'login' ? 'ENTRANDO...' : 'CRIANDO CONTA...';
+  try {
+    if (modoAuth === 'login') {
+      const { error } = await supa.auth.signInWithPassword({ email, password: senha });
+      if (error) throw error;
+    } else {
+      const { error } = await supa.auth.signUp({ email, password: senha });
+      if (error) throw error;
+      showAuthMsg('Conta criada! Cheque seu email pra confirmar (pode estar em spam) e depois faz login.');
+      modoAuth = 'login';
+      atualizarModoAuth();
+      return;
+    }
+  } catch (e) {
+    showAuthMsg(traduzirErro(e.message || 'Erro desconhecido'), true);
+  } finally {
+    authBtn.disabled = false;
+    authBtn.textContent = modoAuth === 'login' ? 'ENTRAR' : 'CRIAR CONTA';
+  }
+}
+window.submitAuth = submitAuth;
+
+function traduzirErro(msg) {
+  if (/invalid login credentials/i.test(msg)) return 'Email ou senha errados.';
+  if (/email not confirmed/i.test(msg)) return 'Email ainda não confirmado. Cheque sua caixa de entrada.';
+  if (/user already registered/i.test(msg)) return 'Esse email já tem conta. Tenta fazer login.';
+  if (/password should be at least/i.test(msg)) return 'Senha precisa de pelo menos 6 caracteres.';
+  if (/unable to validate email/i.test(msg)) return 'Email inválido.';
+  return msg;
+}
+
+function toggleAuthMode() {
+  modoAuth = modoAuth === 'login' ? 'signup' : 'login';
+  atualizarModoAuth();
+}
+window.toggleAuthMode = toggleAuthMode;
+
+function atualizarModoAuth() {
+  if (modoAuth === 'login') {
+    authTitle.textContent = 'ENTRAR NO VHS CLUB';
+    authSub.textContent = 'A Val tá esperando você no balcão. Faz login pra ela te reconhecer das próximas vezes.';
+    authBtn.textContent = 'ENTRAR';
+    authSwitchText.textContent = 'Não tem conta?';
+    authSwitchLink.textContent = 'Cria uma agora';
+  } else {
+    authTitle.textContent = 'CRIAR CONTA NO VHS CLUB';
+    authSub.textContent = 'Conta nova: a Val passa a lembrar do que você gosta e separa fitas pra você ver depois.';
+    authBtn.textContent = 'CRIAR CONTA';
+    authSwitchText.textContent = 'Já tem conta?';
+    authSwitchLink.textContent = 'Entra aqui';
+  }
+  showAuthMsg('');
+}
+
+async function sair() {
+  await supa.auth.signOut();
+  location.reload();
+}
+window.sair = sair;
+
+// ===== Estado inicial =====
+let chatInicializado = false; // evita renderizar boas-vindas mais de uma vez
+
+async function init() {
+  const { data: { session } } = await supa.auth.getSession();
+  if (session && session.user) {
+    aoLogar(session.user);
+  } else {
+    overlay.classList.remove('hidden');
+  }
+  supa.auth.onAuthStateChange((event, sess) => {
+    if (sess && sess.user) aoLogar(sess.user);
+    else {
+      chatInicializado = false;
+      overlay.classList.remove('hidden');
+      userInfo.style.display = 'none';
+    }
+  });
+}
+
+async function aoLogar(user) {
+  usuarioLogado = user;
+  overlay.classList.add('hidden');
+  userInfo.style.display = 'flex';
+  userEmail.textContent = user.email;
+  if (chatInicializado) return; // já tá pronto, não duplica boas-vindas
+  chatInicializado = true;
+  chat.innerHTML = '';
+  conversa = [];
+  await carregarWatchlist();
+  mostrarBoasVindas();
+}
+
+// ===== Boas-vindas =====
+function mostrarBoasVindas() {
+  const novo = (watchlistLocal.length === 0);
+  if (novo) {
+    bubble('clerk',
+      "Opa, sou a **Val** — atendente do VHS Club. 📼 Pode pedir do seu jeito:\n\n" +
+      "→ uma vibe (\"tô triste\", \"filme leve\", \"algo que inspire\")\n" +
+      "→ uma referência (\"filme tipo *Conta Comigo*\", \"algo na pegada de Wes Anderson\")\n" +
+      "→ um gênero/recorte (\"comédia britânica dos 80\", \"terror lento\", \"lançamento\")\n" +
+      "→ ou só joga \"me indica algo bom\" que eu pesco.\n\n" +
+      "Cubro **Netflix**, **HBO Max**, **Prime Video**, **Disney+** e **Apple TV+** — só o que tá disponível na assinatura, sem aluguel separado.",
+      true
+    );
+  } else {
+    bubble('clerk',
+      "Olha quem voltou! 📼 Manda outra direção — uma vibe, um filme que te marcou, um gênero — que eu te indico de novo. Ou abre suas fitas guardadas ali em cima.",
+      true
+    );
+  }
+}
+
+// ===== Formatação =====
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+
+// Decodifica base64 UTF-8 com segurança
+function b64decode(b64) {
+  try {
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  } catch { return null; }
+}
+
+// Renderiza um card rico a partir dos dados enriquecidos da TMDB
+function renderCardRico(d) {
+  const plats = (d.plataformas || []).join(' · ');
+  const metaParts = [];
+  if (d.genero) metaParts.push(esc(d.genero));
+  if (d.ano) metaParts.push(esc(d.ano));
+  const metaTexto = metaParts.join(' · ');
+  const ratingTag = (d.nota !== null && d.nota !== undefined)
+    ? `<span class="card-rating">NOTA <span class="nota">${Number(d.nota).toFixed(1)}</span><span class="star">★</span> IMDB</span>`
+    : '';
+  // Trailer: usa o key do YouTube se vier, senão fallback pra busca no YouTube
+  const trailerUrl = d.trailer
+    ? `https://www.youtube.com/watch?v=${encodeURIComponent(d.trailer)}`
+    : `https://www.youtube.com/results?search_query=${encodeURIComponent(d.titulo + ' ' + (d.ano || '') + ' trailer')}`;
+  const trailerLabel = d.trailer ? '▶ TRAILER' : '▶ BUSCAR TRAILER';
+  const valDizBlock = d.valDiz
+    ? `<div class="card-val-diz"><span class="label">★ VAL DIZ</span><span class="texto">${esc(d.valDiz)}</span></div>`
+    : '';
+  const sinopse = d.sinopse ? `<p class="card-sinopse">${esc(d.sinopse)}</p>` : '';
+  const platBlock = plats ? `<div class="card-plats">📺 ${esc(plats)}</div>` : '';
+  const poster = d.capa
+    ? `<img src="${esc(d.capa)}" alt="${esc(d.titulo)}" class="card-poster" loading="lazy" />`
+    : `<div class="card-poster">${esc(d.titulo)}</div>`;
+  return `<div class="card-fita" data-id="${d.id}" data-titulo="${esc(d.titulo)}" data-capa="${esc(d.capa || '')}" data-plat="${esc(plats)}" data-ano="${esc(d.ano)}">
+    <div class="card-top">
+      ${poster}
+      <div class="card-info">
+        <h3 class="card-title">${esc(d.titulo)}</h3>
+        <div class="card-meta">${ratingTag}${metaTexto ? `<span>${metaTexto}</span>` : ''}</div>
+        ${platBlock}
+        ${valDizBlock}
+        ${sinopse}
+      </div>
+    </div>
+    <div class="card-actions">
+      <a class="btn-trailer" href="${trailerUrl}" target="_blank" rel="noopener">${trailerLabel}</a>
+      <button class="btn-action saving" data-acao="salvar" onclick="acaoFita(this)">+ ASSISTIR DEPOIS</button>
+      <button class="btn-action visto" data-acao="visto" onclick="acaoFita(this)">✓ JÁ ASSISTI</button>
+      <button class="btn-action ngostei" data-acao="nao_curti" onclick="acaoFita(this)">✗ NÃO CURTI</button>
+    </div>
+  </div>`;
+}
+
+// Renderiza markdown da Val em HTML
+function fmt(s) {
+  let out = esc(s);
+  // 1) Card rico [[VHSCARD:base64json]] (formato preferencial, enriquecido pelo backend)
+  out = out.replace(/\[\[VHSCARD:([A-Za-z0-9+/=]+)\]\]/g, (orig, b64) => {
+    const json = b64decode(b64);
+    if (!json) return orig;
+    try {
+      const d = JSON.parse(json);
+      return renderCardRico(d);
+    } catch { return orig; }
+  });
+  // 1.5) Chips de refinamento [SUGESTÕES:opt1|opt2|opt3]
+  // Nota: sugTxt já passou por esc() lá em cima — NÃO escapar de novo, evita &amp;#39; visível.
+  out = out.replace(/\[SUGEST[ÕO]ES:([^\]]+)\]/g, (_orig, sugTxt) => {
+    const opcoes = sugTxt.split('|').map((s) => s.trim()).filter(Boolean).slice(0, 4);
+    if (!opcoes.length) return '';
+    const chips = opcoes.map((opt) => `<button class="chip" onclick="enviarChip(this)">${opt}</button>`).join('');
+    return `<div class="chips-bloco">${chips}</div>`;
+  });
+  // 2) Card legado ![Título|id|Plataforma|Ano](url) — fallback se backend não enriqueceu
+  out = out.replace(/!\[([^\]|]+)\|(\d+)\|([^\]|]*)\|([^\]]*)\]\((https?:[^)]+)\)/g, (_m, titulo, id, plat, ano, capa) => {
+    return renderCardRico({ id, titulo, ano, plataformas: [plat], capa, genero: '', sinopse: '', nota: null, trailer: null });
+  });
+  // 3) Imagem solta (raro) — fallback simples
+  out = out.replace(/!\[(.+?)\]\((https?:[^)]+)\)/g, '<img src="$2" alt="$1" class="poster" loading="lazy">');
+  // 4) Negrito + link + quebra de linha
+  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  out = out.replace(/\[(.+?)\]\((https?:[^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+  out = out.replace(/\n/g, '<br>');
+  return out;
+}
+
+function fmtRaw(s) {
+  return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+}
+
+function bubble(role, text, raw) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + (role === 'clerk' ? 'clerk' : 'me');
+  d.innerHTML = `<div class="who">${role === 'clerk' ? 'VAL · BALCÃO' : 'VOCÊ'}</div><div class="body">${raw ? fmtRaw(text) : fmt(text)}</div>`;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  marcarFitasJaSalvas(d);
+  return d;
+}
+
+function typing() {
+  const d = document.createElement('div');
+  d.className = 'msg clerk typing';
+  d.innerHTML = `<div class="who">VAL · BALCÃO</div><div class="body dots">conferindo a prateleira de hoje</div>`;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  return d;
+}
+
+// ===== Pickplat (multi-seleção) =====
+function pickPlat(btn, name) {
+  const todosBtn = document.querySelector('.plat.todos');
+
+  if (name === 'Todos') {
+    // Clicar em "TODOS" zera as outras e fica só ele ligado
+    document.querySelectorAll('.plat').forEach(p => p.dataset.on = '0');
+    todosBtn.dataset.on = '1';
+    activePlatforms = ['Todos'];
+  } else {
+    // Toggle da plataforma específica clicada
+    btn.dataset.on = btn.dataset.on === '1' ? '0' : '1';
+    // Qualquer seleção específica desliga "TODOS"
+    todosBtn.dataset.on = '0';
+    // Recolhe todas as específicas ligadas
+    const selected = [...document.querySelectorAll('.plat[data-on="1"]:not(.todos)')].map(el => el.dataset.name);
+    if (selected.length === 0) {
+      // Se desligou tudo, religa "TODOS"
+      todosBtn.dataset.on = '1';
+      activePlatforms = ['Todos'];
+    } else {
+      activePlatforms = selected;
+    }
+  }
+
+  // Mensagem de confirmação da Val (adaptada ao número de plataformas)
+  let msg;
+  if (activePlatforms[0] === 'Todos') {
+    msg = "Beleza, posso pescar de qualquer streaming então! 🎬";
+  } else if (activePlatforms.length === 1) {
+    msg = `Anotado: só vou puxar coisa que tá na <strong>${activePlatforms[0]}</strong> aqui no Brasil. 📼`;
+  } else {
+    const lista = activePlatforms.length === 2
+      ? activePlatforms.join(' e ')
+      : activePlatforms.slice(0, -1).join(', ') + ' e ' + activePlatforms[activePlatforms.length - 1];
+    msg = `Anotado: vou olhar em <strong>${lista}</strong>. 📼`;
+  }
+  bubble('clerk', msg, true);
+}
+window.pickPlat = pickPlat;
+
+// ===== Send =====
+async function send() {
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sendBtn.disabled = true;
+  bubble('me', text);
+  conversa.push({ role: 'user', content: text });
+  const t = typing();
+  try {
+    const { data: { session } } = await supa.auth.getSession();
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ messages: conversa, plataformas: activePlatforms }),
+    });
+    const data = await res.json();
+    t.remove();
+    if (data.erro) {
+      bubble('clerk', data.erro, true);
+    } else {
+      const reply = data.reply || "Eita, deu ruído na fita. Pergunta de novo?";
+      bubble('clerk', reply);
+      conversa.push({ role: "assistant", content: reply });
+    }
+  } catch (err) {
+    t.remove();
+    bubble('clerk', "Opa, não consegui falar com o balcão. Tenta de novo?", true);
+    console.error(err);
+  } finally {
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+window.send = send;
+input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+
+// ===== Watchlist =====
+async function carregarWatchlist() {
+  try {
+    const { data: { session } } = await supa.auth.getSession();
+    const res = await fetch("/api/watchlist", {
+      headers: { "Authorization": `Bearer ${session.access_token}` }
+    });
+    const data = await res.json();
+    watchlistLocal = data.lista || [];
+    atualizarContador();
+  } catch (e) { console.error(e); }
+}
+
+function atualizarContador() {
+  const aVer = watchlistLocal.filter(w => !w.assistido).length;
+  wlCount.textContent = aVer;
+}
+
+async function acaoFita(btn) {
+  const card = btn.closest('.card-fita');
+  const movie_id = parseInt(card.dataset.id);
+  const titulo = card.dataset.titulo;
+  const capa = card.dataset.capa;
+  const plataforma = card.dataset.plat;
+  const ano = card.dataset.ano;
+  const acao = btn.dataset.acao;
+  const originais = { salvar: '+ ASSISTIR DEPOIS', visto: '✓ JÁ ASSISTI', nao_curti: '✗ NÃO CURTI' };
+  btn.disabled = true;
+  const txtAntes = btn.textContent;
+  btn.textContent = '...';
+  try {
+    const { data: { session } } = await supa.auth.getSession();
+    const auth = { "Authorization": `Bearer ${session.access_token}` };
+
+    if (acao === 'salvar') {
+      const res = await fetch("/api/watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...auth },
+        body: JSON.stringify({ movie_id, titulo, capa, plataforma, ano }),
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error('falha ao salvar');
+      btn.textContent = '✓ NA SUA LISTA';
+      btn.classList.add('done');
+      await carregarWatchlist();
+    } else if (acao === 'visto') {
+      // NÃO marca direto. Substitui o botão pelas opções inline ❤️ AMEI / 👎 NÃO CURTI
+      btn.outerHTML = `<div class="rating-expand">
+        <button class="btn-rate amei" onclick="ratingFita(this,'amei')">❤️ AMEI</button>
+        <button class="btn-rate nao-curti" onclick="ratingFita(this,'nao_curti')">👎 NÃO CURTI</button>
+      </div>`;
+      return;
+    } else if (acao === 'nao_curti') {
+      // Phase 1: confirmação visual. Phase 3: salva em user_movie_feedback pra calibrar.
+      btn.textContent = '✓ ANOTADO';
+      btn.classList.add('done');
+    }
+  } catch (e) {
+    console.error(e);
+    btn.textContent = originais[acao] || txtAntes;
+    btn.disabled = false;
+  }
+}
+window.acaoFita = acaoFita;
+
+// Clique numa chip = manda o texto da chip como sua próxima mensagem
+function enviarChip(btn) {
+  const texto = btn.textContent.trim();
+  // Remove as chips daquela rodada (já era)
+  const bloco = btn.closest('.chips-bloco');
+  if (bloco) bloco.remove();
+  input.value = texto;
+  send();
+}
+window.enviarChip = enviarChip;
+
+// Quando clica em "JÁ ASSISTI", a ação não fecha — abre rating inline (❤️ AMEI / 👎 NÃO CURTI)
+async function ratingFita(btn, valor) {
+  const card = btn.closest('.card-fita');
+  const movie_id = parseInt(card.dataset.id);
+  const titulo = card.dataset.titulo;
+  const capa = card.dataset.capa;
+  const plataforma = card.dataset.plat;
+  const ano = card.dataset.ano;
+  const rateBox = btn.closest('.rating-expand');
+  if (rateBox) rateBox.querySelectorAll('button').forEach((b) => (b.disabled = true));
+  try {
+    const { data: { session } } = await supa.auth.getSession();
+    const auth = { "Authorization": `Bearer ${session.access_token}` };
+    // 1) Garante watchlist com assistido=true
+    await fetch("/api/watchlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...auth },
+      body: JSON.stringify({ movie_id, titulo, capa, plataforma, ano }),
+    });
+    await fetch(`/api/watchlist/${movie_id}/visto`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", ...auth },
+      body: JSON.stringify({ assistido: true, rating: valor }),
+    });
+    // 2) Substitui a expansão por um indicador "✓ marcado"
+    if (rateBox) {
+      const label = valor === 'amei' ? '❤️ MARCADO COMO AMEI' : '👎 MARCADO COMO NÃO CURTI';
+      rateBox.outerHTML = `<button class="btn-action done" disabled>${label}</button>`;
+    }
+    await carregarWatchlist();
+  } catch (e) {
+    console.error(e);
+    if (rateBox) rateBox.querySelectorAll('button').forEach((b) => (b.disabled = false));
+  }
+}
+window.ratingFita = ratingFita;
+
+function marcarFitasJaSalvas(scope) {
+  scope.querySelectorAll('.card-fita').forEach(card => {
+    const id = parseInt(card.dataset.id);
+    const item = watchlistLocal.find(w => w.movie_id === id);
+    if (!item) return;
+    const btnSalvar = card.querySelector('[data-acao="salvar"]');
+    const btnVisto = card.querySelector('[data-acao="visto"]');
+    if (item.assistido) {
+      if (btnVisto && !btnVisto.classList.contains('done')) {
+        btnVisto.textContent = '✓ MARCADO COMO VISTO';
+        btnVisto.classList.add('done');
+        btnVisto.disabled = true;
+      }
+      if (btnSalvar) { btnSalvar.disabled = true; btnSalvar.classList.add('done'); btnSalvar.textContent = '— JÁ VISTO'; }
+    } else {
+      if (btnSalvar && !btnSalvar.classList.contains('done')) {
+        btnSalvar.textContent = '✓ NA SUA LISTA';
+        btnSalvar.classList.add('done');
+        btnSalvar.disabled = true;
+      }
+    }
+  });
+}
+
+// ===== Drawer (Minhas Fitas) =====
+function abrirDrawer() {
+  renderDrawer();
+  drawer.classList.add('open');
+}
+window.abrirDrawer = abrirDrawer;
+
+function fecharDrawer() {
+  drawer.classList.remove('open');
+}
+window.fecharDrawer = fecharDrawer;
+
+function renderDrawer() {
+  const cont = document.getElementById('watchlist-content');
+  if (!watchlistLocal.length) {
+    cont.innerHTML = '<div class="vazio">Nenhuma fita separada ainda.<br>Conversa com a Val e clica no <b>+ ASSISTIR DEPOIS</b> abaixo de cada capa que ela mostrar.</div>';
+    return;
+  }
+  cont.innerHTML = watchlistLocal.map(w => `
+    <div class="fita-item ${w.assistido ? 'assistido' : ''}" data-id="${w.movie_id}">
+      ${w.capa ? `<img src="${w.capa}" alt="${esc(w.titulo)}" loading="lazy" />` : '<div style="width:70px;height:100px;background:#000;border:3px solid var(--ink);"></div>'}
+      <div class="info">
+        <b>${esc(w.titulo)}</b>
+        <small>${w.plataforma ? esc(w.plataforma) : ''}${w.plataforma && w.ano ? ' · ' : ''}${w.ano || ''}</small>
+        <div class="acts">
+          <button onclick="marcarVisto(${w.movie_id}, ${!w.assistido})">${w.assistido ? '↺ NÃO VI AINDA' : '✓ JÁ ASSISTI'}</button>
+          <button class="remove" onclick="removerFita(${w.movie_id})">REMOVER</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function marcarVisto(movie_id, assistido) {
+  const { data: { session } } = await supa.auth.getSession();
+  await fetch(`/api/watchlist/${movie_id}/visto`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${session.access_token}`,
+    },
+    body: JSON.stringify({ assistido }),
+  });
+  await carregarWatchlist();
+  renderDrawer();
+}
+window.marcarVisto = marcarVisto;
+
+async function removerFita(movie_id) {
+  if (!confirm('Remover essa fita da sua lista?')) return;
+  const { data: { session } } = await supa.auth.getSession();
+  await fetch(`/api/watchlist/${movie_id}`, {
+    method: "DELETE",
+    headers: { "Authorization": `Bearer ${session.access_token}` }
+  });
+  await carregarWatchlist();
+  renderDrawer();
+}
+window.removerFita = removerFita;
+
+// ===== Boot =====
+init();
+</script>
+</body>
+</html>

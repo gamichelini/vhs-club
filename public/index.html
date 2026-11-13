@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VHS Club — sua locadora de bairro que sobreviveu ao streaming</title>
+<meta name="description" content="A Val, atendente veterana, escolhe seu filme melhor que qualquer algoritmo. Conhece o catálogo do Brasil ao vivo. Tem opinião e te dá ela.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root{ --bb-blue:#0a2a8c; --bb-blue-deep:#061a5c; --bb-yellow:#ffc20e; --paper:#f4ead2; --ink:#1a1205; --red:#d4341f; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'VT323',monospace; color:var(--paper); min-height:100vh;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.04) 0px, rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px),
+      radial-gradient(circle at 30% 10%, #15347f 0%, var(--bb-blue-deep) 60%, #03103f 100%);
+    background-attachment:fixed;
+  }
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode:multiply;}
+
+  /* ===== HEADER MIN ===== */
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:3px solid var(--ink);background:var(--bb-yellow);box-shadow:0 4px 0 rgba(0,0,0,0.3);position:sticky;top:0;z-index:50}
+  .ticket-small{background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px;padding:4px 14px;transform:skewX(-7deg);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-decoration:none;display:inline-block}
+  .ticket-small span{display:inline-block;transform:skewX(7deg)}
+  .top-bar .entrar{font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;background:var(--red);color:#fff;border:3px solid var(--ink);padding:6px 16px;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
+  .top-bar .entrar:active{transform:translate(3px,3px);box-shadow:none}
+
+  /* ===== HERO ===== */
+  .hero{padding:80px 24px 100px;text-align:center;position:relative}
+  .ticket-huge{display:inline-block;background:var(--bb-blue);color:var(--bb-yellow);font-family:'Anton',sans-serif;font-size:clamp(60px,12vw,140px);letter-spacing:2px;padding:18px 36px;transform:skewX(-7deg);border:6px solid var(--ink);box-shadow:10px 10px 0 var(--ink);line-height:.9;margin-bottom:30px}
+  .ticket-huge span{display:inline-block;transform:skewX(7deg)}
+  .hero .tagline{font-family:'Bebas Neue',sans-serif;color:var(--bb-yellow);font-size:clamp(20px,3vw,30px);letter-spacing:3px;margin-bottom:30px;line-height:1.1}
+  .hero .subline{font-family:'VT323',monospace;color:var(--paper);font-size:clamp(20px,2vw,26px);max-width:700px;margin:0 auto 40px;line-height:1.4;padding:0 14px}
+  .hero .subline em{color:var(--bb-yellow);font-style:normal}
+  .cta-big{display:inline-block;font-family:'Anton',sans-serif;font-size:clamp(22px,2.5vw,30px);letter-spacing:2px;background:var(--red);color:#fff;border:5px solid var(--ink);padding:18px 40px;text-decoration:none;box-shadow:8px 8px 0 var(--ink);transition:transform .08s}
+  .cta-big:active{transform:translate(8px,8px);box-shadow:none}
+  .cta-big::before{content:"▶ ";font-family:'Anton',sans-serif}
+  .open-badge{display:inline-block;margin-top:20px;font-family:'Bebas Neue',sans-serif;color:#7CFC00;font-size:14px;letter-spacing:2px}
+  .open-badge::before{content:"●";color:#7CFC00;margin-right:6px;animation:blink 1.6s steps(1) infinite}
+  @keyframes blink{50%{opacity:.35}}
+
+  /* ===== SECTIONS ===== */
+  section.bloco{padding:80px 24px;border-top:6px solid var(--ink);position:relative}
+  section.bloco.amarela{background:var(--bb-yellow);color:var(--ink)}
+  section.bloco.papel{background:var(--paper);color:var(--ink)}
+  .container{max-width:1080px;margin:0 auto}
+
+  .titulo-secao{font-family:'Anton',sans-serif;font-size:clamp(34px,5vw,52px);letter-spacing:2px;text-align:center;margin-bottom:18px;line-height:1}
+  .sub-secao{font-family:'VT323',monospace;font-size:clamp(18px,1.6vw,22px);text-align:center;margin-bottom:50px;opacity:.85;max-width:600px;margin-left:auto;margin-right:auto}
+
+  /* === 3 REGRAS === */
+  .grid-regras{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+  .regra{background:var(--bb-blue);color:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:28px 24px;position:relative}
+  .regra .num{position:absolute;top:-22px;left:-12px;background:var(--red);color:#fff;font-family:'Anton',sans-serif;font-size:32px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-6deg)}
+  .regra h3{font-family:'Anton',sans-serif;font-size:24px;letter-spacing:1px;color:var(--bb-yellow);margin-bottom:14px;margin-top:8px}
+  .regra p{font-family:'VT323',monospace;font-size:20px;line-height:1.3}
+  .regra p em{color:var(--bb-yellow);font-style:normal}
+
+  /* === PLATAFORMAS === */
+  .grid-plats{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:30px}
+  .plat-tag{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:10px 20px;border:4px solid var(--ink);box-shadow:4px 4px 0 var(--ink);color:#fff}
+  .plat-tag.netflix{background:#e50914}
+  .plat-tag.hbo{background:#7e2fd6}
+  .plat-tag.prime{background:#00a8e1}
+  .plat-tag.disney{background:#113cd1}
+  .plat-tag.apple{background:#1a1a1a}
+
+  /* === CTA FIM === */
+  .cta-bloco{text-align:center}
+  .cta-bloco .titulo-secao{margin-bottom:30px}
+  .cta-bloco .quote{font-family:'VT323',monospace;font-size:clamp(20px,2vw,26px);line-height:1.4;max-width:600px;margin:0 auto 40px;color:var(--ink)}
+
+  /* === FOOTER === */
+  footer{padding:30px 24px;text-align:center;border-top:3px solid var(--ink);background:var(--ink);color:var(--bb-yellow)}
+  footer p{font-family:'VT323',monospace;font-size:17px;line-height:1.5;opacity:.8}
+  footer a{color:var(--bb-yellow);text-decoration:underline}
+
+  /* === RESPONSIVO === */
+  @media (max-width:600px){
+    .top-bar{padding:10px 16px}
+    .hero{padding:50px 14px 70px}
+    .ticket-huge{padding:12px 24px;box-shadow:6px 6px 0 var(--ink);border-width:4px}
+    section.bloco{padding:60px 18px}
+    .cta-big{padding:14px 28px}
+  }
+</style>
+</head>
+<body>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="/" class="ticket-small"><span>VHS&nbsp;CLUB</span></a>
+    <a href="/chat" class="entrar">ENTRAR</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="ticket-huge"><span>VHS&nbsp;CLUB</span></div>
+    <div class="tagline">SUA LOCADORA DE BAIRRO QUE SOBREVIVEU AO STREAMING</div>
+    <p class="subline">
+      A <em>Val</em>, atendente veterana de balcão, te escolhe um filme melhor do que qualquer algoritmo de streaming. Ela conhece o que tá no catálogo do Brasil <em>agora</em>, tem opinião formada e — diferente do feed — não te empurra qualquer coisa.
+    </p>
+    <a href="/chat" class="cta-big">ENTRAR NA LOCADORA</a>
+    <div class="open-badge">ABERTO 24H · CATÁLOGO BR VERIFICADO AO VIVO</div>
+  </section>
+
+  <!-- TRÊS REGRAS -->
+  <section class="bloco amarela">
+    <div class="container">
+      <h2 class="titulo-secao">TRÊS REGRAS DA CASA</h2>
+      <p class="sub-secao">As coisas que a Val faz diferente do botão "PRA VOCÊ" do seu streaming.</p>
+      <div class="grid-regras">
+        <div class="regra">
+          <div class="num">1</div>
+          <h3>TE OUÇO PRIMEIRO</h3>
+          <p>Antes de soltar lista, eu pergunto: <em>tá afim do quê hoje?</em> Sozinho ou com gente? Qual foi o último filme que te grudou? Recomendação boa começa entendendo quem tá do outro lado do balcão.</p>
+        </div>
+        <div class="regra">
+          <div class="num">2</div>
+          <h3>SÓ FALO DO QUE EXISTE</h3>
+          <p>Eu confiro no catálogo <em>ao vivo</em> antes de te indicar. Nada de você descobrir só na hora do play que sumiu da Netflix. Filme que eu indico, tá lá agora.</p>
+        </div>
+        <div class="regra">
+          <div class="num">3</div>
+          <h3>TE DOU MINHA OPINIÃO</h3>
+          <p>Não sou neutra. Se tenho 3 pedidas, te falo qual é a melhor pra você — <em>com motivo</em>. Atendente bom não fica em cima do muro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATAFORMAS -->
+  <section class="bloco papel">
+    <div class="container">
+      <h2 class="titulo-secao">A PRATELEIRA</h2>
+      <p class="sub-secao">Eu olho em todas estas plataformas, na hora que você pede. No Brasil.</p>
+      <div class="grid-plats">
+        <div class="plat-tag netflix">NETFLIX</div>
+        <div class="plat-tag hbo">HBO MAX</div>
+        <div class="plat-tag prime">PRIME VIDEO</div>
+        <div class="plat-tag disney">DISNEY+</div>
+        <div class="plat-tag apple">APPLE TV+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="bloco amarela">
+    <div class="container cta-bloco">
+      <h2 class="titulo-secao">PRONTO PRA PARAR DE ROLAR O CATÁLOGO?</h2>
+      <p class="quote">Você rola por 40 minutos, cansa a vista e fecha sem escolher nada. Clássico. Bora resolver isso?</p>
+      <a href="/chat" class="cta-big">FALAR COM A VAL</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>📼 VHS CLUB · feito com café e VT323<br>catálogo via TMDB · IA via Google Gemini · banco no Supabase</p>
+  </footer>
+
+<script type="module">
+// Se já tá logado, manda direto pro chat (sem precisar passar pela landing toda vez)
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const cfg = await fetch("/api/config").then(r => r.json()).catch(() => null);
+if (cfg) {
+  const supa = createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, { auth: { persistSession: true } });
+  const { data: { session } } = await supa.auth.getSession();
+  if (session && session.user) {
+    // Já logado, redireciona
+    location.replace("/chat");
+  }
+}
+</script>
+</body>
+</html>
