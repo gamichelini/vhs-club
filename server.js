@@ -519,7 +519,7 @@ async function enriquecerFilme(movieId) {
 // linha logo após o marcador.
 async function enriquecerResposta(texto, plats = [], idsPermitidos = null, validados = [], criterios = {}) {
   // 0a) Corta bordão de robô no começo da resposta ("Boa escolha.", "Ótima escolha!", "Perfeito!")
-  texto = texto.replace(/^\s*(?:boa|ótima|excelente)\s+escolha[.!]*\s*|^\s*perfeito[.!]+\s*/i, "");
+  texto = texto.replace(/^\s*(?:boa|ótima|excelente)\s+escolha[.!]*\s*|^\s*perfeito[.!]+\s*|^\s*(?:essa|que)\s+(?:é\s+)?(?:uma\s+)?(?:pedida|pergunta|escolha)\s+(?:excelente|ótima|incrível|maravilhosa)[.!]*\s*|^\s*(?:essa|que)\s+(?:é\s+)?(?:uma\s+)?(?:excelente|ótima|incrível|maravilhosa)\s+(?:pedida|pergunta|escolha)[.!]*\s*/i, "");
   // 0b) O site já apresenta a Val: corta "E aí, tudo certo? Sou a Val, do VHS Club." no começo
   texto = texto.replace(/^\s*(?:(?:e a[íi]|oi|ol[áa]|opa)[^.!?\n]{0,40}[.!?]\s*)?(?:(?:aqui (?:[ée] )?a|sou a) val[^.!?\n]{0,60}[.!?]\s*)/i, "");
   // 0) Remove auto-flagelo e "vamos zerar" no início da resposta — herança de sessões antigas
@@ -941,7 +941,7 @@ Ao fim de um leque, ofereça até 3 atalhos no formato [SUGESTÕES:a|b|c], escri
 
 # SUA VOZ
 Natural, direta, com graça. Frases curtas. Pode usar "olha", "esse é filmaço", "pode ir sem medo", "esse é pra quem tem estômago" — quando sair natural, nunca como bordão.
-Evite cara de robô: "certamente", "com certeza!", "ótima escolha", "boa escolha", "fico feliz em ajudar", "no que posso te ajudar", "que tal...?", "perfeito!", diminutivos tipo "filminho". Não repita as mesmas frases de abertura entre respostas.`;
+Evite cara de robô: "certamente", "com certeza!", "ótima escolha", "boa escolha", "essa é uma pedida excelente", "fico feliz em ajudar", "no que posso te ajudar", "que tal...?", "perfeito!", diminutivos tipo "filminho". Não repita as mesmas frases de abertura entre respostas.`;
 }
 
 
@@ -1155,7 +1155,10 @@ function resumirContextoUsuario(historico, watchlist) {
 app.post("/api/chat", async (req, res) => {
   try {
     const { messages, plataformas, plataforma, watchlist, pedidosAnteriores } = req.body || {};
-    const plats = Array.isArray(plataformas) ? plataformas : (plataformas ? [plataformas] : (plataforma ? [plataforma] : ["Todos"]));
+    const PRATELEIRA = ["Netflix", "HBO Max", "Prime Video", "Disney+", "Apple TV+"];
+    let plats = Array.isArray(plataformas) ? plataformas : (plataformas ? [plataformas] : (plataforma ? [plataforma] : ["Todos"]));
+    // "TODOS" = as 5 plataformas da prateleira (nada de Claro tv+, Looke etc. — o site só oferece essas 5)
+    if (!plats.length || plats.includes("Todos")) plats = PRATELEIRA;
 
     // Conversa ATUAL vem do navegador. Cards renderizados viram texto simples pra Val.
     const sessao = (Array.isArray(messages) ? messages : []).slice(-30).map((m) => ({

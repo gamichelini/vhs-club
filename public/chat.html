@@ -214,6 +214,11 @@
   .btn-mini{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;background:var(--ink);color:var(--bb-yellow);border:2px solid var(--ink);padding:3px 10px}
   .btn-mini.claro{background:var(--paper);color:var(--ink)}
   .drawer .acts a{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;text-decoration:none;color:#fff;background:var(--red);border:2px solid var(--ink);padding:3px 8px}
+  .body .card-onde{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:2px 0 1px}
+  .body .card-onde .rot{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1px;color:var(--ink);opacity:.7;margin-right:2px}
+  .body .card-plat{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;color:#fff;background:#555;border:2px solid var(--ink);padding:1px 7px;line-height:1.25}
+  .body .card-plat.netflix{background:#e50914}.body .card-plat.hbo{background:#7e2fd6}.body .card-plat.prime{background:#00a8e1}
+  .body .card-plat.disney{background:#113cd1}.body .card-plat.apple{background:#1a1a1a}
 </style>
 </head>
 <body>
@@ -340,7 +345,7 @@ function mostrarBoasVindas(comChips = true) {
     );
   } else {
     bubble('clerk',
-      "Olha quem voltou! 📼 Tá a fim de assistir o quê hoje? Me conta o tema, o clima ou um filme que você curtiu." + convite,
+      "E aí! Sou a **Val**, aqui do balcão do VHS Club. 📼 Tá a fim de assistir o quê hoje? Me conta o tema, o clima ou um filme que você curtiu." + convite,
       true
     );
   }
@@ -393,9 +398,13 @@ function renderCardRico(d) {
     : '';
   // Botão direto pro streaming (1º da lista); demais plataformas ficam nos detalhes
   const pPrincipal = (d.plataformas || []).find((p) => BUSCA_PLATAFORMA[p]);
+  // Onde está: nome de cada streaming na cor dele, no topo do card
+  const ondeTem = (d.plataformas || []).length
+    ? `<div class="card-onde"><span class="rot">DISPONÍVEL NA</span>${d.plataformas.map((p) => `<span class="card-plat ${BUSCA_PLATAFORMA[p]?.cls || 'outra'}">${esc(p)}</span>`).join('')}</div>`
+    : '';
   const btnAssistir = pPrincipal
     ? `<a class="btn-assistir ${BUSCA_PLATAFORMA[pPrincipal].cls}" href="${BUSCA_PLATAFORMA[pPrincipal].url(d.titulo)}" target="_blank" rel="noopener" title="Abre a busca da ${esc(pPrincipal)} com o nome do filme">🔎 BUSCAR NA ${esc(pPrincipal.toUpperCase())}</a>`
-    : (d.linkOndeAssistir ? `<a class="btn-assistir" href="${esc(d.linkOndeAssistir)}" target="_blank" rel="noopener">▶ ONDE ASSISTIR</a>` : '');
+    : '';
   const sinopse = d.sinopse ? `<p class="card-sinopse">${esc(d.sinopse)}</p>` : '';
   const fonte = `<div class="card-fonte">📺 Na assinatura: <b>${esc(plats || '—')}</b> · conferido ${esc(horaFmt(d.consultadoEm || Date.now()))} via JustWatch/TMDB${d.linkOndeAssistir ? ` · <a href="${esc(d.linkOndeAssistir)}" target="_blank" rel="noopener">ver fonte</a>` : ''}</div>`;
   const poster = d.capa
@@ -406,6 +415,7 @@ function renderCardRico(d) {
       ${poster}
       <div class="card-info">
         <h3 class="card-title">${esc(d.titulo)}</h3>
+        ${ondeTem}
         <div class="card-meta">${ratingTag}${dur}${cl}${ano}${altaTag}</div>
         ${valDizBlock}
       </div>
