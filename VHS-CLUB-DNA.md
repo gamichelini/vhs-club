@@ -194,6 +194,9 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
    - **Música não corta na troca home → chat:** com o som ligado, o chat abre POR CIMA da home (iframe em tela cheia + URL /chat via pushState). O áudio mora na home; o botão ♪ do chat só manda ligar/desligar (postMessage). Logo e "voltar" do navegador fecham o chat sem recarregar. Refresh em /chat carrega o chat sozinho (aí o som só volta no 1º clique — regra do navegador).
    - **Achado:** o `gemini-3-flash` grátis tem limite de **20 pedidos/dia** (cada resposta da Val gasta 3-5). Com a cota estourada, cai nos modelos lite (respostas vazias às vezes → servidor pede de novo 1x).
 
+   - **(13/11) Curadoria da casa pras sugestões:** clicar numa sugestão da home fazia a Val pescar título de cabeça (3-5 chamadas ao Gemini, até 250s, 5-7 cards genéricos — ex.: Clube da Luta em "comédia com crise existencial"). Agora cada sugestão tem uma curadoria de 20-40 filmes em grupos (`curadoria-fonte.json`, 31 temas, 540 filmes, escrita pelo Claude). `scripts/montar-curadoria.mjs` resolve os títulos pra ids da TMDB (busca em inglês, ano ±1, título exato, mais votado; dá pra forçar com `#id`) e gera `curadoria.json`. Quando o pedido bate com uma sugestão (texto normalizado, vale também pro turno de afinar), o servidor confere a lista nas plataformas/tempo/exclusões e entrega pronta no prompt — a Val responde numa chamada só. Medido: **~6s e 11-16 cards** (antes 10-250s, 5-7 cards), mesmo no modelo reserva. Bônus: gasta ~1 pedido do Gemini por resposta em vez de 3-5 (ajuda com o limite de 20/dia do 3-flash). Cache da TMDB é aquecido no boot e a cada 6h (~35s).
+   - **Limites conhecidos:** plataforma única + tema estreito (ex.: só Apple TV+ pedindo ET) pode zerar a curadoria — aí a Val cai no fluxo antigo. "Tenho só 90 minutos" rende pouco em Netflix+Prime (6) — engordar a lista de filmes curtos.
+
 ---
 
 ## 12. Em aberto

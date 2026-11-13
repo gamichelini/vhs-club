@@ -1,0 +1,337 @@
+{
+  "_leia": "Curadoria da Val pras sugestões da home/chat. Cada tema: 'pedidos' = frases que disparam (iguais às de public/sugestoes.js), 'nota' = dica de ângulo pra Val, 'grupos' = prateleiras com 'Título original (ano)'. Pra forçar um id da TMDB: \"Título (ano) #12345\". Depois de editar, rode: node --env-file=.env scripts/montar-curadoria.mjs",
+  "temas": [
+    {
+      "id": "et",
+      "pedidos": ["Quero um filme de ET"],
+      "nota": "Pedido amplo: misture contato cabeça, ET de coração, invasão pipoca e ET com segunda camada.",
+      "grupos": [
+        { "nome": "Contato que mexe com a cabeça", "filmes": ["Arrival (2016)", "Contact (1997)", "Close Encounters of the Third Kind (1977)", "Nope (2022)", "Annihilation (2018)", "Signs (2002)", "The Vast of Night (2019)", "Under the Skin (2013)"] },
+        { "nome": "ET de coração", "filmes": ["E.T. the Extra-Terrestrial (1982)", "Paul (2011)", "Lilo & Stitch (2002)", "Super 8 (2011)", "Starman (1984)", "The Iron Giant (1999)", "Flight of the Navigator (1986)", "Attack the Block (2011)"] },
+        { "nome": "Invasão com pipoca", "filmes": ["War of the Worlds (2005)", "Independence Day (1996)", "Edge of Tomorrow (2014)", "A Quiet Place (2018)", "Men in Black (1997)", "Mars Attacks! (1996)", "Cloverfield (2008)", "Battle: Los Angeles (2011)"] },
+        { "nome": "ET com segunda camada", "filmes": ["District 9 (2009)", "Alien (1979)", "Aliens (1986)", "The Thing (1982)", "Predator (1987)", "Prometheus (2012)", "Life (2017)", "They Live (1988)"] }
+      ]
+    },
+    {
+      "id": "interestelar",
+      "pedidos": ["Algo parecido com Interestelar"],
+      "nota": "Não indicar o próprio Interestelar. Escala épica, ciência + emoção, tempo que dobra.",
+      "grupos": [
+        { "nome": "Espaço e saudade", "filmes": ["Gravity (2013)", "The Martian (2015)", "Ad Astra (2019)", "Sunshine (2007)", "Moon (2009)", "First Man (2018)", "Apollo 13 (1995)", "Contact (1997)", "2001: A Space Odyssey (1968)", "Arrival (2016)", "The Midnight Sky (2020)", "Solaris (1972)"] },
+        { "nome": "Tempo que dobra a cabeça", "filmes": ["Inception (2010)", "Tenet (2020)", "Looper (2012)", "Predestination (2014)", "Primer (2004)", "Coherence (2013)", "Source Code (2011)", "12 Monkeys (1995)", "Edge of Tomorrow (2014)"] },
+        { "nome": "Grande, bonito e cabeçudo", "filmes": ["Children of Men (2006)", "Dune (2021)", "Dune: Part Two (2024)", "Annihilation (2018)", "Blade Runner 2049 (2017)", "Gattaca (1997)", "The Tree of Life (2011)", "Melancholia (2011)", "Oppenheimer (2023)", "The Prestige (2006)", "Project Hail Mary (2026)"] }
+      ]
+    },
+    {
+      "id": "comedia-leve",
+      "pedidos": ["Uma comédia pra desligar a cabeça", "Hoje eu só quero dar risada, comédia leve", "Hoje eu só quero dar risada"],
+      "nota": "Riso fácil, nada pesado nem cabeça. Inclua comédia nacional.",
+      "grupos": [
+        { "nome": "Besteirol de primeira", "filmes": ["Superbad (2007)", "The Hangover (2009)", "Step Brothers (2008)", "Anchorman: The Legend of Ron Burgundy (2004)", "Dumb and Dumber (1994)", "Hot Fuzz (2007)", "Shaun of the Dead (2004)", "21 Jump Street (2012)", "Zoolander (2001)", "Game Night (2018)", "We're the Millers (2013)", "Tropic Thunder (2008)"] },
+        { "nome": "Comédia nacional", "filmes": ["Minha Mãe é uma Peça (2013)", "O Auto da Compadecida (2000)", "Se Eu Fosse Você (2006)", "De Pernas pro Ar (2010)", "Os Penetras (2012)", "Até que a Sorte nos Separe (2012)", "Cine Holliúdy (2013)", "Tô Ryca! (2016)", "O Palestrante (2022)"] },
+        { "nome": "Leve e gostoso de ver", "filmes": ["The Grand Budapest Hotel (2014)", "Crazy, Stupid, Love. (2011)", "The Nice Guys (2016)", "Free Guy (2021)", "Palm Springs (2020)", "Paddington 2 (2017)", "Bridesmaids (2011)", "Spy (2015)", "Barbie (2023)", "School of Rock (2003)", "The Intern (2015)", "Mean Girls (2004)", "Booksmart (2019)"] }
+      ]
+    },
+    {
+      "id": "suspense-sem-terror",
+      "pedidos": ["Suspense sem terror"],
+      "nota": "Tensão, mistério e reviravolta. Nada de sobrenatural nem susto.",
+      "grupos": [
+        { "nome": "Quem fez?", "filmes": ["Knives Out (2019)", "Gone Girl (2014)", "Zodiac (2007)", "Prisoners (2013)", "The Girl with the Dragon Tattoo (2011)", "Murder on the Orient Express (2017)", "Glass Onion: A Knives Out Mystery (2022)", "Wind River (2017)", "Memories of Murder (2003)", "Mystic River (2003)"] },
+        { "nome": "Tensão que não solta", "filmes": ["Rear Window (1954)", "North by Northwest (1959)", "Vertigo (1958)", "Panic Room (2002)", "Phone Booth (2002)", "Searching (2018)", "Nightcrawler (2014)", "Collateral (2004)", "Sicario (2015)", "Hell or High Water (2016)", "Uncut Gems (2019)", "The Guilty (2018)", "Buried (2010)"] },
+        { "nome": "Reviravolta no fim", "filmes": ["The Usual Suspects (1995)", "Shutter Island (2010)", "The Prestige (2006)", "Memento (2000)", "Oldboy (2003)", "Parasite (2019)", "The Invisible Guest (2016)", "Decision to Leave (2022)", "Primal Fear (1996)", "Side Effects (2013)", "Anatomy of a Fall (2023)", "Conclave (2024)"] }
+      ]
+    },
+    {
+      "id": "invasao-pessoas-comuns",
+      "pedidos": ["Quero uma invasão alienígena vista por pessoas comuns"],
+      "nota": "Ponto de vista do chão: família, bairro, gente comum. Não é guerra de general.",
+      "grupos": [
+        { "nome": "Do sofá de casa", "filmes": ["Signs (2002)", "A Quiet Place (2018)", "A Quiet Place Part II (2020)", "10 Cloverfield Lane (2016)", "No One Will Save You (2023)", "The Vast of Night (2019)", "Nope (2022)"] },
+        { "nome": "Correndo pela cidade", "filmes": ["War of the Worlds (2005)", "Cloverfield (2008)", "Attack the Block (2011)", "Super 8 (2011)", "The World's End (2013)", "Monsters (2010)", "Captive State (2019)", "Skyline (2010)", "The Darkest Hour (2011)"] },
+        { "nome": "Clássicos e paranoia", "filmes": ["Invasion of the Body Snatchers (1978)", "The Day the Earth Stood Still (1951)", "Independence Day (1996)", "Mars Attacks! (1996)", "Arrival (2016)", "District 9 (2009)", "Extinction (2018)", "Battle: Los Angeles (2011)"] }
+      ]
+    },
+    {
+      "id": "primeiro-contato-misterio",
+      "pedidos": ["Primeiro contato com ETs, com mais mistério do que tiro", "Quero filme de ET com mais mistério do que tiro"],
+      "nota": "Mistério, comunicação, estranhamento. Pouca ação.",
+      "grupos": [
+        { "nome": "Tentando entender o outro", "filmes": ["Arrival (2016)", "Contact (1997)", "Close Encounters of the Third Kind (1977)", "The Vast of Night (2019)", "Signs (2002)", "Sphere (1998)", "The Abyss (1989)", "Europa Report (2013)"] },
+        { "nome": "Estranho e bonito", "filmes": ["Annihilation (2018)", "Under the Skin (2013)", "Nope (2022)", "Solaris (1972)", "Solaris (2002)", "Stalker (1979)", "2001: A Space Odyssey (1968)", "The Man Who Fell to Earth (1976)"] },
+        { "nome": "Visitante com coração", "filmes": ["E.T. the Extra-Terrestrial (1982)", "Starman (1984)", "K-PAX (2001)", "Cocoon (1985)", "Super 8 (2011)", "The Day the Earth Stood Still (1951)", "Midnight Special (2016)"] },
+        { "nome": "Mistério com um pé no suspense", "filmes": ["District 9 (2009)", "Prometheus (2012)", "Life (2017)", "Monsters (2010)", "The Andromeda Strain (1971)"] }
+      ]
+    },
+    {
+      "id": "aliens-entre-nos",
+      "pedidos": ["Um filme em que os aliens já estão entre nós"],
+      "nota": "ET disfarçado, infiltrado ou morando aqui. Vale da paranoia à comédia.",
+      "grupos": [
+        { "nome": "Disfarçados entre a gente", "filmes": ["They Live (1988)", "Invasion of the Body Snatchers (1978)", "Invasion of the Body Snatchers (1956)", "The Faculty (1998)", "The Thing (1982)", "Under the Skin (2013)", "The Hidden (1987)", "The Arrival (1996)", "Dark City (1998)", "The World's End (2013)"] },
+        { "nome": "ET de vizinho", "filmes": ["Men in Black (1997)", "Men in Black 3 (2012)", "Paul (2011)", "Coneheads (1993)", "My Stepmother Is an Alien (1988)", "Earth Girls Are Easy (1988)", "Lilo & Stitch (2002)"] },
+        { "nome": "Visitante solitário", "filmes": ["K-PAX (2001)", "Starman (1984)", "The Man Who Fell to Earth (1976)", "District 9 (2009)", "Brightburn (2019)", "Superman (1978)", "Venom (2018)", "Bumblebee (2018)"] }
+      ]
+    },
+    {
+      "id": "et-conspiracao",
+      "pedidos": ["ET, conspiração e governo escondendo alguma coisa"],
+      "nota": "Arquivo secreto, governo atrás, gente fugindo de agente.",
+      "grupos": [
+        { "nome": "Arquivo secreto", "filmes": ["The X Files (1998)", "Close Encounters of the Third Kind (1977)", "Men in Black (1997)", "Independence Day (1996)", "The Arrival (1996)", "Hangar 18 (1980)", "Capricorn One (1977)", "Contact (1997)", "Arrival (2016)"] },
+        { "nome": "Fugindo do governo", "filmes": ["E.T. the Extra-Terrestrial (1982)", "Midnight Special (2016)", "Super 8 (2011)", "Paul (2011)", "Starman (1984)", "Flight of the Navigator (1986)", "Earth to Echo (2014)"] },
+        { "nome": "Paranoia e abdução", "filmes": ["Fire in the Sky (1993)", "Communion (1989)", "The Vast of Night (2019)", "Dark Skies (2013)", "They Live (1988)", "District 9 (2009)", "The Day the Earth Stood Still (1951)"] }
+      ]
+    },
+    {
+      "id": "vida-fora-possivel",
+      "pedidos": ["Vida fora da Terra de um jeito que pareça possível"],
+      "nota": "Pé na ciência: microbiologia, sinais de rádio, missões realistas.",
+      "grupos": [
+        { "nome": "Ciência de verdade", "filmes": ["Contact (1997)", "Arrival (2016)", "Europa Report (2013)", "The Andromeda Strain (1971)", "Life (2017)", "The Martian (2015)", "Stowaway (2021)", "Moon (2009)", "Proxima (2019)"] },
+        { "nome": "Grande e plausível", "filmes": ["2001: A Space Odyssey (1968)", "Interstellar (2014)", "Ad Astra (2019)", "Close Encounters of the Third Kind (1977)", "The Abyss (1989)", "Sphere (1998)", "Annihilation (2018)", "Solaris (1972)"] },
+        { "nome": "E se fosse hostil?", "filmes": ["Alien (1979)", "Prometheus (2012)", "District 9 (2009)", "Monsters (2010)", "The Last Days on Mars (2013)", "Red Planet (2000)", "Mission to Mars (2000)"] }
+      ]
+    },
+    {
+      "id": "questionar-realidade",
+      "pedidos": ["Quero um filme que me faça questionar a realidade"],
+      "nota": "Simulação, mente que mente, realidade que derrete.",
+      "grupos": [
+        { "nome": "Mundo de mentira", "filmes": ["The Matrix (1999)", "The Truman Show (1998)", "Dark City (1998)", "The Thirteenth Floor (1999)", "eXistenZ (1999)", "Total Recall (1990)", "Free Guy (2021)", "Source Code (2011)", "Blade Runner (1982)"] },
+        { "nome": "A cabeça que mente", "filmes": ["Shutter Island (2010)", "Memento (2000)", "Fight Club (1999)", "The Machinist (2004)", "Black Swan (2010)", "Moon (2009)", "Ex Machina (2014)", "Vanilla Sky (2001)", "Open Your Eyes (1997)"] },
+        { "nome": "Realidade que derrete", "filmes": ["Inception (2010)", "Mulholland Drive (2001)", "Being John Malkovich (1999)", "Synecdoche, New York (2008)", "Enemy (2013)", "Donnie Darko (2001)", "Everything Everywhere All at Once (2022)", "Paprika (2006)", "Perfect Blue (1997)", "Waking Life (2001)"] },
+        { "nome": "Quebra-cabeça de baixo orçamento", "filmes": ["Coherence (2013)", "Primer (2004)", "Triangle (2009)", "Upstream Color (2013)"] }
+      ]
+    },
+    {
+      "id": "comedia-crise-existencial",
+      "pedidos": ["Uma comédia que me dê uma crise existencial"],
+      "nota": "Tem que ser COMÉDIA de verdade, que faz rir e depois pensar na vida. Nada de drama pesado ou thriller (ex.: Clube da Luta não serve).",
+      "grupos": [
+        { "nome": "Presos no loop", "filmes": ["Groundhog Day (1993)", "Palm Springs (2020)", "Everything Everywhere All at Once (2022)", "Click (2006)", "The Map of Tiny Perfect Things (2021)"] },
+        { "nome": "Quem sou eu, afinal?", "filmes": ["Being John Malkovich (1999)", "Adaptation. (2002)", "Stranger than Fiction (2006)", "I Heart Huckabees (2004)", "The Truman Show (1998)", "Eternal Sunshine of the Spotless Mind (2004)", "Barbie (2023)", "Synecdoche, New York (2008)", "Beau Is Afraid (2023)", "Anomalisa (2015)"] },
+        { "nome": "Rir pra não chorar", "filmes": ["Little Miss Sunshine (2006)", "Birdman or (The Unexpected Virtue of Ignorance) (2014)", "The Lobster (2015)", "Lost in Translation (2003)", "Harold and Maude (1971)", "Monty Python's The Meaning of Life (1983)", "Don't Look Up (2021)", "The Worst Person in the World (2021)", "Frances Ha (2012)", "Sideways (2004)", "About Schmidt (2002)", "The Banshees of Inisherin (2022)", "Triangle of Sadness (2022)", "Defending Your Life (1991)", "Office Space (1999)", "Swiss Army Man (2016)", "The Secret Life of Walter Mitty (2013)"] },
+        { "nome": "Animação que pega pesado", "filmes": ["Soul (2020)", "Inside Out (2015)", "Inside Out 2 (2024)"] }
+      ]
+    },
+    {
+      "id": "livre-arbitrio",
+      "pedidos": ["Filmes sobre livre-arbítrio: a gente escolhe alguma coisa mesmo?"],
+      "nota": "Destino x escolha, caminhos alternativos, acaso.",
+      "grupos": [
+        { "nome": "Destino ou escolha?", "filmes": ["Minority Report (2002)", "The Adjustment Bureau (2011)", "Gattaca (1997)", "The Matrix (1999)", "Predestination (2014)", "Arrival (2016)", "Donnie Darko (2001)", "12 Monkeys (1995)", "Dark City (1998)", "Stranger than Fiction (2006)"] },
+        { "nome": "E se fosse o outro caminho?", "filmes": ["Run Lola Run (1998)", "Sliding Doors (1998)", "Mr. Nobody (2009)", "The Butterfly Effect (2004)", "Everything Everywhere All at Once (2022)", "Looper (2012)", "Source Code (2011)", "Groundhog Day (1993)"] },
+        { "nome": "Controle e liberdade", "filmes": ["A Clockwork Orange (1971)", "The Truman Show (1998)", "Equilibrium (2002)", "THX 1138 (1971)", "Ex Machina (2014)", "I, Robot (2004)", "Free Guy (2021)"] },
+        { "nome": "Acaso e sorte", "filmes": ["No Country for Old Men (2007)", "Match Point (2005)", "Magnolia (1999)", "Tenet (2020)"] }
+      ]
+    },
+    {
+      "id": "filosofia-sem-aula",
+      "pedidos": ["Quero filosofia sem parecer que estou assistindo a uma aula"],
+      "nota": "Filmes gostosos de ver que levantam questões grandes sem discurso.",
+      "grupos": [
+        { "nome": "Pensar no meio da aventura", "filmes": ["The Matrix (1999)", "The Truman Show (1998)", "Groundhog Day (1993)", "Gattaca (1997)", "Arrival (2016)", "Ex Machina (2014)", "Blade Runner (1982)", "Blade Runner 2049 (2017)", "Moon (2009)", "Life of Pi (2012)", "Cast Away (2000)", "Everything Everywhere All at Once (2022)"] },
+        { "nome": "Conversa que vira filosofia", "filmes": ["Before Sunrise (1995)", "Before Sunset (2004)", "My Dinner with Andre (1981)", "Waking Life (2001)", "Her (2013)", "Good Will Hunting (1997)", "Dead Poets Society (1989)"] },
+        { "nome": "Sentido da vida sem sermão", "filmes": ["Perfect Days (2023)", "Paterson (2016)", "Soul (2020)", "Eternal Sunshine of the Spotless Mind (2004)", "The Shawshank Redemption (1994)", "Into the Wild (2007)", "The Tree of Life (2011)", "The Lobster (2015)", "Fight Club (1999)"] },
+        { "nome": "Clássicos que pensam", "filmes": ["The Seventh Seal (1957)", "Wild Strawberries (1957)", "Ikiru (1952)", "Synecdoche, New York (2008)"] }
+      ]
+    },
+    {
+      "id": "ser-humano",
+      "pedidos": ["Um filme sobre o que significa ser humano"],
+      "nota": "Robôs, clones, quase-humanos e também a vida comum como milagre.",
+      "grupos": [
+        { "nome": "Máquinas mais humanas que a gente", "filmes": ["Blade Runner (1982)", "Blade Runner 2049 (2017)", "Ex Machina (2014)", "Her (2013)", "A.I. Artificial Intelligence (2001)", "Bicentennial Man (1999)", "After Yang (2021)", "Robot & Frank (2012)", "Ghost in the Shell (1995)", "Archive (2020)"] },
+        { "nome": "Quase humano", "filmes": ["Never Let Me Go (2010)", "Moon (2009)", "Under the Skin (2013)", "Edward Scissorhands (1990)", "The Elephant Man (1980)", "Poor Things (2023)", "District 9 (2009)", "Frankenstein (1931)", "Lars and the Real Girl (2007)"] },
+        { "nome": "Animação que diz tudo", "filmes": ["WALL·E (2008)", "The Iron Giant (1999)", "The Wild Robot (2024)", "Inside Out (2015)", "Soul (2020)"] },
+        { "nome": "A vida comum como milagre", "filmes": ["Ikiru (1952)", "It's a Wonderful Life (1946)", "Wings of Desire (1987)", "Children of Men (2006)", "Arrival (2016)", "Perfect Days (2023)"] }
+      ]
+    },
+    {
+      "id": "scifi-espiritual",
+      "pedidos": ["Ficção científica com questões espirituais"],
+      "nota": "Deus, alma, morte e transcendência dentro da ficção científica.",
+      "grupos": [
+        { "nome": "Deus no espaço", "filmes": ["Contact (1997)", "2001: A Space Odyssey (1968)", "Solaris (1972)", "Interstellar (2014)", "Sunshine (2007)", "Ad Astra (2019)", "High Life (2018)", "Prometheus (2012)", "Close Encounters of the Third Kind (1977)"] },
+        { "nome": "Morte, alma e ciência", "filmes": ["The Discovery (2017)", "I Origins (2014)", "Flatliners (1990)", "Brainstorm (1983)", "Another Earth (2011)", "The Man from Earth (2007)", "Mr. Nobody (2009)", "The Fountain (2006)", "Arrival (2016)"] },
+        { "nome": "Místico e épico", "filmes": ["Stalker (1979)", "Dune (2021)", "Dune: Part Two (2024)", "Cloud Atlas (2012)", "The Matrix (1999)", "Annihilation (2018)", "Knowing (2009)", "Signs (2002)", "Melancholia (2011)", "The Tree of Life (2011)", "Lucy (2014)"] }
+      ]
+    },
+    {
+      "id": "amor-viagem-tempo",
+      "pedidos": ["Uma história de amor que envolva viagem no tempo"],
+      "nota": "Romance de verdade no centro; o tempo é o obstáculo.",
+      "grupos": [
+        { "nome": "Romance que atravessa o tempo", "filmes": ["About Time (2013)", "The Time Traveler's Wife (2009)", "Somewhere in Time (1980)", "Kate & Leopold (2001)", "The Lake House (2006)", "Il Mare (2000)", "Midnight in Paris (2011)", "Peggy Sue Got Married (1986)", "Time After Time (1979)", "The Age of Adaline (2015)"] },
+        { "nome": "Loop apaixonado", "filmes": ["Palm Springs (2020)", "Groundhog Day (1993)", "The Map of Tiny Perfect Things (2021)", "Edge of Tomorrow (2014)", "Source Code (2011)"] },
+        { "nome": "Coração em ficção científica", "filmes": ["12 Monkeys (1995)", "The Terminator (1984)", "Safety Not Guaranteed (2012)", "Arrival (2016)", "Interstellar (2014)", "Eternal Sunshine of the Spotless Mind (2004)", "Frequency (2000)", "La Jetée (1962)", "Synchronic (2019)"] },
+        { "nome": "Anime que derrete", "filmes": ["Your Name. (2016)", "The Girl Who Leapt Through Time (2006)"] }
+      ]
+    },
+    {
+      "id": "memorias-falsas",
+      "pedidos": ["Um suspense sobre memórias que talvez sejam falsas"],
+      "nota": "Identidade e memória em dúvida, com suspense.",
+      "grupos": [
+        { "nome": "Quem eu sou, afinal?", "filmes": ["Memento (2000)", "The Bourne Identity (2002)", "Total Recall (1990)", "Unknown (2011)", "Before I Go to Sleep (2014)", "The Long Kiss Goodnight (1996)", "Remember (2015)", "Dark City (1998)", "Moon (2009)", "Blade Runner 2049 (2017)"] },
+        { "nome": "A cabeça engana", "filmes": ["Shutter Island (2010)", "The Machinist (2004)", "Mulholland Drive (2001)", "Identity (2003)", "Jacob's Ladder (1990)", "Angel Heart (1987)", "Spellbound (1945)", "Trance (2013)", "The Father (2020)", "Vanilla Sky (2001)", "Open Your Eyes (1997)"] },
+        { "nome": "Memória mexida por alguém", "filmes": ["Eternal Sunshine of the Spotless Mind (2004)", "Inception (2010)", "Paycheck (2003)", "The Forgotten (2004)", "Oldboy (2003)", "The Manchurian Candidate (2004)", "Reminiscence (2021)"] }
+      ]
+    },
+    {
+      "id": "distopia-hoje",
+      "pedidos": ["Uma distopia que faça pensar no mundo de hoje"],
+      "nota": "Desigualdade, tecnologia, controle, mídia. Inclua os brasileiros.",
+      "grupos": [
+        { "nome": "Desigualdade levada ao extremo", "filmes": ["Snowpiercer (2013)", "Elysium (2013)", "In Time (2011)", "The Platform (2019)", "The Hunger Games (2012)", "Parasite (2019)", "District 9 (2009)", "Children of Men (2006)", "Mad Max: Fury Road (2015)"] },
+        { "nome": "Tecnologia e controle", "filmes": ["Minority Report (2002)", "Gattaca (1997)", "Upgrade (2018)", "Equilibrium (2002)", "V for Vendetta (2005)", "Nineteen Eighty-Four (1984)", "Fahrenheit 451 (1966)", "The Truman Show (1998)", "Brazil (1985)"] },
+        { "nome": "Sátira que dói", "filmes": ["Don't Look Up (2021)", "Idiocracy (2006)", "Sorry to Bother You (2018)", "They Live (1988)", "WALL·E (2008)", "The Lobster (2015)", "Network (1976)", "Nightcrawler (2014)"] },
+        { "nome": "Agora mesmo", "filmes": ["Civil War (2024)", "Leave the World Behind (2023)", "The Purge (2013)"] },
+        { "nome": "Brasil distópico", "filmes": ["Bacurau (2019)", "Divino Amor (2019)", "7 Prisioneiros (2021)"] }
+      ]
+    },
+    {
+      "id": "sociedade-perfeita",
+      "pedidos": ["Uma sociedade aparentemente perfeita que esconde algo terrível"],
+      "nota": "Lugar bonito demais, sorriso demais, segredo embaixo.",
+      "grupos": [
+        { "nome": "Subúrbio bonito demais", "filmes": ["The Stepford Wives (1975)", "The Stepford Wives (2004)", "Pleasantville (1998)", "Don't Worry Darling (2022)", "The Truman Show (1998)", "Edward Scissorhands (1990)", "Blue Velvet (1986)", "Vivarium (2019)", "Get Out (2017)"] },
+        { "nome": "Utopia com prazo de validade", "filmes": ["Logan's Run (1976)", "The Island (2005)", "Never Let Me Go (2010)", "The Giver (2014)", "Equilibrium (2002)", "Demolition Man (1993)", "Gattaca (1997)", "Divergent (2014)", "Tomorrowland (2015)", "Elysium (2013)"] },
+        { "nome": "Vilarejo com segredo", "filmes": ["The Village (2004)", "Hot Fuzz (2007)", "The Wicker Man (1973)", "Midsommar (2019)", "Divino Amor (2019)"] },
+        { "nome": "O sistema por trás", "filmes": ["The Matrix (1999)", "Dark City (1998)", "Snowpiercer (2013)", "The Lobster (2015)", "Serenity (2005)"] }
+      ]
+    },
+    {
+      "id": "saudade-epoca",
+      "pedidos": ["Quero sentir saudade de uma época que nem vivi"],
+      "nota": "Nostalgia gostosa: verão, música, cinema, outra época. Inclua Brasil.",
+      "grupos": [
+        { "nome": "Verão que não volta", "filmes": ["Dazed and Confused (1993)", "American Graffiti (1973)", "Stand by Me (1986)", "Everybody Wants Some!! (2016)", "Licorice Pizza (2021)", "Call Me by Your Name (2017)", "Moonrise Kingdom (2012)", "Super 8 (2011)", "Mid90s (2018)", "Aftersun (2022)"] },
+        { "nome": "Música e cinema de outra era", "filmes": ["Almost Famous (2000)", "Sing Street (2016)", "Cinema Paradiso (1988)", "Once Upon a Time... in Hollywood (2019)", "The Fabelmans (2022)", "La La Land (2016)", "Grease (1978)", "Dirty Dancing (1987)"] },
+        { "nome": "Outra época, outro ritmo", "filmes": ["Midnight in Paris (2011)", "Amélie (2001)", "The Grand Budapest Hotel (2014)", "Roma (2018)", "Belfast (2021)", "Brooklyn (2015)", "In the Mood for Love (2000)", "Paper Moon (1973)", "Back to the Future (1985)"] },
+        { "nome": "Brasil de antigamente", "filmes": ["Ainda Estou Aqui (2024)", "Somos Tão Jovens (2013)", "Cazuza: O Tempo Não Para (2004)", "O Ano em que Meus Pais Saíram de Férias (2006)"] }
+      ]
+    },
+    {
+      "id": "normal-estranho",
+      "pedidos": ["Um filme que comece normal e fique cada vez mais estranho"],
+      "nota": "Escalada: começa cotidiano e vai descarrilando.",
+      "grupos": [
+        { "nome": "Jantar que desanda", "filmes": ["The Menu (2022)", "Triangle of Sadness (2022)", "Parasite (2019)", "Get Out (2017)", "Ready or Not (2019)", "Saltburn (2023)", "Speak No Evil (2022)", "Coherence (2013)"] },
+        { "nome": "Rotina que racha", "filmes": ["After Hours (1985)", "Under the Silver Lake (2018)", "Vivarium (2019)", "Enemy (2013)", "The Killing of a Sacred Deer (2017)", "Mother! (2017)", "Beau Is Afraid (2023)", "Blue Velvet (1986)", "Mulholland Drive (2001)", "The Truman Show (1998)"] },
+        { "nome": "O gênero muda no meio", "filmes": ["From Dusk Till Dawn (1996)", "Barbarian (2022)", "The Cabin in the Woods (2012)", "Bacurau (2019)", "Nope (2022)", "Sorry to Bother You (2018)", "Midsommar (2019)", "Being John Malkovich (1999)", "Everything Everywhere All at Once (2022)", "Fight Club (1999)", "The Lobster (2015)", "Synecdoche, New York (2008)"] }
+      ]
+    },
+    {
+      "id": "sonho-inexplicavel",
+      "pedidos": ["Algo que pareça um sonho que eu não consigo explicar"],
+      "nota": "Lógica de sonho, imagens que ficam. Sem precisar entender tudo.",
+      "grupos": [
+        { "nome": "Lógica de sonho", "filmes": ["Mulholland Drive (2001)", "Lost Highway (1997)", "Eraserhead (1977)", "Holy Motors (2012)", "Beau Is Afraid (2023)", "Synecdoche, New York (2008)", "Enemy (2013)", "8½ (1963)", "Stalker (1979)", "Under the Skin (2013)"] },
+        { "nome": "Animação que sonha", "filmes": ["Paprika (2006)", "Spirited Away (2001)", "The Boy and the Heron (2023)", "Perfect Blue (1997)", "Coraline (2009)", "Waking Life (2001)", "Alice in Wonderland (1951)"] },
+        { "nome": "Bonito e inexplicável", "filmes": ["The Science of Sleep (2006)", "The Fall (2006) #14784", "Big Fish (2003)", "Pan's Labyrinth (2006)", "Dreams (1990)", "Uncle Boonmee Who Can Recall His Past Lives (2010)", "The Tree of Life (2011)", "What Dreams May Come (1998)", "Eternal Sunshine of the Spotless Mind (2004)"] },
+        { "nome": "Pesadelo bem filmado", "filmes": ["Inception (2010)", "The Cell (2000)", "Brazil (1985)", "Jacob's Ladder (1990)", "Annihilation (2018)", "Vanilla Sky (2001)"] }
+      ]
+    },
+    {
+      "id": "inteligente-cansado",
+      "pedidos": ["Quero um filme inteligente, mas estou cansado", "Cabeça cansada, mas nada bobo"],
+      "nota": "Esperto mas FLUIDO e de preferência até ~2h. Nada lento, arrastado ou de 3 horas (Interestelar, Zodíaco não servem).",
+      "grupos": [
+        { "nome": "Esperto e redondinho", "filmes": ["Knives Out (2019)", "Glass Onion: A Knives Out Mystery (2022)", "Catch Me If You Can (2002)", "The Nice Guys (2016)", "Ocean's Eleven (2001)", "Searching (2018)", "Baby Driver (2017)", "Parasite (2019)", "Hot Fuzz (2007)"] },
+        { "nome": "Leve, mas com cérebro", "filmes": ["The Grand Budapest Hotel (2014)", "Groundhog Day (1993)", "The Truman Show (1998)", "Palm Springs (2020)", "Little Miss Sunshine (2006)", "Jojo Rabbit (2019)", "Hunt for the Wilderpeople (2016)", "The Holdovers (2023)", "The Intouchables (2011)", "Amélie (2001)", "Chef (2014)", "O Auto da Compadecida (2000)"] },
+        { "nome": "Animação de gente grande", "filmes": ["Paddington 2 (2017)", "Ratatouille (2007)", "Inside Out (2015)", "Zootopia (2016)", "Spirited Away (2001)"] },
+        { "nome": "Ficção científica que flui", "filmes": ["Arrival (2016)", "Moon (2009)", "Ex Machina (2014)", "The Martian (2015)", "Edge of Tomorrow (2014)", "Source Code (2011)", "Coherence (2013)"] }
+      ]
+    },
+    {
+      "id": "terror-sem-susto",
+      "pedidos": ["Um terror que incomode sem depender de sustos", "Terror que incomoda sem susto barato"],
+      "nota": "Pavor que cresce, incômodo psicológico. Pouco jump scare.",
+      "grupos": [
+        { "nome": "Medo que cresce devagar", "filmes": ["The Witch (2015)", "It Follows (2014)", "Hereditary (2018)", "The Shining (1980)", "Rosemary's Baby (1968)", "The Innocents (1961)", "The Others (2001)", "Don't Look Now (1973)", "Relic (2020)", "Longlegs (2024)", "The Lighthouse (2019)"] },
+        { "nome": "Incômodo psicológico", "filmes": ["The Killing of a Sacred Deer (2017)", "Funny Games (1997)", "Speak No Evil (2022)", "The Invitation (2015)", "Goodnight Mommy (2014)", "Saint Maud (2019)", "The Babadook (2014)", "Possession (1981)", "Men (2022)", "Cure (1997)", "Mother! (2017)", "Under the Skin (2013)"] },
+        { "nome": "Folk horror e luz do dia", "filmes": ["Midsommar (2019)", "The Wicker Man (1973)", "Kill List (2011)", "The Wailing (2016)"] },
+        { "nome": "Terror com recado", "filmes": ["Get Out (2017)", "Us (2019)", "Nope (2022)", "The Zone of Interest (2023)", "As Boas Maneiras (2017)", "Trabalhar Cansa (2011)"] }
+      ]
+    },
+    {
+      "id": "interestelar-menos-triste",
+      "pedidos": ["Algo parecido com Interestelar, só que menos triste"],
+      "nota": "Escala e ciência de Interestelar, mas com final pra cima. Não indicar o próprio Interestelar.",
+      "grupos": [
+        { "nome": "Espaço com final feliz", "filmes": ["The Martian (2015)", "Apollo 13 (1995)", "Project Hail Mary (2026)", "Gravity (2013)", "Contact (1997)", "Close Encounters of the Third Kind (1977)", "Passengers (2016)", "Space Cowboys (2000)", "The Right Stuff (1983)"] },
+        { "nome": "Tempo e cabeça, sem lágrima", "filmes": ["Back to the Future (1985)", "Edge of Tomorrow (2014)", "Inception (2010)", "Source Code (2011)", "Tenet (2020)", "Arrival (2016)"] },
+        { "nome": "Aventura espacial pipoca", "filmes": ["Star Trek (2009)", "Guardians of the Galaxy (2014)", "Star Wars (1977)", "Galaxy Quest (1999)", "Dune (2021)", "Dune: Part Two (2024)", "Treasure Planet (2002)", "Lightyear (2022)"] },
+        { "nome": "Ciência que inspira", "filmes": ["Hidden Figures (2016)", "October Sky (1999)", "WALL·E (2008)", "Tomorrowland (2015)", "Super 8 (2011)"] }
+      ]
+    },
+    {
+      "id": "solidao-acolhedora",
+      "pedidos": ["Uma história sobre solidão que também seja acolhedora"],
+      "nota": "Solidão tratada com carinho; termina com calor, não com peso.",
+      "grupos": [
+        { "nome": "Sozinho, mas em paz", "filmes": ["Perfect Days (2023)", "Paterson (2016)", "The Straight Story (1999)", "Nomadland (2020)", "Columbus (2017)", "Frances Ha (2012)", "Wild (2014)", "The Secret Life of Walter Mitty (2013)", "Cast Away (2000)", "The Martian (2015)"] },
+        { "nome": "Solidão que encontra alguém", "filmes": ["Lost in Translation (2003)", "Her (2013)", "Amélie (2001)", "Lars and the Real Girl (2007)", "Robot & Frank (2012)", "The Station Agent (2003)", "The Holdovers (2023)", "A Man Called Otto (2022)", "About Schmidt (2002)", "Chungking Express (1994)", "Past Lives (2023)", "Central do Brasil (1998)"] },
+        { "nome": "Animação que abraça", "filmes": ["WALL·E (2008)", "Up (2009)", "Robot Dreams (2023)", "The Wild Robot (2024)", "Kiki's Delivery Service (1989)", "Marcel the Shell with Shoes On (2021)"] }
+      ]
+    },
+    {
+      "id": "duas-pessoas",
+      "pedidos": ["Um filme bom pra duas pessoas que nunca concordam no que assistir"],
+      "nota": "Filmes que misturam gêneros e agradam gostos diferentes: ação + humor, romance + aventura.",
+      "grupos": [
+        { "nome": "Ação com coração (agrada os dois)", "filmes": ["Top Gun: Maverick (2022)", "Edge of Tomorrow (2014)", "Mr. & Mrs. Smith (2005)", "Mad Max: Fury Road (2015)", "Jurassic Park (1993)", "Pirates of the Caribbean: The Curse of the Black Pearl (2003)", "Back to the Future (1985)", "Ford v Ferrari (2019)", "The Martian (2015)"] },
+        { "nome": "Comédia com romance de leve", "filmes": ["The Lost City (2022)", "Romancing the Stone (1984)", "The Princess Bride (1987)", "Crazy Rich Asians (2018)", "10 Things I Hate About You (1999)", "The Devil Wears Prada (2006)", "Game Night (2018)", "Free Guy (2021)", "Barbie (2023)"] },
+        { "nome": "Mistério pra discutir no sofá", "filmes": ["Knives Out (2019)", "Glass Onion: A Knives Out Mystery (2022)", "The Nice Guys (2016)", "Ocean's Eleven (2001)", "Catch Me If You Can (2002)", "Parasite (2019)"] },
+        { "nome": "Ninguém recusa", "filmes": ["Spider-Man: Into the Spider-Verse (2018)", "Coco (2017)", "Inside Out (2015)", "The Intouchables (2011)", "O Auto da Compadecida (2000)", "The Grand Budapest Hotel (2014)", "Everything Everywhere All at Once (2022)", "Hunt for the Wilderpeople (2016)", "La La Land (2016)"] }
+      ]
+    },
+    {
+      "id": "precisar-conversar",
+      "pedidos": ["Quero terminar o filme e precisar conversar sobre ele"],
+      "nota": "Final aberto, dilema moral ou quebra-cabeça. Dá assunto depois.",
+      "grupos": [
+        { "nome": "Final pra debater", "filmes": ["Inception (2010)", "Shutter Island (2010)", "Arrival (2016)", "The Prestige (2006)", "Gone Girl (2014)", "Burning (2018)", "Enemy (2013)", "Donnie Darko (2001)", "Mulholland Drive (2001)", "Aftersun (2022)", "Past Lives (2023)"] },
+        { "nome": "Dilema moral", "filmes": ["Prisoners (2013)", "The Hunt (2012)", "A Separation (2011)", "Incendies (2010)", "Anatomy of a Fall (2023)", "Conclave (2024)", "The Banshees of Inisherin (2022)", "Marriage Story (2019)", "The Zone of Interest (2023)", "Tár (2022)", "Oldboy (2003)"] },
+        { "nome": "Quebra-cabeça", "filmes": ["Memento (2000)", "Primer (2004)", "Coherence (2013)", "Fight Club (1999)", "Everything Everywhere All at Once (2022)", "Mother! (2017)", "The Lobster (2015)"] },
+        { "nome": "Sátira que dá briga", "filmes": ["Parasite (2019)", "Get Out (2017)", "Triangle of Sadness (2022)", "Saltburn (2023)", "Poor Things (2023)", "The Substance (2024)"] },
+        { "nome": "Brasil pra discutir", "filmes": ["Ainda Estou Aqui (2024)", "Cidade de Deus (2002)", "Tropa de Elite (2007)", "Que Horas Ela Volta? (2015)", "Bacurau (2019)"] }
+      ]
+    },
+    {
+      "id": "acreditar-pessoas",
+      "pedidos": ["Quero voltar a acreditar um pouco nas pessoas", "Pra voltar a acreditar nas pessoas"],
+      "nota": "Gentileza, gente comum fazendo o certo, família escolhida. Termina bem.",
+      "grupos": [
+        { "nome": "Gentileza que muda tudo", "filmes": ["Paddington 2 (2017)", "It's a Wonderful Life (1946)", "A Beautiful Day in the Neighborhood (2019)", "Pay It Forward (2000)", "Amélie (2001)", "Perfect Days (2023)", "A Man Called Otto (2022)", "Wonder (2017)"] },
+        { "nome": "Gente comum fazendo o certo", "filmes": ["Hidden Figures (2016)", "Spotlight (2015)", "Erin Brockovich (2000)", "Freedom Writers (2007)", "Remember the Titans (2000)", "The Pursuit of Happyness (2006)", "Green Book (2018)", "The Shawshank Redemption (1994)", "Dead Poets Society (1989)", "Good Will Hunting (1997)"] },
+        { "nome": "Família que a gente escolhe", "filmes": ["The Intouchables (2011)", "The Holdovers (2023)", "Little Miss Sunshine (2006)", "Hunt for the Wilderpeople (2016)", "The Peanut Butter Falcon (2019)", "CODA (2021)", "Instant Family (2018)", "Lion (2016)", "Chef (2014)", "Central do Brasil (1998)", "Que Horas Ela Volta? (2015)"] },
+        { "nome": "Animação pra lavar a alma", "filmes": ["Up (2009)", "Coco (2017)", "Klaus (2019)", "Marcel the Shell with Shoes On (2021)", "The Wild Robot (2024)"] }
+      ]
+    },
+    {
+      "id": "noventa-minutos",
+      "pedidos": ["Tenho só 90 minutos"],
+      "nota": "Todos com até ~90 min (o servidor já corta os mais longos). Variado de gênero.",
+      "grupos": [
+        { "nome": "Tensão em tempo real", "filmes": ["Run Lola Run (1998)", "Phone Booth (2002)", "Locke (2013)", "The Guilty (2018)", "Rope (1948)", "Duel (1971)", "Crank (2006)", "Run (2020)", "The Shallows (2016)", "Don't Breathe (2016)", "A Quiet Place (2018)", "Cube (1997)"] },
+        { "nome": "Cabeça em 90 minutos", "filmes": ["Coherence (2013)", "Primer (2004)", "The Vast of Night (2019)", "Paprika (2006)", "Perfect Blue (1997)"] },
+        { "nome": "Rir rapidinho", "filmes": ["Palm Springs (2020)", "Airplane! (1980)", "What We Do in the Shadows (2014)", "Monty Python and the Holy Grail (1975)", "Tucker and Dale vs. Evil (2010)", "Minha Mãe é uma Peça (2013)", "Frances Ha (2012)", "Tangerine (2015)"] },
+        { "nome": "Animação na medida", "filmes": ["Toy Story (1995)", "Lilo & Stitch (2002)", "Fantastic Mr. Fox (2009)", "My Neighbor Totoro (1988)", "Chicken Run (2000)", "Shrek (2001)", "The Iron Giant (1999)", "The Nightmare Before Christmas (1993)", "Wallace & Gromit: Vengeance Most Fowl (2024)", "Marcel the Shell with Shoes On (2021)"] }
+      ]
+    },
+    {
+      "id": "desconfiar-todo-mundo",
+      "pedidos": ["Suspense em que dá pra desconfiar de todo mundo", "Suspense pra desconfiar de todo mundo"],
+      "nota": "Todo mundo é suspeito: whodunit, traição, grupo fechado.",
+      "grupos": [
+        { "nome": "Whodunit de casarão", "filmes": ["Knives Out (2019)", "Glass Onion: A Knives Out Mystery (2022)", "Murder on the Orient Express (2017)", "Death on the Nile (2022)", "Clue (1985)", "Gosford Park (2001)", "See How They Run (2022)", "Bodies Bodies Bodies (2022)", "Sleuth (1972)"] },
+        { "nome": "Grupo fechado, ninguém confiável", "filmes": ["The Hateful Eight (2015)", "The Thing (1982)", "Reservoir Dogs (1992)", "Identity (2003)", "Bad Times at the El Royale (2018)", "The Invitation (2015)", "Perfect Strangers (2016)", "Conclave (2024)"] },
+        { "nome": "Traição e jogo duplo", "filmes": ["The Departed (2006)", "Infernal Affairs (2002)", "Tinker Tailor Soldier Spy (2011)", "The Usual Suspects (1995)", "The Talented Mr. Ripley (1999)", "Gone Girl (2014)", "A Simple Favor (2018)", "Side Effects (2013)", "Primal Fear (1996)", "The Invisible Guest (2016)"] },
+        { "nome": "Clássico de Hitchcock e cia", "filmes": ["Rebecca (1940)", "Shadow of a Doubt (1943)", "Body Heat (1981)", "Anatomy of a Fall (2023)", "Prisoners (2013)", "Mystic River (2003)"] }
+      ]
+    }
+  ]
+}

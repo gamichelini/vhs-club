@@ -11,6 +11,7 @@
  */
 
 import express from "express";
+import { readFileSync } from "node:fs";
 
 const TMDB_KEY = process.env.TMDB_KEY;
 const GEMINI_KEY = process.env.GEMINI_KEY;
@@ -326,6 +327,68 @@ async function validarTitulos(titulos, plats = [], criterios = {}) {
   return out;
 }
 
+/* ---------- CURADORIA DA CASA (sugestões da home) ----------
+   Pra cada sugestão clicável (public/sugestoes.js) existe uma lista curada de 20-40 filmes, já com id da TMDB
+   (curadoria.json, gerado por scripts/montar-curadoria.mjs a partir de curadoria-fonte.json).
+   Quando o pedido é uma dessas sugestões, o servidor confere a lista nas plataformas da pessoa e entrega
+   pronta pra Val — ela não precisa pescar título de cabeça (era aí que travava e saía genérico). */
+const PRATELEIRA = ["Netflix", "HBO Max", "Prime Video", "Disney+", "Apple TV+"];
+let CURADORIA = [];
+try { CURADORIA = JSON.parse(readFileSync(new URL("./curadoria.json", import.meta.url), "utf8")).temas || []; }
+catch (e) { console.warn("[curadoria] curadoria.json não carregou:", e.message); }
+const chaveTexto = (t) => normalizar(t).replace(/[^a-z0-9]+/g, " ").trim();
+const TEMA_POR_PEDIDO = new Map();
+for (const t of CURADORIA) for (const p of t.pedidos) TEMA_POR_PEDIDO.set(chaveTexto(p), t);
+
+// O pedido atual é uma sugestão da casa? Vale também no turno de afinar logo depois (conversa curta).
+function temaDaSessao(sessao) {
+  const doUsuario = sessao.filter((m) => m.role === "user").map((m) => m.content);
+  if (!doUsuario.length) return null;
+  const agora = TEMA_POR_PEDIDO.get(chaveTexto(doUsuario[doUsuario.length - 1]));
+  if (agora) return agora;
+  if (doUsuario.length <= 3) return TEMA_POR_PEDIDO.get(chaveTexto(doUsuario[0])) || null;
+  return null;
+}
+
+// Confere a curadoria do tema nas plataformas da pessoa (+ tempo máximo e exclusões). Ordem da curadoria mantida.
+async function prateleiraCurada(tema, plats = [], criterios = {}) {
+  const durMax = criterios.duracaoMax || null;
+  const semFiltro = !plats.length || plats.includes("Todos");
+  const pidsSel = semFiltro ? null : new Set(idsDePlataformas(plats));
+  await garantirRadar();
+  const vistos = new Set();
+  const itens = tema.grupos.flatMap((g) => g.filmes.map((f) => ({ ...f, grupo: g.nome })))
+    .filter((f) => !vistos.has(f.id) && vistos.add(f.id));
+  const res = await mapLimitado(itens, 8, async (f) => {
+    const s = await streamingDe(f.id);
+    if (!(pidsSel ? s.ids.some((id) => pidsSel.has(id)) : s.ids.length > 0)) return null;
+    const ficha = await fichaFilme(f.id).catch(() => ({}));
+    if (durMax && ficha.duracao && ficha.duracao > durMax) return null;
+    if (violaExclusao(ficha.generos, ficha.classificacao, criterios)) return null;
+    const plataformas = limparPlataformas(pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes);
+    const alta = emAlta(f.id);
+    return { id: f.id, titulo: f.titulo, ano: f.ano, grupo: f.grupo, duracao_min: ficha.duracao || null, plataformas,
+      ...(alta ? { em_alta: alta } : {}), ...(motivoAlta(f.id) ? { por_que_estao_falando: motivoAlta(f.id) } : {}) };
+  });
+  return res.filter(Boolean);
+}
+
+function textoPrateleira(tema, filmes) {
+  const linhas = filmes.map((f) => `- ${f.id} | ${f.titulo} | ${f.ano || "?"} | ${f.plataformas.join(", ")} | ${f.duracao_min ? f.duracao_min + " min" : "?"} | ${f.grupo}${f.em_alta ? " | 🔥 em alta" : ""}${f.por_que_estao_falando ? ` (${f.por_que_estao_falando})` : ""}`);
+  return `\n\n# PRATELEIRA DA CASA PRA ESTE PEDIDO
+Esse pedido é uma das sugestões da casa, e você já tinha separado uma curadoria pra ele. O sistema acabou de conferir: estes estão na assinatura dela agora (id | título | ano | plataformas | duração | grupo sugerido):
+${linhas.join("\n")}
+Ângulo do tema: ${tema.nota}
+Monte a resposta com esses filmes. No leque, use todos os que encaixam de verdade (o normal é 12 a 20), em 2 a 4 grupos — pode usar os grupos sugeridos ou dar nomes seus. Eles já estão confirmados: não precisa chamar validar_titulos pra eles. Se quiser acrescentar outro filme, aí sim valide. Respeite o contexto dela (o que já viu ou não curtiu).`;
+}
+
+// Deixa o cache da TMDB quente pras sugestões (roda em segundo plano no boot e a cada 6h).
+async function aquecerCuradoria() {
+  const t0 = Date.now();
+  for (const tema of CURADORIA) await prateleiraCurada(tema, PRATELEIRA).catch(() => {});
+  console.log(`[curadoria] ${CURADORIA.length} temas aquecidos em ${Math.round((Date.now() - t0) / 1000)}s`);
+}
+
 /* ---------- RADAR 🔥: o que tá em alta agora ----------
    Atualiza sozinho a cada 12h (na primeira consulta depois de vencer). Fonte atual: TMDB Trending
    (dia + semana). Estrutura pronta pra somar outras fontes (ex.: Reddit) no mesmo Map. */
@@ -521,7 +584,7 @@ async function enriquecerResposta(texto, plats = [], idsPermitidos = null, valid
   // 0a) Corta bordão de robô no começo da resposta ("Boa escolha.", "Ótima escolha!", "Perfeito!")
   texto = texto.replace(/^\s*(?:boa|ótima|excelente)\s+escolha[.!]*\s*|^\s*perfeito[.!]+\s*|^\s*(?:essa|que)\s+(?:é\s+)?(?:uma\s+)?(?:pedida|pergunta|escolha)\s+(?:excelente|ótima|incrível|maravilhosa)[.!]*\s*|^\s*(?:essa|que)\s+(?:é\s+)?(?:uma\s+)?(?:excelente|ótima|incrível|maravilhosa)\s+(?:pedida|pergunta|escolha)[.!]*\s*/i, "");
   // 0b) O site já apresenta a Val: corta "E aí, tudo certo? Sou a Val, do VHS Club." no começo
-  texto = texto.replace(/^\s*(?:(?:e a[íi]|oi|ol[áa]|opa)[^.!?\n]{0,40}[.!?]\s*)?(?:(?:aqui (?:[ée] )?a|sou a) val[^.!?\n]{0,60}[.!?]\s*)/i, "");
+  texto = texto.replace(/^\s*(?:(?:e a[íi]|oi|ol[áa]|opa|prazer|muito prazer)[^.!?\n]{0,40}?[.!?,]\s*)?(?:(?:aqui (?:[ée] )?a|sou a) val[^.!?\n]{0,60}[.!?]\s*)/i, "");
   // 0) Remove auto-flagelo e "vamos zerar" no início da resposta — herança de sessões antigas
   let txt = texto.replace(
     /^[ \t]*(?:e a[íi]!?\s*)?(?:como\s+a\s+gente\s+deu\s+umas?\s+voltas?\s+errad[ao]s?[^.]*\.|vamos zerar[^.]*\.|esquece o que passou\.|olha[, ]+sinto muito[^.]*\.|vamos corrigir[^.]*\.|vacilo meu[, ]+desculpa\.|tem raz[ãa]o[, ]+vacilei[^.]*\.)\s*/i,
@@ -1012,9 +1075,11 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
   }));
 
   // Anexa contexto do usuário ao system prompt (histórico, watchlist, vistos)
+  const prateleira = opts.prateleira; // { tema, filmes } quando o pedido é sugestão da casa
   const systemTxt = (contextoUsuario
     ? `${systemPrompt(plataforma)}\n\n# CONTEXTO DESTE USUÁRIO (informação invisível, NÃO mencione expressamente)\n${contextoUsuario}`
-    : systemPrompt(plataforma)) + textoCriterios(criterios);
+    : systemPrompt(plataforma)) + textoCriterios(criterios)
+    + (prateleira?.filmes?.length ? textoPrateleira(prateleira.tema, prateleira.filmes) : "");
 
   const body = {
     systemInstruction: { parts: [{ text: systemTxt }] },
@@ -1027,13 +1092,15 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
   const idsConfirmados = new Set();
   const validados = []; // filmes que validar_titulos confirmou neste turno (pra completar leque curto)
   for (const m of messages) for (const x of String(m.content ?? "").matchAll(/id (\d+)\]/g)) idsConfirmados.add(Number(x[1]));
+  // Filmes da prateleira da casa já foram conferidos pelo servidor: valem como validados
+  if (prateleira?.filmes?.length) for (const f of prateleira.filmes) { idsConfirmados.add(f.id); validados.push(f); }
   let jaCobrou = false;
   let jaCobrouVazio = false;
 
   // validar_titulos resolve em lote, então poucas rodadas bastam
   for (let i = 0; i < 10; i++) {
     if (cancelado()) return { texto: "", idsConfirmados, validados, cancelado: true };
-    if (i === 0) onEtapa("Pensando em filmes que combinam com o seu pedido…");
+    if (i === 0) onEtapa(prateleira?.filmes?.length ? "Puxando as fitas que eu já tinha separado pra isso…" : "Pensando em filmes que combinam com o seu pedido…");
     const resp = await gemini({ ...body, contents }, onEtapa);
 
     if (resp.error) {
@@ -1155,7 +1222,6 @@ function resumirContextoUsuario(historico, watchlist) {
 app.post("/api/chat", async (req, res) => {
   try {
     const { messages, plataformas, plataforma, watchlist, pedidosAnteriores } = req.body || {};
-    const PRATELEIRA = ["Netflix", "HBO Max", "Prime Video", "Disney+", "Apple TV+"];
     let plats = Array.isArray(plataformas) ? plataformas : (plataformas ? [plataformas] : (plataforma ? [plataforma] : ["Todos"]));
     // "TODOS" = as 5 plataformas da prateleira (nada de Claro tv+, Looke etc. — o site só oferece essas 5)
     if (!plats.length || plats.includes("Todos")) plats = PRATELEIRA;
@@ -1188,7 +1254,17 @@ app.post("/api/chat", async (req, res) => {
     }
     const onEtapa = (texto) => enviar({ etapa: texto });
 
-    const r = await conversar(sessao, plats, contextoUsuario, criterios, { onEtapa, cancelado: () => fechou });
+    // Pedido é uma sugestão da casa? Confere a curadoria nas plataformas antes de chamar a Val.
+    const tema = temaDaSessao(sessao);
+    let prateleira = null;
+    if (tema) {
+      onEtapa("Separando as fitas da prateleira da casa…");
+      const filmes = await prateleiraCurada(tema, plats, criterios).catch(() => []);
+      console.log(`[curadoria] tema "${tema.id}": ${filmes.length} filmes disponíveis`);
+      if (filmes.length) prateleira = { tema, filmes };
+    }
+
+    const r = await conversar(sessao, plats, contextoUsuario, criterios, { onEtapa, cancelado: () => fechou, prateleira });
     if (r.cancelado || fechou) { clearInterval(pulso); console.log("[chat] cancelado pela pessoa"); return; }
     onEtapa("Buscando pôsteres, notas e trailers…");
     const reply = await enriquecerResposta(r.texto, plats, r.idsConfirmados, r.validados, criterios);
@@ -1204,5 +1280,9 @@ app.post("/api/chat", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 Promise.all([carregarProvedores(), carregarGeneros(), garantirRadar()])
-  .then(() => app.listen(PORT, () => console.log(`\n🎬 VHS Club no ar! Abra http://localhost:${PORT}\n`)))
+  .then(() => app.listen(PORT, () => {
+    console.log(`\n🎬 VHS Club no ar! Abra http://localhost:${PORT}\n`);
+    aquecerCuradoria();
+    setInterval(aquecerCuradoria, 6 * 60 * 60 * 1000);
+  }))
   .catch((e) => { console.error("Erro ao iniciar (cheque a TMDB_KEY):", e.message); process.exit(1); });

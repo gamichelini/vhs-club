@@ -1,0 +1,6560 @@
+{
+ "geradoEm": "2026-11-13T04:41:35.771Z",
+ "temas": [
+  {
+   "id": "et",
+   "pedidos": [
+    "Quero um filme de ET"
+   ],
+   "nota": "Pedido amplo: misture contato cabeça, ET de coração, invasão pipoca e ET com segunda camada.",
+   "grupos": [
+    {
+     "nome": "Contato que mexe com a cabeça",
+     "filmes": [
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "Close Encounters of the Third Kind (1977)",
+       "id": 840,
+       "titulo": "Contatos Imediatos do Terceiro Grau",
+       "ano": 1977
+      },
+      {
+       "pedido": "Nope (2022)",
+       "id": 762504,
+       "titulo": "Não! Não Olhe!",
+       "ano": 2022
+      },
+      {
+       "pedido": "Annihilation (2018)",
+       "id": 300668,
+       "titulo": "Aniquilação",
+       "ano": 2018
+      },
+      {
+       "pedido": "Signs (2002)",
+       "id": 2675,
+       "titulo": "Sinais",
+       "ano": 2002
+      },
+      {
+       "pedido": "The Vast of Night (2019)",
+       "id": 565743,
+       "titulo": "A Vastidão da Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Under the Skin (2013)",
+       "id": 97370,
+       "titulo": "Sob a Pele",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "ET de coração",
+     "filmes": [
+      {
+       "pedido": "E.T. the Extra-Terrestrial (1982)",
+       "id": 601,
+       "titulo": "E.T.: O Extraterrestre",
+       "ano": 1982
+      },
+      {
+       "pedido": "Paul (2011)",
+       "id": 39513,
+       "titulo": "Paul: O Alien Fugitivo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Lilo & Stitch (2002)",
+       "id": 11544,
+       "titulo": "Lilo & Stitch",
+       "ano": 2002
+      },
+      {
+       "pedido": "Super 8 (2011)",
+       "id": 37686,
+       "titulo": "Super 8",
+       "ano": 2011
+      },
+      {
+       "pedido": "Starman (1984)",
+       "id": 9663,
+       "titulo": "Starman: O Homem das Estrelas",
+       "ano": 1984
+      },
+      {
+       "pedido": "The Iron Giant (1999)",
+       "id": 10386,
+       "titulo": "O Gigante de Ferro",
+       "ano": 1999
+      },
+      {
+       "pedido": "Flight of the Navigator (1986)",
+       "id": 10122,
+       "titulo": "O Vôo do Navegador",
+       "ano": 1986
+      },
+      {
+       "pedido": "Attack the Block (2011)",
+       "id": 59678,
+       "titulo": "Ataque ao Prédio",
+       "ano": 2011
+      }
+     ]
+    },
+    {
+     "nome": "Invasão com pipoca",
+     "filmes": [
+      {
+       "pedido": "War of the Worlds (2005)",
+       "id": 74,
+       "titulo": "Guerra dos Mundos",
+       "ano": 2005
+      },
+      {
+       "pedido": "Independence Day (1996)",
+       "id": 602,
+       "titulo": "Independence Day",
+       "ano": 1996
+      },
+      {
+       "pedido": "Edge of Tomorrow (2014)",
+       "id": 137113,
+       "titulo": "No Limite do Amanhã",
+       "ano": 2014
+      },
+      {
+       "pedido": "A Quiet Place (2018)",
+       "id": 447332,
+       "titulo": "Um Lugar Silencioso",
+       "ano": 2018
+      },
+      {
+       "pedido": "Men in Black (1997)",
+       "id": 607,
+       "titulo": "MIB - Homens de Preto",
+       "ano": 1997
+      },
+      {
+       "pedido": "Mars Attacks! (1996)",
+       "id": 75,
+       "titulo": "Marte Ataca!",
+       "ano": 1996
+      },
+      {
+       "pedido": "Cloverfield (2008)",
+       "id": 7191,
+       "titulo": "Cloverfield: Monstro",
+       "ano": 2008
+      },
+      {
+       "pedido": "Battle: Los Angeles (2011)",
+       "id": 44943,
+       "titulo": "Invasão do Mundo: Batalha de Los Angeles",
+       "ano": 2011
+      }
+     ]
+    },
+    {
+     "nome": "ET com segunda camada",
+     "filmes": [
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Alien (1979)",
+       "id": 348,
+       "titulo": "Alien: O Oitavo Passageiro",
+       "ano": 1979
+      },
+      {
+       "pedido": "Aliens (1986)",
+       "id": 679,
+       "titulo": "Aliens: O Resgate",
+       "ano": 1986
+      },
+      {
+       "pedido": "The Thing (1982)",
+       "id": 1091,
+       "titulo": "O Enigma de Outro Mundo",
+       "ano": 1982
+      },
+      {
+       "pedido": "Predator (1987)",
+       "id": 106,
+       "titulo": "O Predador",
+       "ano": 1987
+      },
+      {
+       "pedido": "Prometheus (2012)",
+       "id": 70981,
+       "titulo": "Prometheus",
+       "ano": 2012
+      },
+      {
+       "pedido": "Life (2017)",
+       "id": 395992,
+       "titulo": "Vida",
+       "ano": 2017
+      },
+      {
+       "pedido": "They Live (1988)",
+       "id": 8337,
+       "titulo": "Eles Vivem",
+       "ano": 1988
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "interestelar",
+   "pedidos": [
+    "Algo parecido com Interestelar"
+   ],
+   "nota": "Não indicar o próprio Interestelar. Escala épica, ciência + emoção, tempo que dobra.",
+   "grupos": [
+    {
+     "nome": "Espaço e saudade",
+     "filmes": [
+      {
+       "pedido": "Gravity (2013)",
+       "id": 49047,
+       "titulo": "Gravidade",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Martian (2015)",
+       "id": 286217,
+       "titulo": "Perdido em Marte",
+       "ano": 2015
+      },
+      {
+       "pedido": "Ad Astra (2019)",
+       "id": 419704,
+       "titulo": "Ad Astra - Rumo às Estrelas",
+       "ano": 2019
+      },
+      {
+       "pedido": "Sunshine (2007)",
+       "id": 1272,
+       "titulo": "Sunshine: Alerta Solar",
+       "ano": 2007
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "First Man (2018)",
+       "id": 369972,
+       "titulo": "O Primeiro Homem",
+       "ano": 2018
+      },
+      {
+       "pedido": "Apollo 13 (1995)",
+       "id": 568,
+       "titulo": "Apollo 13 - Do Desastre ao Triunfo",
+       "ano": 1995
+      },
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "2001: A Space Odyssey (1968)",
+       "id": 62,
+       "titulo": "2001: Uma Odisséia no Espaço",
+       "ano": 1968
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Midnight Sky (2020)",
+       "id": 614911,
+       "titulo": "O Céu da Meia-Noite",
+       "ano": 2020
+      },
+      {
+       "pedido": "Solaris (1972)",
+       "id": 593,
+       "titulo": "Solaris",
+       "ano": 1972
+      }
+     ]
+    },
+    {
+     "nome": "Tempo que dobra a cabeça",
+     "filmes": [
+      {
+       "pedido": "Inception (2010)",
+       "id": 27205,
+       "titulo": "A Origem",
+       "ano": 2010
+      },
+      {
+       "pedido": "Tenet (2020)",
+       "id": 577922,
+       "titulo": "Tenet",
+       "ano": 2020
+      },
+      {
+       "pedido": "Looper (2012)",
+       "id": 59967,
+       "titulo": "Looper: Assassinos do Futuro",
+       "ano": 2012
+      },
+      {
+       "pedido": "Predestination (2014)",
+       "id": 206487,
+       "titulo": "O Predestinado",
+       "ano": 2014
+      },
+      {
+       "pedido": "Primer (2004)",
+       "id": 14337,
+       "titulo": "Primer",
+       "ano": 2004
+      },
+      {
+       "pedido": "Coherence (2013)",
+       "id": 220289,
+       "titulo": "Coherence",
+       "ano": 2014
+      },
+      {
+       "pedido": "Source Code (2011)",
+       "id": 45612,
+       "titulo": "Contra o Tempo",
+       "ano": 2011
+      },
+      {
+       "pedido": "12 Monkeys (1995)",
+       "id": 63,
+       "titulo": "Os 12 Macacos",
+       "ano": 1995
+      },
+      {
+       "pedido": "Edge of Tomorrow (2014)",
+       "id": 137113,
+       "titulo": "No Limite do Amanhã",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "Grande, bonito e cabeçudo",
+     "filmes": [
+      {
+       "pedido": "Children of Men (2006)",
+       "id": 9693,
+       "titulo": "Filhos da Esperança",
+       "ano": 2006
+      },
+      {
+       "pedido": "Dune (2021)",
+       "id": 438631,
+       "titulo": "Duna",
+       "ano": 2021
+      },
+      {
+       "pedido": "Dune: Part Two (2024)",
+       "id": 693134,
+       "titulo": "Duna: Parte Dois",
+       "ano": 2024
+      },
+      {
+       "pedido": "Annihilation (2018)",
+       "id": 300668,
+       "titulo": "Aniquilação",
+       "ano": 2018
+      },
+      {
+       "pedido": "Blade Runner 2049 (2017)",
+       "id": 335984,
+       "titulo": "Blade Runner 2049",
+       "ano": 2017
+      },
+      {
+       "pedido": "Gattaca (1997)",
+       "id": 782,
+       "titulo": "Gattaca: A Experiência Genética",
+       "ano": 1997
+      },
+      {
+       "pedido": "The Tree of Life (2011)",
+       "id": 8967,
+       "titulo": "A Árvore da Vida",
+       "ano": 2011
+      },
+      {
+       "pedido": "Melancholia (2011)",
+       "id": 62215,
+       "titulo": "Melancolia",
+       "ano": 2011
+      },
+      {
+       "pedido": "Oppenheimer (2023)",
+       "id": 872585,
+       "titulo": "Oppenheimer",
+       "ano": 2023
+      },
+      {
+       "pedido": "The Prestige (2006)",
+       "id": 1124,
+       "titulo": "O Grande Truque",
+       "ano": 2006
+      },
+      {
+       "pedido": "Project Hail Mary (2026)",
+       "id": 687163,
+       "titulo": "Devoradores de Estrelas",
+       "ano": 2026
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "comedia-leve",
+   "pedidos": [
+    "Uma comédia pra desligar a cabeça",
+    "Hoje eu só quero dar risada, comédia leve",
+    "Hoje eu só quero dar risada"
+   ],
+   "nota": "Riso fácil, nada pesado nem cabeça. Inclua comédia nacional.",
+   "grupos": [
+    {
+     "nome": "Besteirol de primeira",
+     "filmes": [
+      {
+       "pedido": "Superbad (2007)",
+       "id": 8363,
+       "titulo": "Superbad: É Hoje",
+       "ano": 2007
+      },
+      {
+       "pedido": "The Hangover (2009)",
+       "id": 18785,
+       "titulo": "Se Beber, Não Case!",
+       "ano": 2009
+      },
+      {
+       "pedido": "Step Brothers (2008)",
+       "id": 12133,
+       "titulo": "Quase Irmãos",
+       "ano": 2008
+      },
+      {
+       "pedido": "Anchorman: The Legend of Ron Burgundy (2004)",
+       "id": 8699,
+       "titulo": "O Âncora: A Lenda de Ron Burgundy",
+       "ano": 2004
+      },
+      {
+       "pedido": "Dumb and Dumber (1994)",
+       "id": 8467,
+       "titulo": "Debi & Lóide: Dois Idiotas em Apuros",
+       "ano": 1994
+      },
+      {
+       "pedido": "Hot Fuzz (2007)",
+       "id": 4638,
+       "titulo": "Chumbo Grosso",
+       "ano": 2007
+      },
+      {
+       "pedido": "Shaun of the Dead (2004)",
+       "id": 747,
+       "titulo": "Todo Mundo Quase Morto",
+       "ano": 2004
+      },
+      {
+       "pedido": "21 Jump Street (2012)",
+       "id": 64688,
+       "titulo": "Anjos da Lei",
+       "ano": 2012
+      },
+      {
+       "pedido": "Zoolander (2001)",
+       "id": 9398,
+       "titulo": "Zoolander",
+       "ano": 2001
+      },
+      {
+       "pedido": "Game Night (2018)",
+       "id": 445571,
+       "titulo": "A Noite do Jogo",
+       "ano": 2018
+      },
+      {
+       "pedido": "We're the Millers (2013)",
+       "id": 138832,
+       "titulo": "Família do Bagulho",
+       "ano": 2013
+      },
+      {
+       "pedido": "Tropic Thunder (2008)",
+       "id": 7446,
+       "titulo": "Trovão Tropical",
+       "ano": 2008
+      }
+     ]
+    },
+    {
+     "nome": "Comédia nacional",
+     "filmes": [
+      {
+       "pedido": "Minha Mãe é uma Peça (2013)",
+       "id": 203217,
+       "titulo": "Minha Mãe é uma Peça: O Filme",
+       "ano": 2013
+      },
+      {
+       "pedido": "O Auto da Compadecida (2000)",
+       "id": 40096,
+       "titulo": "O Auto da Compadecida",
+       "ano": 2000
+      },
+      {
+       "pedido": "Se Eu Fosse Você (2006)",
+       "id": 34588,
+       "titulo": "Se Eu Fosse Você",
+       "ano": 2006
+      },
+      {
+       "pedido": "De Pernas pro Ar (2010)",
+       "id": 62156,
+       "titulo": "De Pernas pro Ar",
+       "ano": 2010
+      },
+      {
+       "pedido": "Os Penetras (2012)",
+       "id": 132712,
+       "titulo": "Os Penetras",
+       "ano": 2012
+      },
+      {
+       "pedido": "Até que a Sorte nos Separe (2012)",
+       "id": 154441,
+       "titulo": "Até que a Sorte nos Separe",
+       "ano": 2012
+      },
+      {
+       "pedido": "Cine Holliúdy (2013)",
+       "id": 214355,
+       "titulo": "Cine Holliúdy",
+       "ano": 2013
+      },
+      {
+       "pedido": "Tô Ryca! (2016)",
+       "id": 322994,
+       "titulo": "Tô Ryca!",
+       "ano": 2016
+      },
+      {
+       "pedido": "O Palestrante (2022)",
+       "id": 760167,
+       "titulo": "O Palestrante",
+       "ano": 2022
+      }
+     ]
+    },
+    {
+     "nome": "Leve e gostoso de ver",
+     "filmes": [
+      {
+       "pedido": "The Grand Budapest Hotel (2014)",
+       "id": 120467,
+       "titulo": "O Grande Hotel Budapeste",
+       "ano": 2014
+      },
+      {
+       "pedido": "Crazy, Stupid, Love. (2011)",
+       "id": 50646,
+       "titulo": "Amor a Toda Prova",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Nice Guys (2016)",
+       "id": 290250,
+       "titulo": "Dois Caras Legais",
+       "ano": 2016
+      },
+      {
+       "pedido": "Free Guy (2021)",
+       "id": 550988,
+       "titulo": "Free Guy: Assumindo o Controle",
+       "ano": 2021
+      },
+      {
+       "pedido": "Palm Springs (2020)",
+       "id": 587792,
+       "titulo": "Palm Springs",
+       "ano": 2020
+      },
+      {
+       "pedido": "Paddington 2 (2017)",
+       "id": 346648,
+       "titulo": "As Aventuras de Paddington 2",
+       "ano": 2017
+      },
+      {
+       "pedido": "Bridesmaids (2011)",
+       "id": 55721,
+       "titulo": "Missão Madrinha de Casamento",
+       "ano": 2011
+      },
+      {
+       "pedido": "Spy (2015)",
+       "id": 238713,
+       "titulo": "A Espiã Que Sabia de Menos",
+       "ano": 2015
+      },
+      {
+       "pedido": "Barbie (2023)",
+       "id": 346698,
+       "titulo": "Barbie",
+       "ano": 2023
+      },
+      {
+       "pedido": "School of Rock (2003)",
+       "id": 1584,
+       "titulo": "Escola de Rock",
+       "ano": 2003
+      },
+      {
+       "pedido": "The Intern (2015)",
+       "id": 257211,
+       "titulo": "Um Senhor Estagiário",
+       "ano": 2015
+      },
+      {
+       "pedido": "Mean Girls (2004)",
+       "id": 10625,
+       "titulo": "Meninas Malvadas",
+       "ano": 2004
+      },
+      {
+       "pedido": "Booksmart (2019)",
+       "id": 505600,
+       "titulo": "Fora de Série",
+       "ano": 2019
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "suspense-sem-terror",
+   "pedidos": [
+    "Suspense sem terror"
+   ],
+   "nota": "Tensão, mistério e reviravolta. Nada de sobrenatural nem susto.",
+   "grupos": [
+    {
+     "nome": "Quem fez?",
+     "filmes": [
+      {
+       "pedido": "Knives Out (2019)",
+       "id": 546554,
+       "titulo": "Entre Facas e Segredos",
+       "ano": 2019
+      },
+      {
+       "pedido": "Gone Girl (2014)",
+       "id": 210577,
+       "titulo": "Garota Exemplar",
+       "ano": 2014
+      },
+      {
+       "pedido": "Zodiac (2007)",
+       "id": 1949,
+       "titulo": "Zodíaco",
+       "ano": 2007
+      },
+      {
+       "pedido": "Prisoners (2013)",
+       "id": 146233,
+       "titulo": "Os Suspeitos",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Girl with the Dragon Tattoo (2011)",
+       "id": 65754,
+       "titulo": "Millennium: Os Homens Que Não Amavam as Mulheres",
+       "ano": 2011
+      },
+      {
+       "pedido": "Murder on the Orient Express (2017)",
+       "id": 392044,
+       "titulo": "Assassinato no Expresso do Oriente",
+       "ano": 2017
+      },
+      {
+       "pedido": "Glass Onion: A Knives Out Mystery (2022)",
+       "id": 661374,
+       "titulo": "Glass Onion: Um Mistério Knives Out",
+       "ano": 2022
+      },
+      {
+       "pedido": "Wind River (2017)",
+       "id": 395834,
+       "titulo": "Terra Selvagem",
+       "ano": 2017
+      },
+      {
+       "pedido": "Memories of Murder (2003)",
+       "id": 11423,
+       "titulo": "Memórias de um Assassino",
+       "ano": 2003
+      },
+      {
+       "pedido": "Mystic River (2003)",
+       "id": 322,
+       "titulo": "Sobre Meninos e Lobos",
+       "ano": 2003
+      }
+     ]
+    },
+    {
+     "nome": "Tensão que não solta",
+     "filmes": [
+      {
+       "pedido": "Rear Window (1954)",
+       "id": 567,
+       "titulo": "Janela Indiscreta",
+       "ano": 1954
+      },
+      {
+       "pedido": "North by Northwest (1959)",
+       "id": 213,
+       "titulo": "Intriga Internacional",
+       "ano": 1959
+      },
+      {
+       "pedido": "Vertigo (1958)",
+       "id": 426,
+       "titulo": "Um Corpo Que Cai",
+       "ano": 1958
+      },
+      {
+       "pedido": "Panic Room (2002)",
+       "id": 4547,
+       "titulo": "O Quarto do Pânico",
+       "ano": 2002
+      },
+      {
+       "pedido": "Phone Booth (2002)",
+       "id": 1817,
+       "titulo": "Por um Fio",
+       "ano": 2003
+      },
+      {
+       "pedido": "Searching (2018)",
+       "id": 489999,
+       "titulo": "Buscando...",
+       "ano": 2018
+      },
+      {
+       "pedido": "Nightcrawler (2014)",
+       "id": 242582,
+       "titulo": "O Abutre",
+       "ano": 2014
+      },
+      {
+       "pedido": "Collateral (2004)",
+       "id": 1538,
+       "titulo": "Colateral",
+       "ano": 2004
+      },
+      {
+       "pedido": "Sicario (2015)",
+       "id": 273481,
+       "titulo": "Sicario: Terra de Ninguém",
+       "ano": 2015
+      },
+      {
+       "pedido": "Hell or High Water (2016)",
+       "id": 338766,
+       "titulo": "A Qualquer Custo",
+       "ano": 2016
+      },
+      {
+       "pedido": "Uncut Gems (2019)",
+       "id": 473033,
+       "titulo": "Joias Brutas",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Guilty (2018)",
+       "id": 486947,
+       "titulo": "Culpa",
+       "ano": 2018
+      },
+      {
+       "pedido": "Buried (2010)",
+       "id": 26388,
+       "titulo": "Enterrado Vivo",
+       "ano": 2010
+      }
+     ]
+    },
+    {
+     "nome": "Reviravolta no fim",
+     "filmes": [
+      {
+       "pedido": "The Usual Suspects (1995)",
+       "id": 629,
+       "titulo": "Os Suspeitos",
+       "ano": 1995
+      },
+      {
+       "pedido": "Shutter Island (2010)",
+       "id": 11324,
+       "titulo": "Ilha do Medo",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Prestige (2006)",
+       "id": 1124,
+       "titulo": "O Grande Truque",
+       "ano": 2006
+      },
+      {
+       "pedido": "Memento (2000)",
+       "id": 77,
+       "titulo": "Amnésia",
+       "ano": 2000
+      },
+      {
+       "pedido": "Oldboy (2003)",
+       "id": 670,
+       "titulo": "Oldboy",
+       "ano": 2003
+      },
+      {
+       "pedido": "Parasite (2019)",
+       "id": 496243,
+       "titulo": "Parasita",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Invisible Guest (2016)",
+       "id": 411088,
+       "titulo": "Um Contratempo",
+       "ano": 2017
+      },
+      {
+       "pedido": "Decision to Leave (2022)",
+       "id": 705996,
+       "titulo": "Decisão de Partir",
+       "ano": 2022
+      },
+      {
+       "pedido": "Primal Fear (1996)",
+       "id": 1592,
+       "titulo": "As Duas Faces de um Crime",
+       "ano": 1996
+      },
+      {
+       "pedido": "Side Effects (2013)",
+       "id": 109421,
+       "titulo": "Terapia de Risco",
+       "ano": 2013
+      },
+      {
+       "pedido": "Anatomy of a Fall (2023)",
+       "id": 915935,
+       "titulo": "Anatomia de uma Queda",
+       "ano": 2023
+      },
+      {
+       "pedido": "Conclave (2024)",
+       "id": 974576,
+       "titulo": "Conclave",
+       "ano": 2024
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "invasao-pessoas-comuns",
+   "pedidos": [
+    "Quero uma invasão alienígena vista por pessoas comuns"
+   ],
+   "nota": "Ponto de vista do chão: família, bairro, gente comum. Não é guerra de general.",
+   "grupos": [
+    {
+     "nome": "Do sofá de casa",
+     "filmes": [
+      {
+       "pedido": "Signs (2002)",
+       "id": 2675,
+       "titulo": "Sinais",
+       "ano": 2002
+      },
+      {
+       "pedido": "A Quiet Place (2018)",
+       "id": 447332,
+       "titulo": "Um Lugar Silencioso",
+       "ano": 2018
+      },
+      {
+       "pedido": "A Quiet Place Part II (2020)",
+       "id": 520763,
+       "titulo": "Um Lugar Silencioso - Parte II",
+       "ano": 2021
+      },
+      {
+       "pedido": "10 Cloverfield Lane (2016)",
+       "id": 333371,
+       "titulo": "Rua Cloverfield, 10",
+       "ano": 2016
+      },
+      {
+       "pedido": "No One Will Save You (2023)",
+       "id": 820609,
+       "titulo": "Ninguém Vai te Salvar",
+       "ano": 2023
+      },
+      {
+       "pedido": "The Vast of Night (2019)",
+       "id": 565743,
+       "titulo": "A Vastidão da Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Nope (2022)",
+       "id": 762504,
+       "titulo": "Não! Não Olhe!",
+       "ano": 2022
+      }
+     ]
+    },
+    {
+     "nome": "Correndo pela cidade",
+     "filmes": [
+      {
+       "pedido": "War of the Worlds (2005)",
+       "id": 74,
+       "titulo": "Guerra dos Mundos",
+       "ano": 2005
+      },
+      {
+       "pedido": "Cloverfield (2008)",
+       "id": 7191,
+       "titulo": "Cloverfield: Monstro",
+       "ano": 2008
+      },
+      {
+       "pedido": "Attack the Block (2011)",
+       "id": 59678,
+       "titulo": "Ataque ao Prédio",
+       "ano": 2011
+      },
+      {
+       "pedido": "Super 8 (2011)",
+       "id": 37686,
+       "titulo": "Super 8",
+       "ano": 2011
+      },
+      {
+       "pedido": "The World's End (2013)",
+       "id": 107985,
+       "titulo": "Heróis de Ressaca",
+       "ano": 2013
+      },
+      {
+       "pedido": "Monsters (2010)",
+       "id": 43933,
+       "titulo": "Monstros",
+       "ano": 2010
+      },
+      {
+       "pedido": "Captive State (2019)",
+       "id": 429471,
+       "titulo": "A Rebelião",
+       "ano": 2019
+      },
+      {
+       "pedido": "Skyline (2010)",
+       "id": 42684,
+       "titulo": "Skyline: A Invasão",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Darkest Hour (2011)",
+       "id": 71469,
+       "titulo": "A Hora da Escuridão",
+       "ano": 2011
+      }
+     ]
+    },
+    {
+     "nome": "Clássicos e paranoia",
+     "filmes": [
+      {
+       "pedido": "Invasion of the Body Snatchers (1978)",
+       "id": 11850,
+       "titulo": "Os Invasores de Corpos",
+       "ano": 1978
+      },
+      {
+       "pedido": "The Day the Earth Stood Still (1951)",
+       "id": 828,
+       "titulo": "O Dia em que a Terra Parou",
+       "ano": 1951
+      },
+      {
+       "pedido": "Independence Day (1996)",
+       "id": 602,
+       "titulo": "Independence Day",
+       "ano": 1996
+      },
+      {
+       "pedido": "Mars Attacks! (1996)",
+       "id": 75,
+       "titulo": "Marte Ataca!",
+       "ano": 1996
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Extinction (2018)",
+       "id": 429415,
+       "titulo": "Extinção",
+       "ano": 2018
+      },
+      {
+       "pedido": "Battle: Los Angeles (2011)",
+       "id": 44943,
+       "titulo": "Invasão do Mundo: Batalha de Los Angeles",
+       "ano": 2011
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "primeiro-contato-misterio",
+   "pedidos": [
+    "Primeiro contato com ETs, com mais mistério do que tiro",
+    "Quero filme de ET com mais mistério do que tiro"
+   ],
+   "nota": "Mistério, comunicação, estranhamento. Pouca ação.",
+   "grupos": [
+    {
+     "nome": "Tentando entender o outro",
+     "filmes": [
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "Close Encounters of the Third Kind (1977)",
+       "id": 840,
+       "titulo": "Contatos Imediatos do Terceiro Grau",
+       "ano": 1977
+      },
+      {
+       "pedido": "The Vast of Night (2019)",
+       "id": 565743,
+       "titulo": "A Vastidão da Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Signs (2002)",
+       "id": 2675,
+       "titulo": "Sinais",
+       "ano": 2002
+      },
+      {
+       "pedido": "Sphere (1998)",
+       "id": 10153,
+       "titulo": "Esfera",
+       "ano": 1998
+      },
+      {
+       "pedido": "The Abyss (1989)",
+       "id": 2756,
+       "titulo": "O Segredo do Abismo",
+       "ano": 1989
+      },
+      {
+       "pedido": "Europa Report (2013)",
+       "id": 174772,
+       "titulo": "Viagem à Lua de Júpiter",
+       "ano": 2013
+      }
+     ]
+    },
+    {
+     "nome": "Estranho e bonito",
+     "filmes": [
+      {
+       "pedido": "Annihilation (2018)",
+       "id": 300668,
+       "titulo": "Aniquilação",
+       "ano": 2018
+      },
+      {
+       "pedido": "Under the Skin (2013)",
+       "id": 97370,
+       "titulo": "Sob a Pele",
+       "ano": 2014
+      },
+      {
+       "pedido": "Nope (2022)",
+       "id": 762504,
+       "titulo": "Não! Não Olhe!",
+       "ano": 2022
+      },
+      {
+       "pedido": "Solaris (1972)",
+       "id": 593,
+       "titulo": "Solaris",
+       "ano": 1972
+      },
+      {
+       "pedido": "Solaris (2002)",
+       "id": 2103,
+       "titulo": "Solaris",
+       "ano": 2002
+      },
+      {
+       "pedido": "Stalker (1979)",
+       "id": 1398,
+       "titulo": "Stalker",
+       "ano": 1979
+      },
+      {
+       "pedido": "2001: A Space Odyssey (1968)",
+       "id": 62,
+       "titulo": "2001: Uma Odisséia no Espaço",
+       "ano": 1968
+      },
+      {
+       "pedido": "The Man Who Fell to Earth (1976)",
+       "id": 991,
+       "titulo": "O Homem Que Caiu na Terra",
+       "ano": 1976
+      }
+     ]
+    },
+    {
+     "nome": "Visitante com coração",
+     "filmes": [
+      {
+       "pedido": "E.T. the Extra-Terrestrial (1982)",
+       "id": 601,
+       "titulo": "E.T.: O Extraterrestre",
+       "ano": 1982
+      },
+      {
+       "pedido": "Starman (1984)",
+       "id": 9663,
+       "titulo": "Starman: O Homem das Estrelas",
+       "ano": 1984
+      },
+      {
+       "pedido": "K-PAX (2001)",
+       "id": 167,
+       "titulo": "K-PAX: O Caminho da Luz",
+       "ano": 2001
+      },
+      {
+       "pedido": "Cocoon (1985)",
+       "id": 10328,
+       "titulo": "Cocoon",
+       "ano": 1985
+      },
+      {
+       "pedido": "Super 8 (2011)",
+       "id": 37686,
+       "titulo": "Super 8",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Day the Earth Stood Still (1951)",
+       "id": 828,
+       "titulo": "O Dia em que a Terra Parou",
+       "ano": 1951
+      },
+      {
+       "pedido": "Midnight Special (2016)",
+       "id": 245703,
+       "titulo": "Destino Especial",
+       "ano": 2016
+      }
+     ]
+    },
+    {
+     "nome": "Mistério com um pé no suspense",
+     "filmes": [
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Prometheus (2012)",
+       "id": 70981,
+       "titulo": "Prometheus",
+       "ano": 2012
+      },
+      {
+       "pedido": "Life (2017)",
+       "id": 395992,
+       "titulo": "Vida",
+       "ano": 2017
+      },
+      {
+       "pedido": "Monsters (2010)",
+       "id": 43933,
+       "titulo": "Monstros",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Andromeda Strain (1971)",
+       "id": 10514,
+       "titulo": "O Enigma de Andrômeda",
+       "ano": 1971
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "aliens-entre-nos",
+   "pedidos": [
+    "Um filme em que os aliens já estão entre nós"
+   ],
+   "nota": "ET disfarçado, infiltrado ou morando aqui. Vale da paranoia à comédia.",
+   "grupos": [
+    {
+     "nome": "Disfarçados entre a gente",
+     "filmes": [
+      {
+       "pedido": "They Live (1988)",
+       "id": 8337,
+       "titulo": "Eles Vivem",
+       "ano": 1988
+      },
+      {
+       "pedido": "Invasion of the Body Snatchers (1978)",
+       "id": 11850,
+       "titulo": "Os Invasores de Corpos",
+       "ano": 1978
+      },
+      {
+       "pedido": "Invasion of the Body Snatchers (1956)",
+       "id": 11549,
+       "titulo": "Vampiros de Almas",
+       "ano": 1956
+      },
+      {
+       "pedido": "The Faculty (1998)",
+       "id": 9276,
+       "titulo": "Prova Final",
+       "ano": 1998
+      },
+      {
+       "pedido": "The Thing (1982)",
+       "id": 1091,
+       "titulo": "O Enigma de Outro Mundo",
+       "ano": 1982
+      },
+      {
+       "pedido": "Under the Skin (2013)",
+       "id": 97370,
+       "titulo": "Sob a Pele",
+       "ano": 2014
+      },
+      {
+       "pedido": "The Hidden (1987)",
+       "id": 12476,
+       "titulo": "O Escondido",
+       "ano": 1987
+      },
+      {
+       "pedido": "The Arrival (1996)",
+       "id": 10547,
+       "titulo": "A Invasão",
+       "ano": 1996
+      },
+      {
+       "pedido": "Dark City (1998)",
+       "id": 2666,
+       "titulo": "Cidade das Sombras",
+       "ano": 1998
+      },
+      {
+       "pedido": "The World's End (2013)",
+       "id": 107985,
+       "titulo": "Heróis de Ressaca",
+       "ano": 2013
+      }
+     ]
+    },
+    {
+     "nome": "ET de vizinho",
+     "filmes": [
+      {
+       "pedido": "Men in Black (1997)",
+       "id": 607,
+       "titulo": "MIB - Homens de Preto",
+       "ano": 1997
+      },
+      {
+       "pedido": "Men in Black 3 (2012)",
+       "id": 41154,
+       "titulo": "MIB - Homens de Preto III",
+       "ano": 2012
+      },
+      {
+       "pedido": "Paul (2011)",
+       "id": 39513,
+       "titulo": "Paul: O Alien Fugitivo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Coneheads (1993)",
+       "id": 9612,
+       "titulo": "Cônicos e Cômicos",
+       "ano": 1993
+      },
+      {
+       "pedido": "My Stepmother Is an Alien (1988)",
+       "id": 12120,
+       "titulo": "Minha Noiva é uma Extraterrestre",
+       "ano": 1988
+      },
+      {
+       "pedido": "Earth Girls Are Easy (1988)",
+       "id": 2210,
+       "titulo": "Meu Amante é de Outro Mundo",
+       "ano": 1988
+      },
+      {
+       "pedido": "Lilo & Stitch (2002)",
+       "id": 11544,
+       "titulo": "Lilo & Stitch",
+       "ano": 2002
+      }
+     ]
+    },
+    {
+     "nome": "Visitante solitário",
+     "filmes": [
+      {
+       "pedido": "K-PAX (2001)",
+       "id": 167,
+       "titulo": "K-PAX: O Caminho da Luz",
+       "ano": 2001
+      },
+      {
+       "pedido": "Starman (1984)",
+       "id": 9663,
+       "titulo": "Starman: O Homem das Estrelas",
+       "ano": 1984
+      },
+      {
+       "pedido": "The Man Who Fell to Earth (1976)",
+       "id": 991,
+       "titulo": "O Homem Que Caiu na Terra",
+       "ano": 1976
+      },
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Brightburn (2019)",
+       "id": 531309,
+       "titulo": "Brightburn - Filho das Trevas",
+       "ano": 2019
+      },
+      {
+       "pedido": "Superman (1978)",
+       "id": 1924,
+       "titulo": "Superman: O Filme",
+       "ano": 1978
+      },
+      {
+       "pedido": "Venom (2018)",
+       "id": 335983,
+       "titulo": "Venom",
+       "ano": 2018
+      },
+      {
+       "pedido": "Bumblebee (2018)",
+       "id": 424783,
+       "titulo": "Bumblebee",
+       "ano": 2018
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "et-conspiracao",
+   "pedidos": [
+    "ET, conspiração e governo escondendo alguma coisa"
+   ],
+   "nota": "Arquivo secreto, governo atrás, gente fugindo de agente.",
+   "grupos": [
+    {
+     "nome": "Arquivo secreto",
+     "filmes": [
+      {
+       "pedido": "The X Files (1998)",
+       "id": 846,
+       "titulo": "Arquivo X: O Filme",
+       "ano": 1998
+      },
+      {
+       "pedido": "Close Encounters of the Third Kind (1977)",
+       "id": 840,
+       "titulo": "Contatos Imediatos do Terceiro Grau",
+       "ano": 1977
+      },
+      {
+       "pedido": "Men in Black (1997)",
+       "id": 607,
+       "titulo": "MIB - Homens de Preto",
+       "ano": 1997
+      },
+      {
+       "pedido": "Independence Day (1996)",
+       "id": 602,
+       "titulo": "Independence Day",
+       "ano": 1996
+      },
+      {
+       "pedido": "The Arrival (1996)",
+       "id": 10547,
+       "titulo": "A Invasão",
+       "ano": 1996
+      },
+      {
+       "pedido": "Hangar 18 (1980)",
+       "id": 54287,
+       "titulo": "Hangar 18",
+       "ano": 1980
+      },
+      {
+       "pedido": "Capricorn One (1977)",
+       "id": 11935,
+       "titulo": "Capricórnio Um",
+       "ano": 1977
+      },
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      }
+     ]
+    },
+    {
+     "nome": "Fugindo do governo",
+     "filmes": [
+      {
+       "pedido": "E.T. the Extra-Terrestrial (1982)",
+       "id": 601,
+       "titulo": "E.T.: O Extraterrestre",
+       "ano": 1982
+      },
+      {
+       "pedido": "Midnight Special (2016)",
+       "id": 245703,
+       "titulo": "Destino Especial",
+       "ano": 2016
+      },
+      {
+       "pedido": "Super 8 (2011)",
+       "id": 37686,
+       "titulo": "Super 8",
+       "ano": 2011
+      },
+      {
+       "pedido": "Paul (2011)",
+       "id": 39513,
+       "titulo": "Paul: O Alien Fugitivo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Starman (1984)",
+       "id": 9663,
+       "titulo": "Starman: O Homem das Estrelas",
+       "ano": 1984
+      },
+      {
+       "pedido": "Flight of the Navigator (1986)",
+       "id": 10122,
+       "titulo": "O Vôo do Navegador",
+       "ano": 1986
+      },
+      {
+       "pedido": "Earth to Echo (2014)",
+       "id": 238603,
+       "titulo": "Echo",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "Paranoia e abdução",
+     "filmes": [
+      {
+       "pedido": "Fire in the Sky (1993)",
+       "id": 15613,
+       "titulo": "Fogo no Céu",
+       "ano": 1993
+      },
+      {
+       "pedido": "Communion (1989)",
+       "id": 28774,
+       "titulo": "Estranhos Visitantes",
+       "ano": 1989
+      },
+      {
+       "pedido": "The Vast of Night (2019)",
+       "id": 565743,
+       "titulo": "A Vastidão da Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Dark Skies (2013)",
+       "id": 145135,
+       "titulo": "Os Escolhidos",
+       "ano": 2013
+      },
+      {
+       "pedido": "They Live (1988)",
+       "id": 8337,
+       "titulo": "Eles Vivem",
+       "ano": 1988
+      },
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "The Day the Earth Stood Still (1951)",
+       "id": 828,
+       "titulo": "O Dia em que a Terra Parou",
+       "ano": 1951
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vida-fora-possivel",
+   "pedidos": [
+    "Vida fora da Terra de um jeito que pareça possível"
+   ],
+   "nota": "Pé na ciência: microbiologia, sinais de rádio, missões realistas.",
+   "grupos": [
+    {
+     "nome": "Ciência de verdade",
+     "filmes": [
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Europa Report (2013)",
+       "id": 174772,
+       "titulo": "Viagem à Lua de Júpiter",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Andromeda Strain (1971)",
+       "id": 10514,
+       "titulo": "O Enigma de Andrômeda",
+       "ano": 1971
+      },
+      {
+       "pedido": "Life (2017)",
+       "id": 395992,
+       "titulo": "Vida",
+       "ano": 2017
+      },
+      {
+       "pedido": "The Martian (2015)",
+       "id": 286217,
+       "titulo": "Perdido em Marte",
+       "ano": 2015
+      },
+      {
+       "pedido": "Stowaway (2021)",
+       "id": 559581,
+       "titulo": "Passageiro Acidental",
+       "ano": 2021
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "Proxima (2019)",
+       "id": 478860,
+       "titulo": "A Jornada",
+       "ano": 2019
+      }
+     ]
+    },
+    {
+     "nome": "Grande e plausível",
+     "filmes": [
+      {
+       "pedido": "2001: A Space Odyssey (1968)",
+       "id": 62,
+       "titulo": "2001: Uma Odisséia no Espaço",
+       "ano": 1968
+      },
+      {
+       "pedido": "Interstellar (2014)",
+       "id": 157336,
+       "titulo": "Interestelar",
+       "ano": 2014
+      },
+      {
+       "pedido": "Ad Astra (2019)",
+       "id": 419704,
+       "titulo": "Ad Astra - Rumo às Estrelas",
+       "ano": 2019
+      },
+      {
+       "pedido": "Close Encounters of the Third Kind (1977)",
+       "id": 840,
+       "titulo": "Contatos Imediatos do Terceiro Grau",
+       "ano": 1977
+      },
+      {
+       "pedido": "The Abyss (1989)",
+       "id": 2756,
+       "titulo": "O Segredo do Abismo",
+       "ano": 1989
+      },
+      {
+       "pedido": "Sphere (1998)",
+       "id": 10153,
+       "titulo": "Esfera",
+       "ano": 1998
+      },
+      {
+       "pedido": "Annihilation (2018)",
+       "id": 300668,
+       "titulo": "Aniquilação",
+       "ano": 2018
+      },
+      {
+       "pedido": "Solaris (1972)",
+       "id": 593,
+       "titulo": "Solaris",
+       "ano": 1972
+      }
+     ]
+    },
+    {
+     "nome": "E se fosse hostil?",
+     "filmes": [
+      {
+       "pedido": "Alien (1979)",
+       "id": 348,
+       "titulo": "Alien: O Oitavo Passageiro",
+       "ano": 1979
+      },
+      {
+       "pedido": "Prometheus (2012)",
+       "id": 70981,
+       "titulo": "Prometheus",
+       "ano": 2012
+      },
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Monsters (2010)",
+       "id": 43933,
+       "titulo": "Monstros",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Last Days on Mars (2013)",
+       "id": 190847,
+       "titulo": "O Planeta Vermelho",
+       "ano": 2013
+      },
+      {
+       "pedido": "Red Planet (2000)",
+       "id": 8870,
+       "titulo": "Planeta Vermelho",
+       "ano": 2000
+      },
+      {
+       "pedido": "Mission to Mars (2000)",
+       "id": 2067,
+       "titulo": "Missão: Marte",
+       "ano": 2000
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "questionar-realidade",
+   "pedidos": [
+    "Quero um filme que me faça questionar a realidade"
+   ],
+   "nota": "Simulação, mente que mente, realidade que derrete.",
+   "grupos": [
+    {
+     "nome": "Mundo de mentira",
+     "filmes": [
+      {
+       "pedido": "The Matrix (1999)",
+       "id": 603,
+       "titulo": "Matrix",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Dark City (1998)",
+       "id": 2666,
+       "titulo": "Cidade das Sombras",
+       "ano": 1998
+      },
+      {
+       "pedido": "The Thirteenth Floor (1999)",
+       "id": 1090,
+       "titulo": "13º Andar",
+       "ano": 1999
+      },
+      {
+       "pedido": "eXistenZ (1999)",
+       "id": 1946,
+       "titulo": "eXistenZ",
+       "ano": 1999
+      },
+      {
+       "pedido": "Total Recall (1990)",
+       "id": 861,
+       "titulo": "O Vingador do Futuro",
+       "ano": 1990
+      },
+      {
+       "pedido": "Free Guy (2021)",
+       "id": 550988,
+       "titulo": "Free Guy: Assumindo o Controle",
+       "ano": 2021
+      },
+      {
+       "pedido": "Source Code (2011)",
+       "id": 45612,
+       "titulo": "Contra o Tempo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Blade Runner (1982)",
+       "id": 78,
+       "titulo": "Blade Runner: O Caçador de Andróides",
+       "ano": 1982
+      }
+     ]
+    },
+    {
+     "nome": "A cabeça que mente",
+     "filmes": [
+      {
+       "pedido": "Shutter Island (2010)",
+       "id": 11324,
+       "titulo": "Ilha do Medo",
+       "ano": 2010
+      },
+      {
+       "pedido": "Memento (2000)",
+       "id": 77,
+       "titulo": "Amnésia",
+       "ano": 2000
+      },
+      {
+       "pedido": "Fight Club (1999)",
+       "id": 550,
+       "titulo": "Clube da Luta",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Machinist (2004)",
+       "id": 4553,
+       "titulo": "O Operário",
+       "ano": 2004
+      },
+      {
+       "pedido": "Black Swan (2010)",
+       "id": 44214,
+       "titulo": "Cisne Negro",
+       "ano": 2010
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "Ex Machina (2014)",
+       "id": 264660,
+       "titulo": "Ex_Machina: Instinto Artificial",
+       "ano": 2015
+      },
+      {
+       "pedido": "Vanilla Sky (2001)",
+       "id": 1903,
+       "titulo": "Vanilla Sky",
+       "ano": 2001
+      },
+      {
+       "pedido": "Open Your Eyes (1997)",
+       "id": 1902,
+       "titulo": "Preso na Escuridão",
+       "ano": 1997
+      }
+     ]
+    },
+    {
+     "nome": "Realidade que derrete",
+     "filmes": [
+      {
+       "pedido": "Inception (2010)",
+       "id": 27205,
+       "titulo": "A Origem",
+       "ano": 2010
+      },
+      {
+       "pedido": "Mulholland Drive (2001)",
+       "id": 1018,
+       "titulo": "Cidade dos Sonhos",
+       "ano": 2001
+      },
+      {
+       "pedido": "Being John Malkovich (1999)",
+       "id": 492,
+       "titulo": "Quero Ser John Malkovich",
+       "ano": 1999
+      },
+      {
+       "pedido": "Synecdoche, New York (2008)",
+       "id": 4960,
+       "titulo": "Sinédoque, Nova York",
+       "ano": 2008
+      },
+      {
+       "pedido": "Enemy (2013)",
+       "id": 181886,
+       "titulo": "O Homem Duplicado",
+       "ano": 2014
+      },
+      {
+       "pedido": "Donnie Darko (2001)",
+       "id": 141,
+       "titulo": "Donnie Darko",
+       "ano": 2001
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Paprika (2006)",
+       "id": 4977,
+       "titulo": "Paprika",
+       "ano": 2006
+      },
+      {
+       "pedido": "Perfect Blue (1997)",
+       "id": 10494,
+       "titulo": "Perfect Blue",
+       "ano": 1998
+      },
+      {
+       "pedido": "Waking Life (2001)",
+       "id": 9081,
+       "titulo": "Waking Life",
+       "ano": 2001
+      }
+     ]
+    },
+    {
+     "nome": "Quebra-cabeça de baixo orçamento",
+     "filmes": [
+      {
+       "pedido": "Coherence (2013)",
+       "id": 220289,
+       "titulo": "Coherence",
+       "ano": 2014
+      },
+      {
+       "pedido": "Primer (2004)",
+       "id": 14337,
+       "titulo": "Primer",
+       "ano": 2004
+      },
+      {
+       "pedido": "Triangle (2009)",
+       "id": 26466,
+       "titulo": "Triângulo do Medo",
+       "ano": 2009
+      },
+      {
+       "pedido": "Upstream Color (2013)",
+       "id": 145197,
+       "titulo": "Cores do Destino",
+       "ano": 2013
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "comedia-crise-existencial",
+   "pedidos": [
+    "Uma comédia que me dê uma crise existencial"
+   ],
+   "nota": "Tem que ser COMÉDIA de verdade, que faz rir e depois pensar na vida. Nada de drama pesado ou thriller (ex.: Clube da Luta não serve).",
+   "grupos": [
+    {
+     "nome": "Presos no loop",
+     "filmes": [
+      {
+       "pedido": "Groundhog Day (1993)",
+       "id": 137,
+       "titulo": "Feitiço do Tempo",
+       "ano": 1993
+      },
+      {
+       "pedido": "Palm Springs (2020)",
+       "id": 587792,
+       "titulo": "Palm Springs",
+       "ano": 2020
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Click (2006)",
+       "id": 9339,
+       "titulo": "Click",
+       "ano": 2006
+      },
+      {
+       "pedido": "The Map of Tiny Perfect Things (2021)",
+       "id": 672647,
+       "titulo": "O Mapa das Pequenas Coisas Perfeitas",
+       "ano": 2021
+      }
+     ]
+    },
+    {
+     "nome": "Quem sou eu, afinal?",
+     "filmes": [
+      {
+       "pedido": "Being John Malkovich (1999)",
+       "id": 492,
+       "titulo": "Quero Ser John Malkovich",
+       "ano": 1999
+      },
+      {
+       "pedido": "Adaptation. (2002)",
+       "id": 2757,
+       "titulo": "Adaptação.",
+       "ano": 2002
+      },
+      {
+       "pedido": "Stranger than Fiction (2006)",
+       "id": 1262,
+       "titulo": "Mais Estranho que a Ficção",
+       "ano": 2006
+      },
+      {
+       "pedido": "I Heart Huckabees (2004)",
+       "id": 1599,
+       "titulo": "Huckabees: A Vida é uma Comédia",
+       "ano": 2004
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Eternal Sunshine of the Spotless Mind (2004)",
+       "id": 38,
+       "titulo": "Brilho Eterno de uma Mente sem Lembranças",
+       "ano": 2004
+      },
+      {
+       "pedido": "Barbie (2023)",
+       "id": 346698,
+       "titulo": "Barbie",
+       "ano": 2023
+      },
+      {
+       "pedido": "Synecdoche, New York (2008)",
+       "id": 4960,
+       "titulo": "Sinédoque, Nova York",
+       "ano": 2008
+      },
+      {
+       "pedido": "Beau Is Afraid (2023)",
+       "id": 798286,
+       "titulo": "Beau Tem Medo",
+       "ano": 2023
+      },
+      {
+       "pedido": "Anomalisa (2015)",
+       "id": 291270,
+       "titulo": "Anomalisa",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Rir pra não chorar",
+     "filmes": [
+      {
+       "pedido": "Little Miss Sunshine (2006)",
+       "id": 773,
+       "titulo": "Pequena Miss Sunshine",
+       "ano": 2006
+      },
+      {
+       "pedido": "Birdman or (The Unexpected Virtue of Ignorance) (2014)",
+       "id": 194662,
+       "titulo": "Birdman ou (A Inesperada Virtude da Ignorância)",
+       "ano": 2014
+      },
+      {
+       "pedido": "The Lobster (2015)",
+       "id": 254320,
+       "titulo": "O Lagosta",
+       "ano": 2015
+      },
+      {
+       "pedido": "Lost in Translation (2003)",
+       "id": 153,
+       "titulo": "Encontros e Desencontros",
+       "ano": 2003
+      },
+      {
+       "pedido": "Harold and Maude (1971)",
+       "id": 343,
+       "titulo": "Ensina-me a Viver",
+       "ano": 1971
+      },
+      {
+       "pedido": "Monty Python's The Meaning of Life (1983)",
+       "id": 4543,
+       "titulo": "Monty Python - O Sentido da Vida",
+       "ano": 1983
+      },
+      {
+       "pedido": "Don't Look Up (2021)",
+       "id": 646380,
+       "titulo": "Não Olhe para Cima",
+       "ano": 2021
+      },
+      {
+       "pedido": "The Worst Person in the World (2021)",
+       "id": 660120,
+       "titulo": "A Pior Pessoa do Mundo",
+       "ano": 2021
+      },
+      {
+       "pedido": "Frances Ha (2012)",
+       "id": 121986,
+       "titulo": "Frances Ha",
+       "ano": 2013
+      },
+      {
+       "pedido": "Sideways (2004)",
+       "id": 9675,
+       "titulo": "Sideways: Entre Umas e Outras",
+       "ano": 2004
+      },
+      {
+       "pedido": "About Schmidt (2002)",
+       "id": 2755,
+       "titulo": "As Confissões de Schmidt",
+       "ano": 2002
+      },
+      {
+       "pedido": "The Banshees of Inisherin (2022)",
+       "id": 674324,
+       "titulo": "Os Banshees de Inisherin",
+       "ano": 2022
+      },
+      {
+       "pedido": "Triangle of Sadness (2022)",
+       "id": 497828,
+       "titulo": "Triângulo da Tristeza",
+       "ano": 2022
+      },
+      {
+       "pedido": "Defending Your Life (1991)",
+       "id": 12186,
+       "titulo": "Um Visto Para o Céu",
+       "ano": 1991
+      },
+      {
+       "pedido": "Office Space (1999)",
+       "id": 1542,
+       "titulo": "Como Enlouquecer Seu Chefe",
+       "ano": 1999
+      },
+      {
+       "pedido": "Swiss Army Man (2016)",
+       "id": 347031,
+       "titulo": "Um Cadáver para Sobreviver",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Secret Life of Walter Mitty (2013)",
+       "id": 116745,
+       "titulo": "A Vida Secreta de Walter Mitty",
+       "ano": 2013
+      }
+     ]
+    },
+    {
+     "nome": "Animação que pega pesado",
+     "filmes": [
+      {
+       "pedido": "Soul (2020)",
+       "id": 508442,
+       "titulo": "Soul",
+       "ano": 2020
+      },
+      {
+       "pedido": "Inside Out (2015)",
+       "id": 150540,
+       "titulo": "Divertida Mente",
+       "ano": 2015
+      },
+      {
+       "pedido": "Inside Out 2 (2024)",
+       "id": 1022789,
+       "titulo": "Divertida Mente 2",
+       "ano": 2024
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "livre-arbitrio",
+   "pedidos": [
+    "Filmes sobre livre-arbítrio: a gente escolhe alguma coisa mesmo?"
+   ],
+   "nota": "Destino x escolha, caminhos alternativos, acaso.",
+   "grupos": [
+    {
+     "nome": "Destino ou escolha?",
+     "filmes": [
+      {
+       "pedido": "Minority Report (2002)",
+       "id": 180,
+       "titulo": "Minority Report: A Nova Lei",
+       "ano": 2002
+      },
+      {
+       "pedido": "The Adjustment Bureau (2011)",
+       "id": 38050,
+       "titulo": "Os Agentes do Destino",
+       "ano": 2011
+      },
+      {
+       "pedido": "Gattaca (1997)",
+       "id": 782,
+       "titulo": "Gattaca: A Experiência Genética",
+       "ano": 1997
+      },
+      {
+       "pedido": "The Matrix (1999)",
+       "id": 603,
+       "titulo": "Matrix",
+       "ano": 1999
+      },
+      {
+       "pedido": "Predestination (2014)",
+       "id": 206487,
+       "titulo": "O Predestinado",
+       "ano": 2014
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Donnie Darko (2001)",
+       "id": 141,
+       "titulo": "Donnie Darko",
+       "ano": 2001
+      },
+      {
+       "pedido": "12 Monkeys (1995)",
+       "id": 63,
+       "titulo": "Os 12 Macacos",
+       "ano": 1995
+      },
+      {
+       "pedido": "Dark City (1998)",
+       "id": 2666,
+       "titulo": "Cidade das Sombras",
+       "ano": 1998
+      },
+      {
+       "pedido": "Stranger than Fiction (2006)",
+       "id": 1262,
+       "titulo": "Mais Estranho que a Ficção",
+       "ano": 2006
+      }
+     ]
+    },
+    {
+     "nome": "E se fosse o outro caminho?",
+     "filmes": [
+      {
+       "pedido": "Run Lola Run (1998)",
+       "id": 104,
+       "titulo": "Corra, Lola, Corra",
+       "ano": 1998
+      },
+      {
+       "pedido": "Sliding Doors (1998)",
+       "id": 10215,
+       "titulo": "De Caso com o Acaso",
+       "ano": 1998
+      },
+      {
+       "pedido": "Mr. Nobody (2009)",
+       "id": 31011,
+       "titulo": "Sr. Ninguém",
+       "ano": 2009
+      },
+      {
+       "pedido": "The Butterfly Effect (2004)",
+       "id": 1954,
+       "titulo": "Efeito Borboleta",
+       "ano": 2004
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Looper (2012)",
+       "id": 59967,
+       "titulo": "Looper: Assassinos do Futuro",
+       "ano": 2012
+      },
+      {
+       "pedido": "Source Code (2011)",
+       "id": 45612,
+       "titulo": "Contra o Tempo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Groundhog Day (1993)",
+       "id": 137,
+       "titulo": "Feitiço do Tempo",
+       "ano": 1993
+      }
+     ]
+    },
+    {
+     "nome": "Controle e liberdade",
+     "filmes": [
+      {
+       "pedido": "A Clockwork Orange (1971)",
+       "id": 185,
+       "titulo": "Laranja Mecânica",
+       "ano": 1971
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Equilibrium (2002)",
+       "id": 7299,
+       "titulo": "Equilibrium",
+       "ano": 2002
+      },
+      {
+       "pedido": "THX 1138 (1971)",
+       "id": 636,
+       "titulo": "THX 1138",
+       "ano": 1971
+      },
+      {
+       "pedido": "Ex Machina (2014)",
+       "id": 264660,
+       "titulo": "Ex_Machina: Instinto Artificial",
+       "ano": 2015
+      },
+      {
+       "pedido": "I, Robot (2004)",
+       "id": 2048,
+       "titulo": "Eu, Robô",
+       "ano": 2004
+      },
+      {
+       "pedido": "Free Guy (2021)",
+       "id": 550988,
+       "titulo": "Free Guy: Assumindo o Controle",
+       "ano": 2021
+      }
+     ]
+    },
+    {
+     "nome": "Acaso e sorte",
+     "filmes": [
+      {
+       "pedido": "No Country for Old Men (2007)",
+       "id": 6977,
+       "titulo": "Onde os Fracos Não Têm Vez",
+       "ano": 2007
+      },
+      {
+       "pedido": "Match Point (2005)",
+       "id": 116,
+       "titulo": "Match Point",
+       "ano": 2005
+      },
+      {
+       "pedido": "Magnolia (1999)",
+       "id": 334,
+       "titulo": "Magnólia",
+       "ano": 1999
+      },
+      {
+       "pedido": "Tenet (2020)",
+       "id": 577922,
+       "titulo": "Tenet",
+       "ano": 2020
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "filosofia-sem-aula",
+   "pedidos": [
+    "Quero filosofia sem parecer que estou assistindo a uma aula"
+   ],
+   "nota": "Filmes gostosos de ver que levantam questões grandes sem discurso.",
+   "grupos": [
+    {
+     "nome": "Pensar no meio da aventura",
+     "filmes": [
+      {
+       "pedido": "The Matrix (1999)",
+       "id": 603,
+       "titulo": "Matrix",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Groundhog Day (1993)",
+       "id": 137,
+       "titulo": "Feitiço do Tempo",
+       "ano": 1993
+      },
+      {
+       "pedido": "Gattaca (1997)",
+       "id": 782,
+       "titulo": "Gattaca: A Experiência Genética",
+       "ano": 1997
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Ex Machina (2014)",
+       "id": 264660,
+       "titulo": "Ex_Machina: Instinto Artificial",
+       "ano": 2015
+      },
+      {
+       "pedido": "Blade Runner (1982)",
+       "id": 78,
+       "titulo": "Blade Runner: O Caçador de Andróides",
+       "ano": 1982
+      },
+      {
+       "pedido": "Blade Runner 2049 (2017)",
+       "id": 335984,
+       "titulo": "Blade Runner 2049",
+       "ano": 2017
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "Life of Pi (2012)",
+       "id": 87827,
+       "titulo": "As Aventuras de Pi",
+       "ano": 2012
+      },
+      {
+       "pedido": "Cast Away (2000)",
+       "id": 8358,
+       "titulo": "Náufrago",
+       "ano": 2000
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      }
+     ]
+    },
+    {
+     "nome": "Conversa que vira filosofia",
+     "filmes": [
+      {
+       "pedido": "Before Sunrise (1995)",
+       "id": 76,
+       "titulo": "Antes do Amanhecer",
+       "ano": 1995
+      },
+      {
+       "pedido": "Before Sunset (2004)",
+       "id": 80,
+       "titulo": "Antes do Pôr do Sol",
+       "ano": 2004
+      },
+      {
+       "pedido": "My Dinner with Andre (1981)",
+       "id": 25468,
+       "titulo": "Meu Jantar com André",
+       "ano": 1981
+      },
+      {
+       "pedido": "Waking Life (2001)",
+       "id": 9081,
+       "titulo": "Waking Life",
+       "ano": 2001
+      },
+      {
+       "pedido": "Her (2013)",
+       "id": 152601,
+       "titulo": "Ela",
+       "ano": 2013
+      },
+      {
+       "pedido": "Good Will Hunting (1997)",
+       "id": 489,
+       "titulo": "Gênio Indomável",
+       "ano": 1997
+      },
+      {
+       "pedido": "Dead Poets Society (1989)",
+       "id": 207,
+       "titulo": "Sociedade dos Poetas Mortos",
+       "ano": 1989
+      }
+     ]
+    },
+    {
+     "nome": "Sentido da vida sem sermão",
+     "filmes": [
+      {
+       "pedido": "Perfect Days (2023)",
+       "id": 976893,
+       "titulo": "Dias Perfeitos",
+       "ano": 2023
+      },
+      {
+       "pedido": "Paterson (2016)",
+       "id": 370755,
+       "titulo": "Paterson",
+       "ano": 2016
+      },
+      {
+       "pedido": "Soul (2020)",
+       "id": 508442,
+       "titulo": "Soul",
+       "ano": 2020
+      },
+      {
+       "pedido": "Eternal Sunshine of the Spotless Mind (2004)",
+       "id": 38,
+       "titulo": "Brilho Eterno de uma Mente sem Lembranças",
+       "ano": 2004
+      },
+      {
+       "pedido": "The Shawshank Redemption (1994)",
+       "id": 278,
+       "titulo": "Um Sonho de Liberdade",
+       "ano": 1994
+      },
+      {
+       "pedido": "Into the Wild (2007)",
+       "id": 5915,
+       "titulo": "Na Natureza Selvagem",
+       "ano": 2007
+      },
+      {
+       "pedido": "The Tree of Life (2011)",
+       "id": 8967,
+       "titulo": "A Árvore da Vida",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Lobster (2015)",
+       "id": 254320,
+       "titulo": "O Lagosta",
+       "ano": 2015
+      },
+      {
+       "pedido": "Fight Club (1999)",
+       "id": 550,
+       "titulo": "Clube da Luta",
+       "ano": 1999
+      }
+     ]
+    },
+    {
+     "nome": "Clássicos que pensam",
+     "filmes": [
+      {
+       "pedido": "The Seventh Seal (1957)",
+       "id": 490,
+       "titulo": "O Sétimo Selo",
+       "ano": 1957
+      },
+      {
+       "pedido": "Wild Strawberries (1957)",
+       "id": 614,
+       "titulo": "Morangos Silvestres",
+       "ano": 1957
+      },
+      {
+       "pedido": "Ikiru (1952)",
+       "id": 3782,
+       "titulo": "Viver",
+       "ano": 1952
+      },
+      {
+       "pedido": "Synecdoche, New York (2008)",
+       "id": 4960,
+       "titulo": "Sinédoque, Nova York",
+       "ano": 2008
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ser-humano",
+   "pedidos": [
+    "Um filme sobre o que significa ser humano"
+   ],
+   "nota": "Robôs, clones, quase-humanos e também a vida comum como milagre.",
+   "grupos": [
+    {
+     "nome": "Máquinas mais humanas que a gente",
+     "filmes": [
+      {
+       "pedido": "Blade Runner (1982)",
+       "id": 78,
+       "titulo": "Blade Runner: O Caçador de Andróides",
+       "ano": 1982
+      },
+      {
+       "pedido": "Blade Runner 2049 (2017)",
+       "id": 335984,
+       "titulo": "Blade Runner 2049",
+       "ano": 2017
+      },
+      {
+       "pedido": "Ex Machina (2014)",
+       "id": 264660,
+       "titulo": "Ex_Machina: Instinto Artificial",
+       "ano": 2015
+      },
+      {
+       "pedido": "Her (2013)",
+       "id": 152601,
+       "titulo": "Ela",
+       "ano": 2013
+      },
+      {
+       "pedido": "A.I. Artificial Intelligence (2001)",
+       "id": 644,
+       "titulo": "A.I.: Inteligência Artificial",
+       "ano": 2001
+      },
+      {
+       "pedido": "Bicentennial Man (1999)",
+       "id": 2277,
+       "titulo": "O Homem Bicentenário",
+       "ano": 1999
+      },
+      {
+       "pedido": "After Yang (2021)",
+       "id": 585378,
+       "titulo": "A Vida Depois de Yang",
+       "ano": 2022
+      },
+      {
+       "pedido": "Robot & Frank (2012)",
+       "id": 84329,
+       "titulo": "Frank e o Robô",
+       "ano": 2012
+      },
+      {
+       "pedido": "Ghost in the Shell (1995)",
+       "id": 9323,
+       "titulo": "Ghost in the Shell: O Fantasma do Futuro",
+       "ano": 1995
+      },
+      {
+       "pedido": "Archive (2020)",
+       "id": 606234,
+       "titulo": "Archive",
+       "ano": 2020
+      }
+     ]
+    },
+    {
+     "nome": "Quase humano",
+     "filmes": [
+      {
+       "pedido": "Never Let Me Go (2010)",
+       "id": 42188,
+       "titulo": "Não Me Abandone Jamais",
+       "ano": 2010
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "Under the Skin (2013)",
+       "id": 97370,
+       "titulo": "Sob a Pele",
+       "ano": 2014
+      },
+      {
+       "pedido": "Edward Scissorhands (1990)",
+       "id": 162,
+       "titulo": "Edward Mãos de Tesoura",
+       "ano": 1990
+      },
+      {
+       "pedido": "The Elephant Man (1980)",
+       "id": 1955,
+       "titulo": "O Homem Elefante",
+       "ano": 1980
+      },
+      {
+       "pedido": "Poor Things (2023)",
+       "id": 792307,
+       "titulo": "Pobres Criaturas",
+       "ano": 2023
+      },
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Frankenstein (1931)",
+       "id": 3035,
+       "titulo": "Frankenstein",
+       "ano": 1931
+      },
+      {
+       "pedido": "Lars and the Real Girl (2007)",
+       "id": 6615,
+       "titulo": "A Garota Ideal",
+       "ano": 2007
+      }
+     ]
+    },
+    {
+     "nome": "Animação que diz tudo",
+     "filmes": [
+      {
+       "pedido": "WALL·E (2008)",
+       "id": 10681,
+       "titulo": "WALL-E",
+       "ano": 2008
+      },
+      {
+       "pedido": "The Iron Giant (1999)",
+       "id": 10386,
+       "titulo": "O Gigante de Ferro",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Wild Robot (2024)",
+       "id": 1184918,
+       "titulo": "Robô Selvagem",
+       "ano": 2024
+      },
+      {
+       "pedido": "Inside Out (2015)",
+       "id": 150540,
+       "titulo": "Divertida Mente",
+       "ano": 2015
+      },
+      {
+       "pedido": "Soul (2020)",
+       "id": 508442,
+       "titulo": "Soul",
+       "ano": 2020
+      }
+     ]
+    },
+    {
+     "nome": "A vida comum como milagre",
+     "filmes": [
+      {
+       "pedido": "Ikiru (1952)",
+       "id": 3782,
+       "titulo": "Viver",
+       "ano": 1952
+      },
+      {
+       "pedido": "It's a Wonderful Life (1946)",
+       "id": 1585,
+       "titulo": "A Felicidade Não Se Compra",
+       "ano": 1946
+      },
+      {
+       "pedido": "Wings of Desire (1987)",
+       "id": 144,
+       "titulo": "Asas do Desejo",
+       "ano": 1987
+      },
+      {
+       "pedido": "Children of Men (2006)",
+       "id": 9693,
+       "titulo": "Filhos da Esperança",
+       "ano": 2006
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Perfect Days (2023)",
+       "id": 976893,
+       "titulo": "Dias Perfeitos",
+       "ano": 2023
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "scifi-espiritual",
+   "pedidos": [
+    "Ficção científica com questões espirituais"
+   ],
+   "nota": "Deus, alma, morte e transcendência dentro da ficção científica.",
+   "grupos": [
+    {
+     "nome": "Deus no espaço",
+     "filmes": [
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "2001: A Space Odyssey (1968)",
+       "id": 62,
+       "titulo": "2001: Uma Odisséia no Espaço",
+       "ano": 1968
+      },
+      {
+       "pedido": "Solaris (1972)",
+       "id": 593,
+       "titulo": "Solaris",
+       "ano": 1972
+      },
+      {
+       "pedido": "Interstellar (2014)",
+       "id": 157336,
+       "titulo": "Interestelar",
+       "ano": 2014
+      },
+      {
+       "pedido": "Sunshine (2007)",
+       "id": 1272,
+       "titulo": "Sunshine: Alerta Solar",
+       "ano": 2007
+      },
+      {
+       "pedido": "Ad Astra (2019)",
+       "id": 419704,
+       "titulo": "Ad Astra - Rumo às Estrelas",
+       "ano": 2019
+      },
+      {
+       "pedido": "High Life (2018)",
+       "id": 376865,
+       "titulo": "High Life: Uma Nova Vida",
+       "ano": 2018
+      },
+      {
+       "pedido": "Prometheus (2012)",
+       "id": 70981,
+       "titulo": "Prometheus",
+       "ano": 2012
+      },
+      {
+       "pedido": "Close Encounters of the Third Kind (1977)",
+       "id": 840,
+       "titulo": "Contatos Imediatos do Terceiro Grau",
+       "ano": 1977
+      }
+     ]
+    },
+    {
+     "nome": "Morte, alma e ciência",
+     "filmes": [
+      {
+       "pedido": "The Discovery (2017)",
+       "id": 376134,
+       "titulo": "A Descoberta",
+       "ano": 2017
+      },
+      {
+       "pedido": "I Origins (2014)",
+       "id": 244267,
+       "titulo": "O Universo no Olhar",
+       "ano": 2014
+      },
+      {
+       "pedido": "Flatliners (1990)",
+       "id": 1551,
+       "titulo": "Linha Mortal",
+       "ano": 1990
+      },
+      {
+       "pedido": "Brainstorm (1983)",
+       "id": 15050,
+       "titulo": "Projeto Brainstorm",
+       "ano": 1983
+      },
+      {
+       "pedido": "Another Earth (2011)",
+       "id": 55420,
+       "titulo": "A Outra Terra",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Man from Earth (2007)",
+       "id": 13363,
+       "titulo": "O Homem da Terra",
+       "ano": 2007
+      },
+      {
+       "pedido": "Mr. Nobody (2009)",
+       "id": 31011,
+       "titulo": "Sr. Ninguém",
+       "ano": 2009
+      },
+      {
+       "pedido": "The Fountain (2006)",
+       "id": 1381,
+       "titulo": "Fonte da Vida",
+       "ano": 2006
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      }
+     ]
+    },
+    {
+     "nome": "Místico e épico",
+     "filmes": [
+      {
+       "pedido": "Stalker (1979)",
+       "id": 1398,
+       "titulo": "Stalker",
+       "ano": 1979
+      },
+      {
+       "pedido": "Dune (2021)",
+       "id": 438631,
+       "titulo": "Duna",
+       "ano": 2021
+      },
+      {
+       "pedido": "Dune: Part Two (2024)",
+       "id": 693134,
+       "titulo": "Duna: Parte Dois",
+       "ano": 2024
+      },
+      {
+       "pedido": "Cloud Atlas (2012)",
+       "id": 83542,
+       "titulo": "A Viagem",
+       "ano": 2012
+      },
+      {
+       "pedido": "The Matrix (1999)",
+       "id": 603,
+       "titulo": "Matrix",
+       "ano": 1999
+      },
+      {
+       "pedido": "Annihilation (2018)",
+       "id": 300668,
+       "titulo": "Aniquilação",
+       "ano": 2018
+      },
+      {
+       "pedido": "Knowing (2009)",
+       "id": 13811,
+       "titulo": "Presságio",
+       "ano": 2009
+      },
+      {
+       "pedido": "Signs (2002)",
+       "id": 2675,
+       "titulo": "Sinais",
+       "ano": 2002
+      },
+      {
+       "pedido": "Melancholia (2011)",
+       "id": 62215,
+       "titulo": "Melancolia",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Tree of Life (2011)",
+       "id": 8967,
+       "titulo": "A Árvore da Vida",
+       "ano": 2011
+      },
+      {
+       "pedido": "Lucy (2014)",
+       "id": 240832,
+       "titulo": "Lucy",
+       "ano": 2014
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "amor-viagem-tempo",
+   "pedidos": [
+    "Uma história de amor que envolva viagem no tempo"
+   ],
+   "nota": "Romance de verdade no centro; o tempo é o obstáculo.",
+   "grupos": [
+    {
+     "nome": "Romance que atravessa o tempo",
+     "filmes": [
+      {
+       "pedido": "About Time (2013)",
+       "id": 122906,
+       "titulo": "Questão de Tempo",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Time Traveler's Wife (2009)",
+       "id": 24420,
+       "titulo": "Te Amarei Para Sempre",
+       "ano": 2009
+      },
+      {
+       "pedido": "Somewhere in Time (1980)",
+       "id": 16633,
+       "titulo": "Em Algum Lugar do Passado",
+       "ano": 1980
+      },
+      {
+       "pedido": "Kate & Leopold (2001)",
+       "id": 11232,
+       "titulo": "Kate & Leopold",
+       "ano": 2001
+      },
+      {
+       "pedido": "The Lake House (2006)",
+       "id": 2044,
+       "titulo": "A Casa do Lago",
+       "ano": 2006
+      },
+      {
+       "pedido": "Il Mare (2000)",
+       "id": 12650,
+       "titulo": "Il Mare",
+       "ano": 2000
+      },
+      {
+       "pedido": "Midnight in Paris (2011)",
+       "id": 59436,
+       "titulo": "Meia Noite em Paris",
+       "ano": 2011
+      },
+      {
+       "pedido": "Peggy Sue Got Married (1986)",
+       "id": 10013,
+       "titulo": "Peggy Sue, seu Passado a Espera",
+       "ano": 1986
+      },
+      {
+       "pedido": "Time After Time (1979)",
+       "id": 24750,
+       "titulo": "Um Século em 43 Minutos",
+       "ano": 1979
+      },
+      {
+       "pedido": "The Age of Adaline (2015)",
+       "id": 293863,
+       "titulo": "A Incrível História de Adaline",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Loop apaixonado",
+     "filmes": [
+      {
+       "pedido": "Palm Springs (2020)",
+       "id": 587792,
+       "titulo": "Palm Springs",
+       "ano": 2020
+      },
+      {
+       "pedido": "Groundhog Day (1993)",
+       "id": 137,
+       "titulo": "Feitiço do Tempo",
+       "ano": 1993
+      },
+      {
+       "pedido": "The Map of Tiny Perfect Things (2021)",
+       "id": 672647,
+       "titulo": "O Mapa das Pequenas Coisas Perfeitas",
+       "ano": 2021
+      },
+      {
+       "pedido": "Edge of Tomorrow (2014)",
+       "id": 137113,
+       "titulo": "No Limite do Amanhã",
+       "ano": 2014
+      },
+      {
+       "pedido": "Source Code (2011)",
+       "id": 45612,
+       "titulo": "Contra o Tempo",
+       "ano": 2011
+      }
+     ]
+    },
+    {
+     "nome": "Coração em ficção científica",
+     "filmes": [
+      {
+       "pedido": "12 Monkeys (1995)",
+       "id": 63,
+       "titulo": "Os 12 Macacos",
+       "ano": 1995
+      },
+      {
+       "pedido": "The Terminator (1984)",
+       "id": 218,
+       "titulo": "O Exterminador do Futuro",
+       "ano": 1984
+      },
+      {
+       "pedido": "Safety Not Guaranteed (2012)",
+       "id": 84332,
+       "titulo": "Sem Segurança Nenhuma",
+       "ano": 2012
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Interstellar (2014)",
+       "id": 157336,
+       "titulo": "Interestelar",
+       "ano": 2014
+      },
+      {
+       "pedido": "Eternal Sunshine of the Spotless Mind (2004)",
+       "id": 38,
+       "titulo": "Brilho Eterno de uma Mente sem Lembranças",
+       "ano": 2004
+      },
+      {
+       "pedido": "Frequency (2000)",
+       "id": 10559,
+       "titulo": "Alta Frequência",
+       "ano": 2000
+      },
+      {
+       "pedido": "La Jetée (1962)",
+       "id": 662,
+       "titulo": "A Pista",
+       "ano": 1962
+      },
+      {
+       "pedido": "Synchronic (2019)",
+       "id": 549294,
+       "titulo": "Synchronic",
+       "ano": 2020
+      }
+     ]
+    },
+    {
+     "nome": "Anime que derrete",
+     "filmes": [
+      {
+       "pedido": "Your Name. (2016)",
+       "id": 372058,
+       "titulo": "Your Name.",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Girl Who Leapt Through Time (2006)",
+       "id": 14069,
+       "titulo": "A Garota que Conquistou o Tempo",
+       "ano": 2006
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "memorias-falsas",
+   "pedidos": [
+    "Um suspense sobre memórias que talvez sejam falsas"
+   ],
+   "nota": "Identidade e memória em dúvida, com suspense.",
+   "grupos": [
+    {
+     "nome": "Quem eu sou, afinal?",
+     "filmes": [
+      {
+       "pedido": "Memento (2000)",
+       "id": 77,
+       "titulo": "Amnésia",
+       "ano": 2000
+      },
+      {
+       "pedido": "The Bourne Identity (2002)",
+       "id": 2501,
+       "titulo": "A Identidade Bourne",
+       "ano": 2002
+      },
+      {
+       "pedido": "Total Recall (1990)",
+       "id": 861,
+       "titulo": "O Vingador do Futuro",
+       "ano": 1990
+      },
+      {
+       "pedido": "Unknown (2011)",
+       "id": 48138,
+       "titulo": "Desconhecido",
+       "ano": 2011
+      },
+      {
+       "pedido": "Before I Go to Sleep (2014)",
+       "id": 204922,
+       "titulo": "Antes de Dormir",
+       "ano": 2014
+      },
+      {
+       "pedido": "The Long Kiss Goodnight (1996)",
+       "id": 11412,
+       "titulo": "Despertar de um Pesadelo",
+       "ano": 1996
+      },
+      {
+       "pedido": "Remember (2015)",
+       "id": 302528,
+       "titulo": "Memórias Secretas",
+       "ano": 2015
+      },
+      {
+       "pedido": "Dark City (1998)",
+       "id": 2666,
+       "titulo": "Cidade das Sombras",
+       "ano": 1998
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "Blade Runner 2049 (2017)",
+       "id": 335984,
+       "titulo": "Blade Runner 2049",
+       "ano": 2017
+      }
+     ]
+    },
+    {
+     "nome": "A cabeça engana",
+     "filmes": [
+      {
+       "pedido": "Shutter Island (2010)",
+       "id": 11324,
+       "titulo": "Ilha do Medo",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Machinist (2004)",
+       "id": 4553,
+       "titulo": "O Operário",
+       "ano": 2004
+      },
+      {
+       "pedido": "Mulholland Drive (2001)",
+       "id": 1018,
+       "titulo": "Cidade dos Sonhos",
+       "ano": 2001
+      },
+      {
+       "pedido": "Identity (2003)",
+       "id": 2832,
+       "titulo": "Identidade",
+       "ano": 2003
+      },
+      {
+       "pedido": "Jacob's Ladder (1990)",
+       "id": 2291,
+       "titulo": "Alucinações do Passado",
+       "ano": 1990
+      },
+      {
+       "pedido": "Angel Heart (1987)",
+       "id": 635,
+       "titulo": "Coração Satânico",
+       "ano": 1987
+      },
+      {
+       "pedido": "Spellbound (1945)",
+       "id": 4174,
+       "titulo": "Quando Fala o Coração",
+       "ano": 1945
+      },
+      {
+       "pedido": "Trance (2013)",
+       "id": 68727,
+       "titulo": "Em Transe",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Father (2020)",
+       "id": 600354,
+       "titulo": "Meu Pai",
+       "ano": 2020
+      },
+      {
+       "pedido": "Vanilla Sky (2001)",
+       "id": 1903,
+       "titulo": "Vanilla Sky",
+       "ano": 2001
+      },
+      {
+       "pedido": "Open Your Eyes (1997)",
+       "id": 1902,
+       "titulo": "Preso na Escuridão",
+       "ano": 1997
+      }
+     ]
+    },
+    {
+     "nome": "Memória mexida por alguém",
+     "filmes": [
+      {
+       "pedido": "Eternal Sunshine of the Spotless Mind (2004)",
+       "id": 38,
+       "titulo": "Brilho Eterno de uma Mente sem Lembranças",
+       "ano": 2004
+      },
+      {
+       "pedido": "Inception (2010)",
+       "id": 27205,
+       "titulo": "A Origem",
+       "ano": 2010
+      },
+      {
+       "pedido": "Paycheck (2003)",
+       "id": 9620,
+       "titulo": "O Pagamento",
+       "ano": 2003
+      },
+      {
+       "pedido": "The Forgotten (2004)",
+       "id": 10145,
+       "titulo": "Os Esquecidos",
+       "ano": 2004
+      },
+      {
+       "pedido": "Oldboy (2003)",
+       "id": 670,
+       "titulo": "Oldboy",
+       "ano": 2003
+      },
+      {
+       "pedido": "The Manchurian Candidate (2004)",
+       "id": 14462,
+       "titulo": "Sob o Domínio do Mal",
+       "ano": 2004
+      },
+      {
+       "pedido": "Reminiscence (2021)",
+       "id": 579047,
+       "titulo": "Caminhos da Memória",
+       "ano": 2021
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "distopia-hoje",
+   "pedidos": [
+    "Uma distopia que faça pensar no mundo de hoje"
+   ],
+   "nota": "Desigualdade, tecnologia, controle, mídia. Inclua os brasileiros.",
+   "grupos": [
+    {
+     "nome": "Desigualdade levada ao extremo",
+     "filmes": [
+      {
+       "pedido": "Snowpiercer (2013)",
+       "id": 110415,
+       "titulo": "Expresso do Amanhã",
+       "ano": 2013
+      },
+      {
+       "pedido": "Elysium (2013)",
+       "id": 68724,
+       "titulo": "Elysium",
+       "ano": 2013
+      },
+      {
+       "pedido": "In Time (2011)",
+       "id": 49530,
+       "titulo": "O Preço do Amanhã",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Platform (2019)",
+       "id": 619264,
+       "titulo": "O Poço",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Hunger Games (2012)",
+       "id": 70160,
+       "titulo": "Jogos Vorazes",
+       "ano": 2012
+      },
+      {
+       "pedido": "Parasite (2019)",
+       "id": 496243,
+       "titulo": "Parasita",
+       "ano": 2019
+      },
+      {
+       "pedido": "District 9 (2009)",
+       "id": 17654,
+       "titulo": "Distrito 9",
+       "ano": 2009
+      },
+      {
+       "pedido": "Children of Men (2006)",
+       "id": 9693,
+       "titulo": "Filhos da Esperança",
+       "ano": 2006
+      },
+      {
+       "pedido": "Mad Max: Fury Road (2015)",
+       "id": 76341,
+       "titulo": "Mad Max: Estrada da Fúria",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Tecnologia e controle",
+     "filmes": [
+      {
+       "pedido": "Minority Report (2002)",
+       "id": 180,
+       "titulo": "Minority Report: A Nova Lei",
+       "ano": 2002
+      },
+      {
+       "pedido": "Gattaca (1997)",
+       "id": 782,
+       "titulo": "Gattaca: A Experiência Genética",
+       "ano": 1997
+      },
+      {
+       "pedido": "Upgrade (2018)",
+       "id": 500664,
+       "titulo": "Upgrade: Atualização",
+       "ano": 2018
+      },
+      {
+       "pedido": "Equilibrium (2002)",
+       "id": 7299,
+       "titulo": "Equilibrium",
+       "ano": 2002
+      },
+      {
+       "pedido": "V for Vendetta (2005)",
+       "id": 752,
+       "titulo": "V de Vingança",
+       "ano": 2006
+      },
+      {
+       "pedido": "Nineteen Eighty-Four (1984)",
+       "id": 9314,
+       "titulo": "1984",
+       "ano": 1984
+      },
+      {
+       "pedido": "Fahrenheit 451 (1966)",
+       "id": 1714,
+       "titulo": "Fahrenheit 451",
+       "ano": 1966
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Brazil (1985)",
+       "id": 68,
+       "titulo": "Brazil: O Filme",
+       "ano": 1985
+      }
+     ]
+    },
+    {
+     "nome": "Sátira que dói",
+     "filmes": [
+      {
+       "pedido": "Don't Look Up (2021)",
+       "id": 646380,
+       "titulo": "Não Olhe para Cima",
+       "ano": 2021
+      },
+      {
+       "pedido": "Idiocracy (2006)",
+       "id": 7512,
+       "titulo": "Idiocracia",
+       "ano": 2006
+      },
+      {
+       "pedido": "Sorry to Bother You (2018)",
+       "id": 424781,
+       "titulo": "Desculpe Te Incomodar",
+       "ano": 2018
+      },
+      {
+       "pedido": "They Live (1988)",
+       "id": 8337,
+       "titulo": "Eles Vivem",
+       "ano": 1988
+      },
+      {
+       "pedido": "WALL·E (2008)",
+       "id": 10681,
+       "titulo": "WALL-E",
+       "ano": 2008
+      },
+      {
+       "pedido": "The Lobster (2015)",
+       "id": 254320,
+       "titulo": "O Lagosta",
+       "ano": 2015
+      },
+      {
+       "pedido": "Network (1976)",
+       "id": 10774,
+       "titulo": "Rede de Intrigas",
+       "ano": 1976
+      },
+      {
+       "pedido": "Nightcrawler (2014)",
+       "id": 242582,
+       "titulo": "O Abutre",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "Agora mesmo",
+     "filmes": [
+      {
+       "pedido": "Civil War (2024)",
+       "id": 929590,
+       "titulo": "Guerra Civil",
+       "ano": 2024
+      },
+      {
+       "pedido": "Leave the World Behind (2023)",
+       "id": 726209,
+       "titulo": "O Mundo Depois de Nós",
+       "ano": 2023
+      },
+      {
+       "pedido": "The Purge (2013)",
+       "id": 158015,
+       "titulo": "Uma Noite de Crime",
+       "ano": 2013
+      }
+     ]
+    },
+    {
+     "nome": "Brasil distópico",
+     "filmes": [
+      {
+       "pedido": "Bacurau (2019)",
+       "id": 446159,
+       "titulo": "Bacurau",
+       "ano": 2019
+      },
+      {
+       "pedido": "Divino Amor (2019)",
+       "id": 504592,
+       "titulo": "Divino Amor",
+       "ano": 2019
+      },
+      {
+       "pedido": "7 Prisioneiros (2021)",
+       "id": 785538,
+       "titulo": "7 Prisioneiros",
+       "ano": 2021
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sociedade-perfeita",
+   "pedidos": [
+    "Uma sociedade aparentemente perfeita que esconde algo terrível"
+   ],
+   "nota": "Lugar bonito demais, sorriso demais, segredo embaixo.",
+   "grupos": [
+    {
+     "nome": "Subúrbio bonito demais",
+     "filmes": [
+      {
+       "pedido": "The Stepford Wives (1975)",
+       "id": 12223,
+       "titulo": "Esposas em Conflito",
+       "ano": 1975
+      },
+      {
+       "pedido": "The Stepford Wives (2004)",
+       "id": 9890,
+       "titulo": "Mulheres Perfeitas",
+       "ano": 2004
+      },
+      {
+       "pedido": "Pleasantville (1998)",
+       "id": 2657,
+       "titulo": "A Vida em Preto e Branco",
+       "ano": 1998
+      },
+      {
+       "pedido": "Don't Worry Darling (2022)",
+       "id": 619730,
+       "titulo": "Não Se Preocupe, Querida",
+       "ano": 2022
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Edward Scissorhands (1990)",
+       "id": 162,
+       "titulo": "Edward Mãos de Tesoura",
+       "ano": 1990
+      },
+      {
+       "pedido": "Blue Velvet (1986)",
+       "id": 793,
+       "titulo": "Veludo Azul",
+       "ano": 1986
+      },
+      {
+       "pedido": "Vivarium (2019)",
+       "id": 458305,
+       "titulo": "Viveiro",
+       "ano": 2019
+      },
+      {
+       "pedido": "Get Out (2017)",
+       "id": 419430,
+       "titulo": "Corra!",
+       "ano": 2017
+      }
+     ]
+    },
+    {
+     "nome": "Utopia com prazo de validade",
+     "filmes": [
+      {
+       "pedido": "Logan's Run (1976)",
+       "id": 10803,
+       "titulo": "Fuga no Século 23",
+       "ano": 1976
+      },
+      {
+       "pedido": "The Island (2005)",
+       "id": 1635,
+       "titulo": "A Ilha",
+       "ano": 2005
+      },
+      {
+       "pedido": "Never Let Me Go (2010)",
+       "id": 42188,
+       "titulo": "Não Me Abandone Jamais",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Giver (2014)",
+       "id": 227156,
+       "titulo": "O Doador de Memórias",
+       "ano": 2014
+      },
+      {
+       "pedido": "Equilibrium (2002)",
+       "id": 7299,
+       "titulo": "Equilibrium",
+       "ano": 2002
+      },
+      {
+       "pedido": "Demolition Man (1993)",
+       "id": 9739,
+       "titulo": "O Demolidor",
+       "ano": 1993
+      },
+      {
+       "pedido": "Gattaca (1997)",
+       "id": 782,
+       "titulo": "Gattaca: A Experiência Genética",
+       "ano": 1997
+      },
+      {
+       "pedido": "Divergent (2014)",
+       "id": 157350,
+       "titulo": "Divergente",
+       "ano": 2014
+      },
+      {
+       "pedido": "Tomorrowland (2015)",
+       "id": 158852,
+       "titulo": "Tomorrowland: Um Lugar Onde Nada É Impossível",
+       "ano": 2015
+      },
+      {
+       "pedido": "Elysium (2013)",
+       "id": 68724,
+       "titulo": "Elysium",
+       "ano": 2013
+      }
+     ]
+    },
+    {
+     "nome": "Vilarejo com segredo",
+     "filmes": [
+      {
+       "pedido": "The Village (2004)",
+       "id": 6947,
+       "titulo": "A Vila",
+       "ano": 2004
+      },
+      {
+       "pedido": "Hot Fuzz (2007)",
+       "id": 4638,
+       "titulo": "Chumbo Grosso",
+       "ano": 2007
+      },
+      {
+       "pedido": "The Wicker Man (1973)",
+       "id": 16307,
+       "titulo": "O Homem de Palha",
+       "ano": 1973
+      },
+      {
+       "pedido": "Midsommar (2019)",
+       "id": 530385,
+       "titulo": "Midsommar: O Mal Não Espera a Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Divino Amor (2019)",
+       "id": 504592,
+       "titulo": "Divino Amor",
+       "ano": 2019
+      }
+     ]
+    },
+    {
+     "nome": "O sistema por trás",
+     "filmes": [
+      {
+       "pedido": "The Matrix (1999)",
+       "id": 603,
+       "titulo": "Matrix",
+       "ano": 1999
+      },
+      {
+       "pedido": "Dark City (1998)",
+       "id": 2666,
+       "titulo": "Cidade das Sombras",
+       "ano": 1998
+      },
+      {
+       "pedido": "Snowpiercer (2013)",
+       "id": 110415,
+       "titulo": "Expresso do Amanhã",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Lobster (2015)",
+       "id": 254320,
+       "titulo": "O Lagosta",
+       "ano": 2015
+      },
+      {
+       "pedido": "Serenity (2005)",
+       "id": 16320,
+       "titulo": "Serenity: A Luta Pelo Amanhã",
+       "ano": 2005
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "saudade-epoca",
+   "pedidos": [
+    "Quero sentir saudade de uma época que nem vivi"
+   ],
+   "nota": "Nostalgia gostosa: verão, música, cinema, outra época. Inclua Brasil.",
+   "grupos": [
+    {
+     "nome": "Verão que não volta",
+     "filmes": [
+      {
+       "pedido": "Dazed and Confused (1993)",
+       "id": 9571,
+       "titulo": "Jovens, Loucos e Rebeldes",
+       "ano": 1993
+      },
+      {
+       "pedido": "American Graffiti (1973)",
+       "id": 838,
+       "titulo": "Loucuras de Verão",
+       "ano": 1973
+      },
+      {
+       "pedido": "Stand by Me (1986)",
+       "id": 235,
+       "titulo": "Conta Comigo",
+       "ano": 1986
+      },
+      {
+       "pedido": "Everybody Wants Some!! (2016)",
+       "id": 295699,
+       "titulo": "Jovens, Loucos e Mais Rebeldes",
+       "ano": 2016
+      },
+      {
+       "pedido": "Licorice Pizza (2021)",
+       "id": 718032,
+       "titulo": "Licorice Pizza",
+       "ano": 2021
+      },
+      {
+       "pedido": "Call Me by Your Name (2017)",
+       "id": 398818,
+       "titulo": "Me Chame Pelo Seu Nome",
+       "ano": 2017
+      },
+      {
+       "pedido": "Moonrise Kingdom (2012)",
+       "id": 83666,
+       "titulo": "Moonrise Kingdom",
+       "ano": 2012
+      },
+      {
+       "pedido": "Super 8 (2011)",
+       "id": 37686,
+       "titulo": "Super 8",
+       "ano": 2011
+      },
+      {
+       "pedido": "Mid90s (2018)",
+       "id": 437586,
+       "titulo": "Anos 90",
+       "ano": 2018
+      },
+      {
+       "pedido": "Aftersun (2022)",
+       "id": 965150,
+       "titulo": "Aftersun",
+       "ano": 2022
+      }
+     ]
+    },
+    {
+     "nome": "Música e cinema de outra era",
+     "filmes": [
+      {
+       "pedido": "Almost Famous (2000)",
+       "id": 786,
+       "titulo": "Quase Famosos",
+       "ano": 2000
+      },
+      {
+       "pedido": "Sing Street (2016)",
+       "id": 369557,
+       "titulo": "Sing Street: Música e Sonho",
+       "ano": 2016
+      },
+      {
+       "pedido": "Cinema Paradiso (1988)",
+       "id": 11216,
+       "titulo": "Cinema Paradiso",
+       "ano": 1988
+      },
+      {
+       "pedido": "Once Upon a Time... in Hollywood (2019)",
+       "id": 466272,
+       "titulo": "Era Uma Vez em… Hollywood",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Fabelmans (2022)",
+       "id": 804095,
+       "titulo": "Os Fabelmans",
+       "ano": 2022
+      },
+      {
+       "pedido": "La La Land (2016)",
+       "id": 313369,
+       "titulo": "La La Land: Cantando Estações",
+       "ano": 2016
+      },
+      {
+       "pedido": "Grease (1978)",
+       "id": 621,
+       "titulo": "Grease: Nos Tempos da Brilhantina",
+       "ano": 1978
+      },
+      {
+       "pedido": "Dirty Dancing (1987)",
+       "id": 88,
+       "titulo": "Dirty Dancing: Ritmo Quente",
+       "ano": 1987
+      }
+     ]
+    },
+    {
+     "nome": "Outra época, outro ritmo",
+     "filmes": [
+      {
+       "pedido": "Midnight in Paris (2011)",
+       "id": 59436,
+       "titulo": "Meia Noite em Paris",
+       "ano": 2011
+      },
+      {
+       "pedido": "Amélie (2001)",
+       "id": 194,
+       "titulo": "O Fabuloso Destino de Amélie Poulain",
+       "ano": 2001
+      },
+      {
+       "pedido": "The Grand Budapest Hotel (2014)",
+       "id": 120467,
+       "titulo": "O Grande Hotel Budapeste",
+       "ano": 2014
+      },
+      {
+       "pedido": "Roma (2018)",
+       "id": 426426,
+       "titulo": "Roma",
+       "ano": 2018
+      },
+      {
+       "pedido": "Belfast (2021)",
+       "id": 777270,
+       "titulo": "Belfast",
+       "ano": 2021
+      },
+      {
+       "pedido": "Brooklyn (2015)",
+       "id": 167073,
+       "titulo": "Brooklin: Um Amor Sem Fronteiras",
+       "ano": 2015
+      },
+      {
+       "pedido": "In the Mood for Love (2000)",
+       "id": 843,
+       "titulo": "Amor à Flor da Pele",
+       "ano": 2000
+      },
+      {
+       "pedido": "Paper Moon (1973)",
+       "id": 11293,
+       "titulo": "Lua de Papel",
+       "ano": 1973
+      },
+      {
+       "pedido": "Back to the Future (1985)",
+       "id": 105,
+       "titulo": "De Volta para o Futuro",
+       "ano": 1985
+      }
+     ]
+    },
+    {
+     "nome": "Brasil de antigamente",
+     "filmes": [
+      {
+       "pedido": "Ainda Estou Aqui (2024)",
+       "id": 1000837,
+       "titulo": "Ainda Estou Aqui",
+       "ano": 2024
+      },
+      {
+       "pedido": "Somos Tão Jovens (2013)",
+       "id": 191034,
+       "titulo": "Somos Tão Jovens",
+       "ano": 2013
+      },
+      {
+       "pedido": "Cazuza: O Tempo Não Para (2004)",
+       "id": 59474,
+       "titulo": "Cazuza: O Tempo Não Pára",
+       "ano": 2004
+      },
+      {
+       "pedido": "O Ano em que Meus Pais Saíram de Férias (2006)",
+       "id": 14421,
+       "titulo": "O Ano em que Meus Pais Saíram de Férias",
+       "ano": 2006
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "normal-estranho",
+   "pedidos": [
+    "Um filme que comece normal e fique cada vez mais estranho"
+   ],
+   "nota": "Escalada: começa cotidiano e vai descarrilando.",
+   "grupos": [
+    {
+     "nome": "Jantar que desanda",
+     "filmes": [
+      {
+       "pedido": "The Menu (2022)",
+       "id": 593643,
+       "titulo": "O Menu",
+       "ano": 2022
+      },
+      {
+       "pedido": "Triangle of Sadness (2022)",
+       "id": 497828,
+       "titulo": "Triângulo da Tristeza",
+       "ano": 2022
+      },
+      {
+       "pedido": "Parasite (2019)",
+       "id": 496243,
+       "titulo": "Parasita",
+       "ano": 2019
+      },
+      {
+       "pedido": "Get Out (2017)",
+       "id": 419430,
+       "titulo": "Corra!",
+       "ano": 2017
+      },
+      {
+       "pedido": "Ready or Not (2019)",
+       "id": 567609,
+       "titulo": "Casamento Sangrento",
+       "ano": 2019
+      },
+      {
+       "pedido": "Saltburn (2023)",
+       "id": 930564,
+       "titulo": "Saltburn",
+       "ano": 2023
+      },
+      {
+       "pedido": "Speak No Evil (2022)",
+       "id": 833339,
+       "titulo": "Não Fale o Mal",
+       "ano": 2022
+      },
+      {
+       "pedido": "Coherence (2013)",
+       "id": 220289,
+       "titulo": "Coherence",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "Rotina que racha",
+     "filmes": [
+      {
+       "pedido": "After Hours (1985)",
+       "id": 10843,
+       "titulo": "Depois de Horas",
+       "ano": 1985
+      },
+      {
+       "pedido": "Under the Silver Lake (2018)",
+       "id": 396461,
+       "titulo": "O Mistério de Silver Lake",
+       "ano": 2018
+      },
+      {
+       "pedido": "Vivarium (2019)",
+       "id": 458305,
+       "titulo": "Viveiro",
+       "ano": 2019
+      },
+      {
+       "pedido": "Enemy (2013)",
+       "id": 181886,
+       "titulo": "O Homem Duplicado",
+       "ano": 2014
+      },
+      {
+       "pedido": "The Killing of a Sacred Deer (2017)",
+       "id": 399057,
+       "titulo": "O Sacrifício do Cervo Sagrado",
+       "ano": 2017
+      },
+      {
+       "pedido": "Mother! (2017)",
+       "id": 381283,
+       "titulo": "mãe!",
+       "ano": 2017
+      },
+      {
+       "pedido": "Beau Is Afraid (2023)",
+       "id": 798286,
+       "titulo": "Beau Tem Medo",
+       "ano": 2023
+      },
+      {
+       "pedido": "Blue Velvet (1986)",
+       "id": 793,
+       "titulo": "Veludo Azul",
+       "ano": 1986
+      },
+      {
+       "pedido": "Mulholland Drive (2001)",
+       "id": 1018,
+       "titulo": "Cidade dos Sonhos",
+       "ano": 2001
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      }
+     ]
+    },
+    {
+     "nome": "O gênero muda no meio",
+     "filmes": [
+      {
+       "pedido": "From Dusk Till Dawn (1996)",
+       "id": 755,
+       "titulo": "Um Drink no Inferno",
+       "ano": 1996
+      },
+      {
+       "pedido": "Barbarian (2022)",
+       "id": 913290,
+       "titulo": "Noites Brutais",
+       "ano": 2022
+      },
+      {
+       "pedido": "The Cabin in the Woods (2012)",
+       "id": 22970,
+       "titulo": "O Segredo da Cabana",
+       "ano": 2012
+      },
+      {
+       "pedido": "Bacurau (2019)",
+       "id": 446159,
+       "titulo": "Bacurau",
+       "ano": 2019
+      },
+      {
+       "pedido": "Nope (2022)",
+       "id": 762504,
+       "titulo": "Não! Não Olhe!",
+       "ano": 2022
+      },
+      {
+       "pedido": "Sorry to Bother You (2018)",
+       "id": 424781,
+       "titulo": "Desculpe Te Incomodar",
+       "ano": 2018
+      },
+      {
+       "pedido": "Midsommar (2019)",
+       "id": 530385,
+       "titulo": "Midsommar: O Mal Não Espera a Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Being John Malkovich (1999)",
+       "id": 492,
+       "titulo": "Quero Ser John Malkovich",
+       "ano": 1999
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Fight Club (1999)",
+       "id": 550,
+       "titulo": "Clube da Luta",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Lobster (2015)",
+       "id": 254320,
+       "titulo": "O Lagosta",
+       "ano": 2015
+      },
+      {
+       "pedido": "Synecdoche, New York (2008)",
+       "id": 4960,
+       "titulo": "Sinédoque, Nova York",
+       "ano": 2008
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sonho-inexplicavel",
+   "pedidos": [
+    "Algo que pareça um sonho que eu não consigo explicar"
+   ],
+   "nota": "Lógica de sonho, imagens que ficam. Sem precisar entender tudo.",
+   "grupos": [
+    {
+     "nome": "Lógica de sonho",
+     "filmes": [
+      {
+       "pedido": "Mulholland Drive (2001)",
+       "id": 1018,
+       "titulo": "Cidade dos Sonhos",
+       "ano": 2001
+      },
+      {
+       "pedido": "Lost Highway (1997)",
+       "id": 638,
+       "titulo": "A Estrada Perdida",
+       "ano": 1997
+      },
+      {
+       "pedido": "Eraserhead (1977)",
+       "id": 985,
+       "titulo": "Eraserhead",
+       "ano": 1977
+      },
+      {
+       "pedido": "Holy Motors (2012)",
+       "id": 103328,
+       "titulo": "Holy Motors",
+       "ano": 2012
+      },
+      {
+       "pedido": "Beau Is Afraid (2023)",
+       "id": 798286,
+       "titulo": "Beau Tem Medo",
+       "ano": 2023
+      },
+      {
+       "pedido": "Synecdoche, New York (2008)",
+       "id": 4960,
+       "titulo": "Sinédoque, Nova York",
+       "ano": 2008
+      },
+      {
+       "pedido": "Enemy (2013)",
+       "id": 181886,
+       "titulo": "O Homem Duplicado",
+       "ano": 2014
+      },
+      {
+       "pedido": "8½ (1963)",
+       "id": 422,
+       "titulo": "Oito e Meio",
+       "ano": 1963
+      },
+      {
+       "pedido": "Stalker (1979)",
+       "id": 1398,
+       "titulo": "Stalker",
+       "ano": 1979
+      },
+      {
+       "pedido": "Under the Skin (2013)",
+       "id": 97370,
+       "titulo": "Sob a Pele",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "Animação que sonha",
+     "filmes": [
+      {
+       "pedido": "Paprika (2006)",
+       "id": 4977,
+       "titulo": "Paprika",
+       "ano": 2006
+      },
+      {
+       "pedido": "Spirited Away (2001)",
+       "id": 129,
+       "titulo": "A Viagem de Chihiro",
+       "ano": 2001
+      },
+      {
+       "pedido": "The Boy and the Heron (2023)",
+       "id": 508883,
+       "titulo": "O Menino e a Garça",
+       "ano": 2023
+      },
+      {
+       "pedido": "Perfect Blue (1997)",
+       "id": 10494,
+       "titulo": "Perfect Blue",
+       "ano": 1998
+      },
+      {
+       "pedido": "Coraline (2009)",
+       "id": 14836,
+       "titulo": "Coraline e o Mundo Secreto",
+       "ano": 2009
+      },
+      {
+       "pedido": "Waking Life (2001)",
+       "id": 9081,
+       "titulo": "Waking Life",
+       "ano": 2001
+      },
+      {
+       "pedido": "Alice in Wonderland (1951)",
+       "id": 12092,
+       "titulo": "Alice no País das Maravilhas",
+       "ano": 1951
+      }
+     ]
+    },
+    {
+     "nome": "Bonito e inexplicável",
+     "filmes": [
+      {
+       "pedido": "The Science of Sleep (2006)",
+       "id": 300,
+       "titulo": "Sonhando Acordado",
+       "ano": 2006
+      },
+      {
+       "pedido": "The Fall (2006) #14784",
+       "id": 14784,
+       "titulo": "Dublê de Anjo",
+       "ano": 2008
+      },
+      {
+       "pedido": "Big Fish (2003)",
+       "id": 587,
+       "titulo": "Peixe Grande e Suas Histórias Maravilhosas",
+       "ano": 2003
+      },
+      {
+       "pedido": "Pan's Labyrinth (2006)",
+       "id": 1417,
+       "titulo": "O Labirinto do Fauno",
+       "ano": 2006
+      },
+      {
+       "pedido": "Dreams (1990)",
+       "id": 12516,
+       "titulo": "Sonhos",
+       "ano": 1990
+      },
+      {
+       "pedido": "Uncle Boonmee Who Can Recall His Past Lives (2010)",
+       "id": 38368,
+       "titulo": "Tio Boonmee, que Pode Recordar Suas Vidas Passadas",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Tree of Life (2011)",
+       "id": 8967,
+       "titulo": "A Árvore da Vida",
+       "ano": 2011
+      },
+      {
+       "pedido": "What Dreams May Come (1998)",
+       "id": 12159,
+       "titulo": "Amor Além da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Eternal Sunshine of the Spotless Mind (2004)",
+       "id": 38,
+       "titulo": "Brilho Eterno de uma Mente sem Lembranças",
+       "ano": 2004
+      }
+     ]
+    },
+    {
+     "nome": "Pesadelo bem filmado",
+     "filmes": [
+      {
+       "pedido": "Inception (2010)",
+       "id": 27205,
+       "titulo": "A Origem",
+       "ano": 2010
+      },
+      {
+       "pedido": "The Cell (2000)",
+       "id": 8843,
+       "titulo": "A Cela",
+       "ano": 2000
+      },
+      {
+       "pedido": "Brazil (1985)",
+       "id": 68,
+       "titulo": "Brazil: O Filme",
+       "ano": 1985
+      },
+      {
+       "pedido": "Jacob's Ladder (1990)",
+       "id": 2291,
+       "titulo": "Alucinações do Passado",
+       "ano": 1990
+      },
+      {
+       "pedido": "Annihilation (2018)",
+       "id": 300668,
+       "titulo": "Aniquilação",
+       "ano": 2018
+      },
+      {
+       "pedido": "Vanilla Sky (2001)",
+       "id": 1903,
+       "titulo": "Vanilla Sky",
+       "ano": 2001
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "inteligente-cansado",
+   "pedidos": [
+    "Quero um filme inteligente, mas estou cansado",
+    "Cabeça cansada, mas nada bobo"
+   ],
+   "nota": "Esperto mas FLUIDO e de preferência até ~2h. Nada lento, arrastado ou de 3 horas (Interestelar, Zodíaco não servem).",
+   "grupos": [
+    {
+     "nome": "Esperto e redondinho",
+     "filmes": [
+      {
+       "pedido": "Knives Out (2019)",
+       "id": 546554,
+       "titulo": "Entre Facas e Segredos",
+       "ano": 2019
+      },
+      {
+       "pedido": "Glass Onion: A Knives Out Mystery (2022)",
+       "id": 661374,
+       "titulo": "Glass Onion: Um Mistério Knives Out",
+       "ano": 2022
+      },
+      {
+       "pedido": "Catch Me If You Can (2002)",
+       "id": 640,
+       "titulo": "Prenda-Me se For Capaz",
+       "ano": 2002
+      },
+      {
+       "pedido": "The Nice Guys (2016)",
+       "id": 290250,
+       "titulo": "Dois Caras Legais",
+       "ano": 2016
+      },
+      {
+       "pedido": "Ocean's Eleven (2001)",
+       "id": 161,
+       "titulo": "Onze Homens e um Segredo",
+       "ano": 2001
+      },
+      {
+       "pedido": "Searching (2018)",
+       "id": 489999,
+       "titulo": "Buscando...",
+       "ano": 2018
+      },
+      {
+       "pedido": "Baby Driver (2017)",
+       "id": 339403,
+       "titulo": "Em Ritmo de Fuga",
+       "ano": 2017
+      },
+      {
+       "pedido": "Parasite (2019)",
+       "id": 496243,
+       "titulo": "Parasita",
+       "ano": 2019
+      },
+      {
+       "pedido": "Hot Fuzz (2007)",
+       "id": 4638,
+       "titulo": "Chumbo Grosso",
+       "ano": 2007
+      }
+     ]
+    },
+    {
+     "nome": "Leve, mas com cérebro",
+     "filmes": [
+      {
+       "pedido": "The Grand Budapest Hotel (2014)",
+       "id": 120467,
+       "titulo": "O Grande Hotel Budapeste",
+       "ano": 2014
+      },
+      {
+       "pedido": "Groundhog Day (1993)",
+       "id": 137,
+       "titulo": "Feitiço do Tempo",
+       "ano": 1993
+      },
+      {
+       "pedido": "The Truman Show (1998)",
+       "id": 37165,
+       "titulo": "O Show de Truman: O Show da Vida",
+       "ano": 1998
+      },
+      {
+       "pedido": "Palm Springs (2020)",
+       "id": 587792,
+       "titulo": "Palm Springs",
+       "ano": 2020
+      },
+      {
+       "pedido": "Little Miss Sunshine (2006)",
+       "id": 773,
+       "titulo": "Pequena Miss Sunshine",
+       "ano": 2006
+      },
+      {
+       "pedido": "Jojo Rabbit (2019)",
+       "id": 515001,
+       "titulo": "Jojo Rabbit",
+       "ano": 2019
+      },
+      {
+       "pedido": "Hunt for the Wilderpeople (2016)",
+       "id": 371645,
+       "titulo": "Fuga Para a Liberdade",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Holdovers (2023)",
+       "id": 840430,
+       "titulo": "Os Rejeitados",
+       "ano": 2023
+      },
+      {
+       "pedido": "The Intouchables (2011)",
+       "id": 77338,
+       "titulo": "Intocáveis",
+       "ano": 2011
+      },
+      {
+       "pedido": "Amélie (2001)",
+       "id": 194,
+       "titulo": "O Fabuloso Destino de Amélie Poulain",
+       "ano": 2001
+      },
+      {
+       "pedido": "Chef (2014)",
+       "id": 212778,
+       "titulo": "Chef",
+       "ano": 2014
+      },
+      {
+       "pedido": "O Auto da Compadecida (2000)",
+       "id": 40096,
+       "titulo": "O Auto da Compadecida",
+       "ano": 2000
+      }
+     ]
+    },
+    {
+     "nome": "Animação de gente grande",
+     "filmes": [
+      {
+       "pedido": "Paddington 2 (2017)",
+       "id": 346648,
+       "titulo": "As Aventuras de Paddington 2",
+       "ano": 2017
+      },
+      {
+       "pedido": "Ratatouille (2007)",
+       "id": 2062,
+       "titulo": "Ratatouille",
+       "ano": 2007
+      },
+      {
+       "pedido": "Inside Out (2015)",
+       "id": 150540,
+       "titulo": "Divertida Mente",
+       "ano": 2015
+      },
+      {
+       "pedido": "Zootopia (2016)",
+       "id": 269149,
+       "titulo": "Zootopia: Essa Cidade é o Bicho",
+       "ano": 2016
+      },
+      {
+       "pedido": "Spirited Away (2001)",
+       "id": 129,
+       "titulo": "A Viagem de Chihiro",
+       "ano": 2001
+      }
+     ]
+    },
+    {
+     "nome": "Ficção científica que flui",
+     "filmes": [
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "Moon (2009)",
+       "id": 17431,
+       "titulo": "Lunar",
+       "ano": 2009
+      },
+      {
+       "pedido": "Ex Machina (2014)",
+       "id": 264660,
+       "titulo": "Ex_Machina: Instinto Artificial",
+       "ano": 2015
+      },
+      {
+       "pedido": "The Martian (2015)",
+       "id": 286217,
+       "titulo": "Perdido em Marte",
+       "ano": 2015
+      },
+      {
+       "pedido": "Edge of Tomorrow (2014)",
+       "id": 137113,
+       "titulo": "No Limite do Amanhã",
+       "ano": 2014
+      },
+      {
+       "pedido": "Source Code (2011)",
+       "id": 45612,
+       "titulo": "Contra o Tempo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Coherence (2013)",
+       "id": 220289,
+       "titulo": "Coherence",
+       "ano": 2014
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "terror-sem-susto",
+   "pedidos": [
+    "Um terror que incomode sem depender de sustos",
+    "Terror que incomoda sem susto barato"
+   ],
+   "nota": "Pavor que cresce, incômodo psicológico. Pouco jump scare.",
+   "grupos": [
+    {
+     "nome": "Medo que cresce devagar",
+     "filmes": [
+      {
+       "pedido": "The Witch (2015)",
+       "id": 310131,
+       "titulo": "A Bruxa",
+       "ano": 2016
+      },
+      {
+       "pedido": "It Follows (2014)",
+       "id": 270303,
+       "titulo": "Corrente do Mal",
+       "ano": 2015
+      },
+      {
+       "pedido": "Hereditary (2018)",
+       "id": 493922,
+       "titulo": "Hereditário",
+       "ano": 2018
+      },
+      {
+       "pedido": "The Shining (1980)",
+       "id": 694,
+       "titulo": "O Iluminado",
+       "ano": 1980
+      },
+      {
+       "pedido": "Rosemary's Baby (1968)",
+       "id": 805,
+       "titulo": "O Bebê de Rosemary",
+       "ano": 1968
+      },
+      {
+       "pedido": "The Innocents (1961)",
+       "id": 16372,
+       "titulo": "Os Inocentes",
+       "ano": 1961
+      },
+      {
+       "pedido": "The Others (2001)",
+       "id": 1933,
+       "titulo": "Os Outros",
+       "ano": 2001
+      },
+      {
+       "pedido": "Don't Look Now (1973)",
+       "id": 931,
+       "titulo": "Inverno de Sangue em Veneza",
+       "ano": 1973
+      },
+      {
+       "pedido": "Relic (2020)",
+       "id": 539181,
+       "titulo": "Relíquia Macabra",
+       "ano": 2020
+      },
+      {
+       "pedido": "Longlegs (2024)",
+       "id": 1226578,
+       "titulo": "Longlegs - Vínculo Mortal",
+       "ano": 2024
+      },
+      {
+       "pedido": "The Lighthouse (2019)",
+       "id": 503919,
+       "titulo": "O Farol",
+       "ano": 2019
+      }
+     ]
+    },
+    {
+     "nome": "Incômodo psicológico",
+     "filmes": [
+      {
+       "pedido": "The Killing of a Sacred Deer (2017)",
+       "id": 399057,
+       "titulo": "O Sacrifício do Cervo Sagrado",
+       "ano": 2017
+      },
+      {
+       "pedido": "Funny Games (1997)",
+       "id": 10234,
+       "titulo": "Violência Gratuita",
+       "ano": 1997
+      },
+      {
+       "pedido": "Speak No Evil (2022)",
+       "id": 833339,
+       "titulo": "Não Fale o Mal",
+       "ano": 2022
+      },
+      {
+       "pedido": "The Invitation (2015)",
+       "id": 306947,
+       "titulo": "O Convite",
+       "ano": 2016
+      },
+      {
+       "pedido": "Goodnight Mommy (2014)",
+       "id": 284303,
+       "titulo": "Boa Noite, Mamãe!",
+       "ano": 2015
+      },
+      {
+       "pedido": "Saint Maud (2019)",
+       "id": 575776,
+       "titulo": "Santa Maud",
+       "ano": 2020
+      },
+      {
+       "pedido": "The Babadook (2014)",
+       "id": 242224,
+       "titulo": "O Babadook",
+       "ano": 2014
+      },
+      {
+       "pedido": "Possession (1981)",
+       "id": 21484,
+       "titulo": "Possessão",
+       "ano": 1981
+      },
+      {
+       "pedido": "Men (2022)",
+       "id": 780609,
+       "titulo": "Men: Faces do Medo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Cure (1997)",
+       "id": 36095,
+       "titulo": "A Cura",
+       "ano": 1997
+      },
+      {
+       "pedido": "Mother! (2017)",
+       "id": 381283,
+       "titulo": "mãe!",
+       "ano": 2017
+      },
+      {
+       "pedido": "Under the Skin (2013)",
+       "id": 97370,
+       "titulo": "Sob a Pele",
+       "ano": 2014
+      }
+     ]
+    },
+    {
+     "nome": "Folk horror e luz do dia",
+     "filmes": [
+      {
+       "pedido": "Midsommar (2019)",
+       "id": 530385,
+       "titulo": "Midsommar: O Mal Não Espera a Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Wicker Man (1973)",
+       "id": 16307,
+       "titulo": "O Homem de Palha",
+       "ano": 1973
+      },
+      {
+       "pedido": "Kill List (2011)",
+       "id": 74725,
+       "titulo": "Kill List",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Wailing (2016)",
+       "id": 293670,
+       "titulo": "O Lamento",
+       "ano": 2016
+      }
+     ]
+    },
+    {
+     "nome": "Terror com recado",
+     "filmes": [
+      {
+       "pedido": "Get Out (2017)",
+       "id": 419430,
+       "titulo": "Corra!",
+       "ano": 2017
+      },
+      {
+       "pedido": "Us (2019)",
+       "id": 458723,
+       "titulo": "Nós",
+       "ano": 2019
+      },
+      {
+       "pedido": "Nope (2022)",
+       "id": 762504,
+       "titulo": "Não! Não Olhe!",
+       "ano": 2022
+      },
+      {
+       "pedido": "The Zone of Interest (2023)",
+       "id": 467244,
+       "titulo": "Zona de Interesse",
+       "ano": 2023
+      },
+      {
+       "pedido": "As Boas Maneiras (2017)",
+       "id": 315205,
+       "titulo": "As Boas Maneiras",
+       "ano": 2018
+      },
+      {
+       "pedido": "Trabalhar Cansa (2011)",
+       "id": 96001,
+       "titulo": "Trabalhar Cansa",
+       "ano": 2011
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "interestelar-menos-triste",
+   "pedidos": [
+    "Algo parecido com Interestelar, só que menos triste"
+   ],
+   "nota": "Escala e ciência de Interestelar, mas com final pra cima. Não indicar o próprio Interestelar.",
+   "grupos": [
+    {
+     "nome": "Espaço com final feliz",
+     "filmes": [
+      {
+       "pedido": "The Martian (2015)",
+       "id": 286217,
+       "titulo": "Perdido em Marte",
+       "ano": 2015
+      },
+      {
+       "pedido": "Apollo 13 (1995)",
+       "id": 568,
+       "titulo": "Apollo 13 - Do Desastre ao Triunfo",
+       "ano": 1995
+      },
+      {
+       "pedido": "Project Hail Mary (2026)",
+       "id": 687163,
+       "titulo": "Devoradores de Estrelas",
+       "ano": 2026
+      },
+      {
+       "pedido": "Gravity (2013)",
+       "id": 49047,
+       "titulo": "Gravidade",
+       "ano": 2013
+      },
+      {
+       "pedido": "Contact (1997)",
+       "id": 686,
+       "titulo": "Contato",
+       "ano": 1997
+      },
+      {
+       "pedido": "Close Encounters of the Third Kind (1977)",
+       "id": 840,
+       "titulo": "Contatos Imediatos do Terceiro Grau",
+       "ano": 1977
+      },
+      {
+       "pedido": "Passengers (2016)",
+       "id": 274870,
+       "titulo": "Passageiros",
+       "ano": 2016
+      },
+      {
+       "pedido": "Space Cowboys (2000)",
+       "id": 5551,
+       "titulo": "Cowboys do Espaço",
+       "ano": 2000
+      },
+      {
+       "pedido": "The Right Stuff (1983)",
+       "id": 9549,
+       "titulo": "Os Eleitos",
+       "ano": 1983
+      }
+     ]
+    },
+    {
+     "nome": "Tempo e cabeça, sem lágrima",
+     "filmes": [
+      {
+       "pedido": "Back to the Future (1985)",
+       "id": 105,
+       "titulo": "De Volta para o Futuro",
+       "ano": 1985
+      },
+      {
+       "pedido": "Edge of Tomorrow (2014)",
+       "id": 137113,
+       "titulo": "No Limite do Amanhã",
+       "ano": 2014
+      },
+      {
+       "pedido": "Inception (2010)",
+       "id": 27205,
+       "titulo": "A Origem",
+       "ano": 2010
+      },
+      {
+       "pedido": "Source Code (2011)",
+       "id": 45612,
+       "titulo": "Contra o Tempo",
+       "ano": 2011
+      },
+      {
+       "pedido": "Tenet (2020)",
+       "id": 577922,
+       "titulo": "Tenet",
+       "ano": 2020
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      }
+     ]
+    },
+    {
+     "nome": "Aventura espacial pipoca",
+     "filmes": [
+      {
+       "pedido": "Star Trek (2009)",
+       "id": 13475,
+       "titulo": "Star Trek",
+       "ano": 2009
+      },
+      {
+       "pedido": "Guardians of the Galaxy (2014)",
+       "id": 118340,
+       "titulo": "Guardiões da Galáxia",
+       "ano": 2014
+      },
+      {
+       "pedido": "Star Wars (1977)",
+       "id": 11,
+       "titulo": "Guerra nas Estrelas",
+       "ano": 1977
+      },
+      {
+       "pedido": "Galaxy Quest (1999)",
+       "id": 926,
+       "titulo": "Heróis Fora de Órbita",
+       "ano": 1999
+      },
+      {
+       "pedido": "Dune (2021)",
+       "id": 438631,
+       "titulo": "Duna",
+       "ano": 2021
+      },
+      {
+       "pedido": "Dune: Part Two (2024)",
+       "id": 693134,
+       "titulo": "Duna: Parte Dois",
+       "ano": 2024
+      },
+      {
+       "pedido": "Treasure Planet (2002)",
+       "id": 9016,
+       "titulo": "Planeta do Tesouro",
+       "ano": 2002
+      },
+      {
+       "pedido": "Lightyear (2022)",
+       "id": 718789,
+       "titulo": "Lightyear",
+       "ano": 2022
+      }
+     ]
+    },
+    {
+     "nome": "Ciência que inspira",
+     "filmes": [
+      {
+       "pedido": "Hidden Figures (2016)",
+       "id": 381284,
+       "titulo": "Estrelas Além do Tempo",
+       "ano": 2016
+      },
+      {
+       "pedido": "October Sky (1999)",
+       "id": 13466,
+       "titulo": "O Céu de Outubro",
+       "ano": 1999
+      },
+      {
+       "pedido": "WALL·E (2008)",
+       "id": 10681,
+       "titulo": "WALL-E",
+       "ano": 2008
+      },
+      {
+       "pedido": "Tomorrowland (2015)",
+       "id": 158852,
+       "titulo": "Tomorrowland: Um Lugar Onde Nada É Impossível",
+       "ano": 2015
+      },
+      {
+       "pedido": "Super 8 (2011)",
+       "id": 37686,
+       "titulo": "Super 8",
+       "ano": 2011
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "solidao-acolhedora",
+   "pedidos": [
+    "Uma história sobre solidão que também seja acolhedora"
+   ],
+   "nota": "Solidão tratada com carinho; termina com calor, não com peso.",
+   "grupos": [
+    {
+     "nome": "Sozinho, mas em paz",
+     "filmes": [
+      {
+       "pedido": "Perfect Days (2023)",
+       "id": 976893,
+       "titulo": "Dias Perfeitos",
+       "ano": 2023
+      },
+      {
+       "pedido": "Paterson (2016)",
+       "id": 370755,
+       "titulo": "Paterson",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Straight Story (1999)",
+       "id": 404,
+       "titulo": "Uma História Real",
+       "ano": 1999
+      },
+      {
+       "pedido": "Nomadland (2020)",
+       "id": 581734,
+       "titulo": "Nomadland",
+       "ano": 2021
+      },
+      {
+       "pedido": "Columbus (2017)",
+       "id": 414453,
+       "titulo": "Columbus",
+       "ano": 2017
+      },
+      {
+       "pedido": "Frances Ha (2012)",
+       "id": 121986,
+       "titulo": "Frances Ha",
+       "ano": 2013
+      },
+      {
+       "pedido": "Wild (2014)",
+       "id": 228970,
+       "titulo": "Livre",
+       "ano": 2014
+      },
+      {
+       "pedido": "The Secret Life of Walter Mitty (2013)",
+       "id": 116745,
+       "titulo": "A Vida Secreta de Walter Mitty",
+       "ano": 2013
+      },
+      {
+       "pedido": "Cast Away (2000)",
+       "id": 8358,
+       "titulo": "Náufrago",
+       "ano": 2000
+      },
+      {
+       "pedido": "The Martian (2015)",
+       "id": 286217,
+       "titulo": "Perdido em Marte",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Solidão que encontra alguém",
+     "filmes": [
+      {
+       "pedido": "Lost in Translation (2003)",
+       "id": 153,
+       "titulo": "Encontros e Desencontros",
+       "ano": 2003
+      },
+      {
+       "pedido": "Her (2013)",
+       "id": 152601,
+       "titulo": "Ela",
+       "ano": 2013
+      },
+      {
+       "pedido": "Amélie (2001)",
+       "id": 194,
+       "titulo": "O Fabuloso Destino de Amélie Poulain",
+       "ano": 2001
+      },
+      {
+       "pedido": "Lars and the Real Girl (2007)",
+       "id": 6615,
+       "titulo": "A Garota Ideal",
+       "ano": 2007
+      },
+      {
+       "pedido": "Robot & Frank (2012)",
+       "id": 84329,
+       "titulo": "Frank e o Robô",
+       "ano": 2012
+      },
+      {
+       "pedido": "The Station Agent (2003)",
+       "id": 2056,
+       "titulo": "O Agente da Estação",
+       "ano": 2003
+      },
+      {
+       "pedido": "The Holdovers (2023)",
+       "id": 840430,
+       "titulo": "Os Rejeitados",
+       "ano": 2023
+      },
+      {
+       "pedido": "A Man Called Otto (2022)",
+       "id": 937278,
+       "titulo": "O Pior Vizinho do Mundo",
+       "ano": 2022
+      },
+      {
+       "pedido": "About Schmidt (2002)",
+       "id": 2755,
+       "titulo": "As Confissões de Schmidt",
+       "ano": 2002
+      },
+      {
+       "pedido": "Chungking Express (1994)",
+       "id": 11104,
+       "titulo": "Amores Expressos",
+       "ano": 1994
+      },
+      {
+       "pedido": "Past Lives (2023)",
+       "id": 666277,
+       "titulo": "Vidas Passadas",
+       "ano": 2023
+      },
+      {
+       "pedido": "Central do Brasil (1998)",
+       "id": 666,
+       "titulo": "Central do Brasil",
+       "ano": 1998
+      }
+     ]
+    },
+    {
+     "nome": "Animação que abraça",
+     "filmes": [
+      {
+       "pedido": "WALL·E (2008)",
+       "id": 10681,
+       "titulo": "WALL-E",
+       "ano": 2008
+      },
+      {
+       "pedido": "Up (2009)",
+       "id": 14160,
+       "titulo": "Up: Altas Aventuras",
+       "ano": 2009
+      },
+      {
+       "pedido": "Robot Dreams (2023)",
+       "id": 838240,
+       "titulo": "Meu Amigo Robô",
+       "ano": 2023
+      },
+      {
+       "pedido": "The Wild Robot (2024)",
+       "id": 1184918,
+       "titulo": "Robô Selvagem",
+       "ano": 2024
+      },
+      {
+       "pedido": "Kiki's Delivery Service (1989)",
+       "id": 16859,
+       "titulo": "O Serviço de Entregas da Kiki",
+       "ano": 1989
+      },
+      {
+       "pedido": "Marcel the Shell with Shoes On (2021)",
+       "id": 869626,
+       "titulo": "Marcel, a Concha de Sapatos",
+       "ano": 2022
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "duas-pessoas",
+   "pedidos": [
+    "Um filme bom pra duas pessoas que nunca concordam no que assistir"
+   ],
+   "nota": "Filmes que misturam gêneros e agradam gostos diferentes: ação + humor, romance + aventura.",
+   "grupos": [
+    {
+     "nome": "Ação com coração (agrada os dois)",
+     "filmes": [
+      {
+       "pedido": "Top Gun: Maverick (2022)",
+       "id": 361743,
+       "titulo": "Top Gun: Maverick",
+       "ano": 2022
+      },
+      {
+       "pedido": "Edge of Tomorrow (2014)",
+       "id": 137113,
+       "titulo": "No Limite do Amanhã",
+       "ano": 2014
+      },
+      {
+       "pedido": "Mr. & Mrs. Smith (2005)",
+       "id": 787,
+       "titulo": "Sr. & Sra. Smith",
+       "ano": 2005
+      },
+      {
+       "pedido": "Mad Max: Fury Road (2015)",
+       "id": 76341,
+       "titulo": "Mad Max: Estrada da Fúria",
+       "ano": 2015
+      },
+      {
+       "pedido": "Jurassic Park (1993)",
+       "id": 329,
+       "titulo": "Jurassic Park: O Parque dos Dinossauros",
+       "ano": 1993
+      },
+      {
+       "pedido": "Pirates of the Caribbean: The Curse of the Black Pearl (2003)",
+       "id": 22,
+       "titulo": "Piratas do Caribe: A Maldição do Pérola Negra",
+       "ano": 2003
+      },
+      {
+       "pedido": "Back to the Future (1985)",
+       "id": 105,
+       "titulo": "De Volta para o Futuro",
+       "ano": 1985
+      },
+      {
+       "pedido": "Ford v Ferrari (2019)",
+       "id": 359724,
+       "titulo": "Ford vs Ferrari",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Martian (2015)",
+       "id": 286217,
+       "titulo": "Perdido em Marte",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Comédia com romance de leve",
+     "filmes": [
+      {
+       "pedido": "The Lost City (2022)",
+       "id": 752623,
+       "titulo": "Cidade Perdida",
+       "ano": 2022
+      },
+      {
+       "pedido": "Romancing the Stone (1984)",
+       "id": 9326,
+       "titulo": "Tudo Por Uma Esmeralda",
+       "ano": 1984
+      },
+      {
+       "pedido": "The Princess Bride (1987)",
+       "id": 2493,
+       "titulo": "A Princesa Prometida",
+       "ano": 1987
+      },
+      {
+       "pedido": "Crazy Rich Asians (2018)",
+       "id": 455207,
+       "titulo": "Podres de Ricos",
+       "ano": 2018
+      },
+      {
+       "pedido": "10 Things I Hate About You (1999)",
+       "id": 4951,
+       "titulo": "10 Coisas Que Eu Odeio em Você",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Devil Wears Prada (2006)",
+       "id": 350,
+       "titulo": "O Diabo Veste Prada",
+       "ano": 2006
+      },
+      {
+       "pedido": "Game Night (2018)",
+       "id": 445571,
+       "titulo": "A Noite do Jogo",
+       "ano": 2018
+      },
+      {
+       "pedido": "Free Guy (2021)",
+       "id": 550988,
+       "titulo": "Free Guy: Assumindo o Controle",
+       "ano": 2021
+      },
+      {
+       "pedido": "Barbie (2023)",
+       "id": 346698,
+       "titulo": "Barbie",
+       "ano": 2023
+      }
+     ]
+    },
+    {
+     "nome": "Mistério pra discutir no sofá",
+     "filmes": [
+      {
+       "pedido": "Knives Out (2019)",
+       "id": 546554,
+       "titulo": "Entre Facas e Segredos",
+       "ano": 2019
+      },
+      {
+       "pedido": "Glass Onion: A Knives Out Mystery (2022)",
+       "id": 661374,
+       "titulo": "Glass Onion: Um Mistério Knives Out",
+       "ano": 2022
+      },
+      {
+       "pedido": "The Nice Guys (2016)",
+       "id": 290250,
+       "titulo": "Dois Caras Legais",
+       "ano": 2016
+      },
+      {
+       "pedido": "Ocean's Eleven (2001)",
+       "id": 161,
+       "titulo": "Onze Homens e um Segredo",
+       "ano": 2001
+      },
+      {
+       "pedido": "Catch Me If You Can (2002)",
+       "id": 640,
+       "titulo": "Prenda-Me se For Capaz",
+       "ano": 2002
+      },
+      {
+       "pedido": "Parasite (2019)",
+       "id": 496243,
+       "titulo": "Parasita",
+       "ano": 2019
+      }
+     ]
+    },
+    {
+     "nome": "Ninguém recusa",
+     "filmes": [
+      {
+       "pedido": "Spider-Man: Into the Spider-Verse (2018)",
+       "id": 324857,
+       "titulo": "Homem-Aranha: No Aranhaverso",
+       "ano": 2018
+      },
+      {
+       "pedido": "Coco (2017)",
+       "id": 354912,
+       "titulo": "Viva: A Vida é Uma Festa",
+       "ano": 2017
+      },
+      {
+       "pedido": "Inside Out (2015)",
+       "id": 150540,
+       "titulo": "Divertida Mente",
+       "ano": 2015
+      },
+      {
+       "pedido": "The Intouchables (2011)",
+       "id": 77338,
+       "titulo": "Intocáveis",
+       "ano": 2011
+      },
+      {
+       "pedido": "O Auto da Compadecida (2000)",
+       "id": 40096,
+       "titulo": "O Auto da Compadecida",
+       "ano": 2000
+      },
+      {
+       "pedido": "The Grand Budapest Hotel (2014)",
+       "id": 120467,
+       "titulo": "O Grande Hotel Budapeste",
+       "ano": 2014
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Hunt for the Wilderpeople (2016)",
+       "id": 371645,
+       "titulo": "Fuga Para a Liberdade",
+       "ano": 2016
+      },
+      {
+       "pedido": "La La Land (2016)",
+       "id": 313369,
+       "titulo": "La La Land: Cantando Estações",
+       "ano": 2016
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "precisar-conversar",
+   "pedidos": [
+    "Quero terminar o filme e precisar conversar sobre ele"
+   ],
+   "nota": "Final aberto, dilema moral ou quebra-cabeça. Dá assunto depois.",
+   "grupos": [
+    {
+     "nome": "Final pra debater",
+     "filmes": [
+      {
+       "pedido": "Inception (2010)",
+       "id": 27205,
+       "titulo": "A Origem",
+       "ano": 2010
+      },
+      {
+       "pedido": "Shutter Island (2010)",
+       "id": 11324,
+       "titulo": "Ilha do Medo",
+       "ano": 2010
+      },
+      {
+       "pedido": "Arrival (2016)",
+       "id": 329865,
+       "titulo": "A Chegada",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Prestige (2006)",
+       "id": 1124,
+       "titulo": "O Grande Truque",
+       "ano": 2006
+      },
+      {
+       "pedido": "Gone Girl (2014)",
+       "id": 210577,
+       "titulo": "Garota Exemplar",
+       "ano": 2014
+      },
+      {
+       "pedido": "Burning (2018)",
+       "id": 491584,
+       "titulo": "Em Chamas",
+       "ano": 2018
+      },
+      {
+       "pedido": "Enemy (2013)",
+       "id": 181886,
+       "titulo": "O Homem Duplicado",
+       "ano": 2014
+      },
+      {
+       "pedido": "Donnie Darko (2001)",
+       "id": 141,
+       "titulo": "Donnie Darko",
+       "ano": 2001
+      },
+      {
+       "pedido": "Mulholland Drive (2001)",
+       "id": 1018,
+       "titulo": "Cidade dos Sonhos",
+       "ano": 2001
+      },
+      {
+       "pedido": "Aftersun (2022)",
+       "id": 965150,
+       "titulo": "Aftersun",
+       "ano": 2022
+      },
+      {
+       "pedido": "Past Lives (2023)",
+       "id": 666277,
+       "titulo": "Vidas Passadas",
+       "ano": 2023
+      }
+     ]
+    },
+    {
+     "nome": "Dilema moral",
+     "filmes": [
+      {
+       "pedido": "Prisoners (2013)",
+       "id": 146233,
+       "titulo": "Os Suspeitos",
+       "ano": 2013
+      },
+      {
+       "pedido": "The Hunt (2012)",
+       "id": 103663,
+       "titulo": "A Caça",
+       "ano": 2012
+      },
+      {
+       "pedido": "A Separation (2011)",
+       "id": 60243,
+       "titulo": "A Separação",
+       "ano": 2011
+      },
+      {
+       "pedido": "Incendies (2010)",
+       "id": 46738,
+       "titulo": "Incêndios",
+       "ano": 2010
+      },
+      {
+       "pedido": "Anatomy of a Fall (2023)",
+       "id": 915935,
+       "titulo": "Anatomia de uma Queda",
+       "ano": 2023
+      },
+      {
+       "pedido": "Conclave (2024)",
+       "id": 974576,
+       "titulo": "Conclave",
+       "ano": 2024
+      },
+      {
+       "pedido": "The Banshees of Inisherin (2022)",
+       "id": 674324,
+       "titulo": "Os Banshees de Inisherin",
+       "ano": 2022
+      },
+      {
+       "pedido": "Marriage Story (2019)",
+       "id": 492188,
+       "titulo": "História de um Casamento",
+       "ano": 2019
+      },
+      {
+       "pedido": "The Zone of Interest (2023)",
+       "id": 467244,
+       "titulo": "Zona de Interesse",
+       "ano": 2023
+      },
+      {
+       "pedido": "Tár (2022)",
+       "id": 817758,
+       "titulo": "TÁR",
+       "ano": 2022
+      },
+      {
+       "pedido": "Oldboy (2003)",
+       "id": 670,
+       "titulo": "Oldboy",
+       "ano": 2003
+      }
+     ]
+    },
+    {
+     "nome": "Quebra-cabeça",
+     "filmes": [
+      {
+       "pedido": "Memento (2000)",
+       "id": 77,
+       "titulo": "Amnésia",
+       "ano": 2000
+      },
+      {
+       "pedido": "Primer (2004)",
+       "id": 14337,
+       "titulo": "Primer",
+       "ano": 2004
+      },
+      {
+       "pedido": "Coherence (2013)",
+       "id": 220289,
+       "titulo": "Coherence",
+       "ano": 2014
+      },
+      {
+       "pedido": "Fight Club (1999)",
+       "id": 550,
+       "titulo": "Clube da Luta",
+       "ano": 1999
+      },
+      {
+       "pedido": "Everything Everywhere All at Once (2022)",
+       "id": 545611,
+       "titulo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Mother! (2017)",
+       "id": 381283,
+       "titulo": "mãe!",
+       "ano": 2017
+      },
+      {
+       "pedido": "The Lobster (2015)",
+       "id": 254320,
+       "titulo": "O Lagosta",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Sátira que dá briga",
+     "filmes": [
+      {
+       "pedido": "Parasite (2019)",
+       "id": 496243,
+       "titulo": "Parasita",
+       "ano": 2019
+      },
+      {
+       "pedido": "Get Out (2017)",
+       "id": 419430,
+       "titulo": "Corra!",
+       "ano": 2017
+      },
+      {
+       "pedido": "Triangle of Sadness (2022)",
+       "id": 497828,
+       "titulo": "Triângulo da Tristeza",
+       "ano": 2022
+      },
+      {
+       "pedido": "Saltburn (2023)",
+       "id": 930564,
+       "titulo": "Saltburn",
+       "ano": 2023
+      },
+      {
+       "pedido": "Poor Things (2023)",
+       "id": 792307,
+       "titulo": "Pobres Criaturas",
+       "ano": 2023
+      },
+      {
+       "pedido": "The Substance (2024)",
+       "id": 933260,
+       "titulo": "A Substância",
+       "ano": 2024
+      }
+     ]
+    },
+    {
+     "nome": "Brasil pra discutir",
+     "filmes": [
+      {
+       "pedido": "Ainda Estou Aqui (2024)",
+       "id": 1000837,
+       "titulo": "Ainda Estou Aqui",
+       "ano": 2024
+      },
+      {
+       "pedido": "Cidade de Deus (2002)",
+       "id": 598,
+       "titulo": "Cidade de Deus",
+       "ano": 2002
+      },
+      {
+       "pedido": "Tropa de Elite (2007)",
+       "id": 7347,
+       "titulo": "Tropa de Elite",
+       "ano": 2007
+      },
+      {
+       "pedido": "Que Horas Ela Volta? (2015)",
+       "id": 310569,
+       "titulo": "Que Horas Ela Volta?",
+       "ano": 2015
+      },
+      {
+       "pedido": "Bacurau (2019)",
+       "id": 446159,
+       "titulo": "Bacurau",
+       "ano": 2019
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "acreditar-pessoas",
+   "pedidos": [
+    "Quero voltar a acreditar um pouco nas pessoas",
+    "Pra voltar a acreditar nas pessoas"
+   ],
+   "nota": "Gentileza, gente comum fazendo o certo, família escolhida. Termina bem.",
+   "grupos": [
+    {
+     "nome": "Gentileza que muda tudo",
+     "filmes": [
+      {
+       "pedido": "Paddington 2 (2017)",
+       "id": 346648,
+       "titulo": "As Aventuras de Paddington 2",
+       "ano": 2017
+      },
+      {
+       "pedido": "It's a Wonderful Life (1946)",
+       "id": 1585,
+       "titulo": "A Felicidade Não Se Compra",
+       "ano": 1946
+      },
+      {
+       "pedido": "A Beautiful Day in the Neighborhood (2019)",
+       "id": 501907,
+       "titulo": "Um Lindo Dia na Vizinhança",
+       "ano": 2019
+      },
+      {
+       "pedido": "Pay It Forward (2000)",
+       "id": 10647,
+       "titulo": "A Corrente do Bem",
+       "ano": 2000
+      },
+      {
+       "pedido": "Amélie (2001)",
+       "id": 194,
+       "titulo": "O Fabuloso Destino de Amélie Poulain",
+       "ano": 2001
+      },
+      {
+       "pedido": "Perfect Days (2023)",
+       "id": 976893,
+       "titulo": "Dias Perfeitos",
+       "ano": 2023
+      },
+      {
+       "pedido": "A Man Called Otto (2022)",
+       "id": 937278,
+       "titulo": "O Pior Vizinho do Mundo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Wonder (2017)",
+       "id": 406997,
+       "titulo": "Extraordinário",
+       "ano": 2017
+      }
+     ]
+    },
+    {
+     "nome": "Gente comum fazendo o certo",
+     "filmes": [
+      {
+       "pedido": "Hidden Figures (2016)",
+       "id": 381284,
+       "titulo": "Estrelas Além do Tempo",
+       "ano": 2016
+      },
+      {
+       "pedido": "Spotlight (2015)",
+       "id": 314365,
+       "titulo": "Spotlight: Segredos Revelados",
+       "ano": 2015
+      },
+      {
+       "pedido": "Erin Brockovich (2000)",
+       "id": 462,
+       "titulo": "Erin Brockovich: Uma Mulher de Talento",
+       "ano": 2000
+      },
+      {
+       "pedido": "Freedom Writers (2007)",
+       "id": 1646,
+       "titulo": "Escritores da Liberdade",
+       "ano": 2007
+      },
+      {
+       "pedido": "Remember the Titans (2000)",
+       "id": 10637,
+       "titulo": "Duelo de Titãs",
+       "ano": 2000
+      },
+      {
+       "pedido": "The Pursuit of Happyness (2006)",
+       "id": 1402,
+       "titulo": "À Procura da Felicidade",
+       "ano": 2006
+      },
+      {
+       "pedido": "Green Book (2018)",
+       "id": 490132,
+       "titulo": "Green Book: O Guia",
+       "ano": 2018
+      },
+      {
+       "pedido": "The Shawshank Redemption (1994)",
+       "id": 278,
+       "titulo": "Um Sonho de Liberdade",
+       "ano": 1994
+      },
+      {
+       "pedido": "Dead Poets Society (1989)",
+       "id": 207,
+       "titulo": "Sociedade dos Poetas Mortos",
+       "ano": 1989
+      },
+      {
+       "pedido": "Good Will Hunting (1997)",
+       "id": 489,
+       "titulo": "Gênio Indomável",
+       "ano": 1997
+      }
+     ]
+    },
+    {
+     "nome": "Família que a gente escolhe",
+     "filmes": [
+      {
+       "pedido": "The Intouchables (2011)",
+       "id": 77338,
+       "titulo": "Intocáveis",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Holdovers (2023)",
+       "id": 840430,
+       "titulo": "Os Rejeitados",
+       "ano": 2023
+      },
+      {
+       "pedido": "Little Miss Sunshine (2006)",
+       "id": 773,
+       "titulo": "Pequena Miss Sunshine",
+       "ano": 2006
+      },
+      {
+       "pedido": "Hunt for the Wilderpeople (2016)",
+       "id": 371645,
+       "titulo": "Fuga Para a Liberdade",
+       "ano": 2016
+      },
+      {
+       "pedido": "The Peanut Butter Falcon (2019)",
+       "id": 463257,
+       "titulo": "O Falcão Manteiga de Amendoim",
+       "ano": 2019
+      },
+      {
+       "pedido": "CODA (2021)",
+       "id": 776503,
+       "titulo": "No Ritmo do Coração",
+       "ano": 2021
+      },
+      {
+       "pedido": "Instant Family (2018)",
+       "id": 491418,
+       "titulo": "De Repente uma Família",
+       "ano": 2018
+      },
+      {
+       "pedido": "Lion (2016)",
+       "id": 334543,
+       "titulo": "Lion: Uma Jornada para Casa",
+       "ano": 2016
+      },
+      {
+       "pedido": "Chef (2014)",
+       "id": 212778,
+       "titulo": "Chef",
+       "ano": 2014
+      },
+      {
+       "pedido": "Central do Brasil (1998)",
+       "id": 666,
+       "titulo": "Central do Brasil",
+       "ano": 1998
+      },
+      {
+       "pedido": "Que Horas Ela Volta? (2015)",
+       "id": 310569,
+       "titulo": "Que Horas Ela Volta?",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Animação pra lavar a alma",
+     "filmes": [
+      {
+       "pedido": "Up (2009)",
+       "id": 14160,
+       "titulo": "Up: Altas Aventuras",
+       "ano": 2009
+      },
+      {
+       "pedido": "Coco (2017)",
+       "id": 354912,
+       "titulo": "Viva: A Vida é Uma Festa",
+       "ano": 2017
+      },
+      {
+       "pedido": "Klaus (2019)",
+       "id": 508965,
+       "titulo": "Klaus",
+       "ano": 2019
+      },
+      {
+       "pedido": "Marcel the Shell with Shoes On (2021)",
+       "id": 869626,
+       "titulo": "Marcel, a Concha de Sapatos",
+       "ano": 2022
+      },
+      {
+       "pedido": "The Wild Robot (2024)",
+       "id": 1184918,
+       "titulo": "Robô Selvagem",
+       "ano": 2024
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "noventa-minutos",
+   "pedidos": [
+    "Tenho só 90 minutos"
+   ],
+   "nota": "Todos com até ~90 min (o servidor já corta os mais longos). Variado de gênero.",
+   "grupos": [
+    {
+     "nome": "Tensão em tempo real",
+     "filmes": [
+      {
+       "pedido": "Run Lola Run (1998)",
+       "id": 104,
+       "titulo": "Corra, Lola, Corra",
+       "ano": 1998
+      },
+      {
+       "pedido": "Phone Booth (2002)",
+       "id": 1817,
+       "titulo": "Por um Fio",
+       "ano": 2003
+      },
+      {
+       "pedido": "Locke (2013)",
+       "id": 210479,
+       "titulo": "Locke",
+       "ano": 2014
+      },
+      {
+       "pedido": "The Guilty (2018)",
+       "id": 486947,
+       "titulo": "Culpa",
+       "ano": 2018
+      },
+      {
+       "pedido": "Rope (1948)",
+       "id": 1580,
+       "titulo": "Festim Diabólico",
+       "ano": 1948
+      },
+      {
+       "pedido": "Duel (1971)",
+       "id": 839,
+       "titulo": "Encurralado",
+       "ano": 1971
+      },
+      {
+       "pedido": "Crank (2006)",
+       "id": 1948,
+       "titulo": "Adrenalina",
+       "ano": 2006
+      },
+      {
+       "pedido": "Run (2020)",
+       "id": 546121,
+       "titulo": "Fuja",
+       "ano": 2020
+      },
+      {
+       "pedido": "The Shallows (2016)",
+       "id": 332567,
+       "titulo": "Águas Rasas",
+       "ano": 2016
+      },
+      {
+       "pedido": "Don't Breathe (2016)",
+       "id": 300669,
+       "titulo": "O Homem nas Trevas",
+       "ano": 2016
+      },
+      {
+       "pedido": "A Quiet Place (2018)",
+       "id": 447332,
+       "titulo": "Um Lugar Silencioso",
+       "ano": 2018
+      },
+      {
+       "pedido": "Cube (1997)",
+       "id": 431,
+       "titulo": "Cubo",
+       "ano": 1998
+      }
+     ]
+    },
+    {
+     "nome": "Cabeça em 90 minutos",
+     "filmes": [
+      {
+       "pedido": "Coherence (2013)",
+       "id": 220289,
+       "titulo": "Coherence",
+       "ano": 2014
+      },
+      {
+       "pedido": "Primer (2004)",
+       "id": 14337,
+       "titulo": "Primer",
+       "ano": 2004
+      },
+      {
+       "pedido": "The Vast of Night (2019)",
+       "id": 565743,
+       "titulo": "A Vastidão da Noite",
+       "ano": 2019
+      },
+      {
+       "pedido": "Paprika (2006)",
+       "id": 4977,
+       "titulo": "Paprika",
+       "ano": 2006
+      },
+      {
+       "pedido": "Perfect Blue (1997)",
+       "id": 10494,
+       "titulo": "Perfect Blue",
+       "ano": 1998
+      }
+     ]
+    },
+    {
+     "nome": "Rir rapidinho",
+     "filmes": [
+      {
+       "pedido": "Palm Springs (2020)",
+       "id": 587792,
+       "titulo": "Palm Springs",
+       "ano": 2020
+      },
+      {
+       "pedido": "Airplane! (1980)",
+       "id": 813,
+       "titulo": "Apertem os Cintos, o Piloto Sumiu",
+       "ano": 1980
+      },
+      {
+       "pedido": "What We Do in the Shadows (2014)",
+       "id": 246741,
+       "titulo": "O Que Fazemos nas Sombras",
+       "ano": 2014
+      },
+      {
+       "pedido": "Monty Python and the Holy Grail (1975)",
+       "id": 762,
+       "titulo": "Monty Python em Busca do Cálice Sagrado",
+       "ano": 1975
+      },
+      {
+       "pedido": "Tucker and Dale vs. Evil (2010)",
+       "id": 46838,
+       "titulo": "Tucker e Dale Contra o Mal",
+       "ano": 2010
+      },
+      {
+       "pedido": "Minha Mãe é uma Peça (2013)",
+       "id": 203217,
+       "titulo": "Minha Mãe é uma Peça: O Filme",
+       "ano": 2013
+      },
+      {
+       "pedido": "Frances Ha (2012)",
+       "id": 121986,
+       "titulo": "Frances Ha",
+       "ano": 2013
+      },
+      {
+       "pedido": "Tangerine (2015)",
+       "id": 308084,
+       "titulo": "Tangerina",
+       "ano": 2015
+      }
+     ]
+    },
+    {
+     "nome": "Animação na medida",
+     "filmes": [
+      {
+       "pedido": "Toy Story (1995)",
+       "id": 862,
+       "titulo": "Toy Story: Um Mundo de Aventuras",
+       "ano": 1995
+      },
+      {
+       "pedido": "Lilo & Stitch (2002)",
+       "id": 11544,
+       "titulo": "Lilo & Stitch",
+       "ano": 2002
+      },
+      {
+       "pedido": "Fantastic Mr. Fox (2009)",
+       "id": 10315,
+       "titulo": "O Fantástico Sr. Raposo",
+       "ano": 2009
+      },
+      {
+       "pedido": "My Neighbor Totoro (1988)",
+       "id": 8392,
+       "titulo": "Meu Amigo Totoro",
+       "ano": 1988
+      },
+      {
+       "pedido": "Chicken Run (2000)",
+       "id": 7443,
+       "titulo": "A Fuga das Galinhas",
+       "ano": 2000
+      },
+      {
+       "pedido": "Shrek (2001)",
+       "id": 808,
+       "titulo": "Shrek",
+       "ano": 2001
+      },
+      {
+       "pedido": "The Iron Giant (1999)",
+       "id": 10386,
+       "titulo": "O Gigante de Ferro",
+       "ano": 1999
+      },
+      {
+       "pedido": "The Nightmare Before Christmas (1993)",
+       "id": 9479,
+       "titulo": "O Estranho Mundo de Jack",
+       "ano": 1993
+      },
+      {
+       "pedido": "Wallace & Gromit: Vengeance Most Fowl (2024)",
+       "id": 929204,
+       "titulo": "Wallace & Gromit - Avengança",
+       "ano": 2024
+      },
+      {
+       "pedido": "Marcel the Shell with Shoes On (2021)",
+       "id": 869626,
+       "titulo": "Marcel, a Concha de Sapatos",
+       "ano": 2022
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "desconfiar-todo-mundo",
+   "pedidos": [
+    "Suspense em que dá pra desconfiar de todo mundo",
+    "Suspense pra desconfiar de todo mundo"
+   ],
+   "nota": "Todo mundo é suspeito: whodunit, traição, grupo fechado.",
+   "grupos": [
+    {
+     "nome": "Whodunit de casarão",
+     "filmes": [
+      {
+       "pedido": "Knives Out (2019)",
+       "id": 546554,
+       "titulo": "Entre Facas e Segredos",
+       "ano": 2019
+      },
+      {
+       "pedido": "Glass Onion: A Knives Out Mystery (2022)",
+       "id": 661374,
+       "titulo": "Glass Onion: Um Mistério Knives Out",
+       "ano": 2022
+      },
+      {
+       "pedido": "Murder on the Orient Express (2017)",
+       "id": 392044,
+       "titulo": "Assassinato no Expresso do Oriente",
+       "ano": 2017
+      },
+      {
+       "pedido": "Death on the Nile (2022)",
+       "id": 505026,
+       "titulo": "Morte no Nilo",
+       "ano": 2022
+      },
+      {
+       "pedido": "Clue (1985)",
+       "id": 15196,
+       "titulo": "Os Sete Suspeitos",
+       "ano": 1985
+      },
+      {
+       "pedido": "Gosford Park (2001)",
+       "id": 5279,
+       "titulo": "Assassinato em Gosford Park",
+       "ano": 2001
+      },
+      {
+       "pedido": "See How They Run (2022)",
+       "id": 766475,
+       "titulo": "Veja Como Eles Correm",
+       "ano": 2022
+      },
+      {
+       "pedido": "Bodies Bodies Bodies (2022)",
+       "id": 520023,
+       "titulo": "Morte, Morte, Morte",
+       "ano": 2022
+      },
+      {
+       "pedido": "Sleuth (1972)",
+       "id": 993,
+       "titulo": "Trama Diabólica",
+       "ano": 1972
+      }
+     ]
+    },
+    {
+     "nome": "Grupo fechado, ninguém confiável",
+     "filmes": [
+      {
+       "pedido": "The Hateful Eight (2015)",
+       "id": 273248,
+       "titulo": "Os Oito Odiados",
+       "ano": 2015
+      },
+      {
+       "pedido": "The Thing (1982)",
+       "id": 1091,
+       "titulo": "O Enigma de Outro Mundo",
+       "ano": 1982
+      },
+      {
+       "pedido": "Reservoir Dogs (1992)",
+       "id": 500,
+       "titulo": "Cães de Aluguel",
+       "ano": 1992
+      },
+      {
+       "pedido": "Identity (2003)",
+       "id": 2832,
+       "titulo": "Identidade",
+       "ano": 2003
+      },
+      {
+       "pedido": "Bad Times at the El Royale (2018)",
+       "id": 446021,
+       "titulo": "Maus Momentos no Hotel Royale",
+       "ano": 2018
+      },
+      {
+       "pedido": "The Invitation (2015)",
+       "id": 306947,
+       "titulo": "O Convite",
+       "ano": 2016
+      },
+      {
+       "pedido": "Perfect Strangers (2016)",
+       "id": 381341,
+       "titulo": "Perfeitos Desconhecidos",
+       "ano": 2016
+      },
+      {
+       "pedido": "Conclave (2024)",
+       "id": 974576,
+       "titulo": "Conclave",
+       "ano": 2024
+      }
+     ]
+    },
+    {
+     "nome": "Traição e jogo duplo",
+     "filmes": [
+      {
+       "pedido": "The Departed (2006)",
+       "id": 1422,
+       "titulo": "Os Infiltrados",
+       "ano": 2006
+      },
+      {
+       "pedido": "Infernal Affairs (2002)",
+       "id": 10775,
+       "titulo": "Conflitos Internos",
+       "ano": 2002
+      },
+      {
+       "pedido": "Tinker Tailor Soldier Spy (2011)",
+       "id": 49517,
+       "titulo": "O Espião Que Sabia Demais",
+       "ano": 2011
+      },
+      {
+       "pedido": "The Usual Suspects (1995)",
+       "id": 629,
+       "titulo": "Os Suspeitos",
+       "ano": 1995
+      },
+      {
+       "pedido": "The Talented Mr. Ripley (1999)",
+       "id": 1213,
+       "titulo": "O Talentoso Ripley",
+       "ano": 1999
+      },
+      {
+       "pedido": "Gone Girl (2014)",
+       "id": 210577,
+       "titulo": "Garota Exemplar",
+       "ano": 2014
+      },
+      {
+       "pedido": "A Simple Favor (2018)",
+       "id": 484247,
+       "titulo": "Um Pequeno Favor",
+       "ano": 2018
+      },
+      {
+       "pedido": "Side Effects (2013)",
+       "id": 109421,
+       "titulo": "Terapia de Risco",
+       "ano": 2013
+      },
+      {
+       "pedido": "Primal Fear (1996)",
+       "id": 1592,
+       "titulo": "As Duas Faces de um Crime",
+       "ano": 1996
+      },
+      {
+       "pedido": "The Invisible Guest (2016)",
+       "id": 411088,
+       "titulo": "Um Contratempo",
+       "ano": 2017
+      }
+     ]
+    },
+    {
+     "nome": "Clássico de Hitchcock e cia",
+     "filmes": [
+      {
+       "pedido": "Rebecca (1940)",
+       "id": 223,
+       "titulo": "Rebecca, A Mulher Inesquecível",
+       "ano": 1940
+      },
+      {
+       "pedido": "Shadow of a Doubt (1943)",
+       "id": 21734,
+       "titulo": "A Sombra de uma Dúvida",
+       "ano": 1943
+      },
+      {
+       "pedido": "Body Heat (1981)",
+       "id": 14412,
+       "titulo": "Corpos Ardentes",
+       "ano": 1981
+      },
+      {
+       "pedido": "Anatomy of a Fall (2023)",
+       "id": 915935,
+       "titulo": "Anatomia de uma Queda",
+       "ano": 2023
+      },
+      {
+       "pedido": "Prisoners (2013)",
+       "id": 146233,
+       "titulo": "Os Suspeitos",
+       "ano": 2013
+      },
+      {
+       "pedido": "Mystic River (2003)",
+       "id": 322,
+       "titulo": "Sobre Meninos e Lobos",
+       "ano": 2003
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

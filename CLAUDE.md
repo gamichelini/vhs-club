@@ -16,6 +16,9 @@ disponíveis na assinatura dos streamings do Brasil. Detalhes de produto e decis
   e vão no corpo de `/api/chat` como contexto (Supabase removido em 12/11/2026 — o projeto tinha sumido).
 - `public/index.html` (landing) e `public/chat.html` (chat em `/chat`).
 - Ferramenta principal da Val: `validar_titulos` (lote, filtra por plataforma no servidor).
+- **Curadoria da casa** (13/11/2026): cada sugestão de `public/sugestoes.js` tem lista curada em `curadoria-fonte.json`
+  (editável à mão). Depois de editar: `node --env-file=.env scripts/montar-curadoria.mjs` → gera `curadoria.json` (commitar).
+  Frase nova em `sugestoes.js` precisa entrar em `pedidos` de algum tema, senão a Val volta a pescar de cabeça.
 - Regras duras ficam no CÓDIGO, não no prompt: card só com id confirmado por ferramenta,
   filtro de plataforma/assinatura, sem card repetido, leque curto é completado pelo servidor.
 - Radar 🔥 (atualiza a cada 12h em memória): TMDB Trending + "burburinho da internet" — Gemini 2.5-flash com
@@ -36,7 +39,7 @@ do `server.js` e roda contra as APIs reais (foi assim que o prompt foi calibrado
 - Prompt da Val (`systemPrompt` em `server.js`) deve continuar curto e positivo. Não voltar a
   empilhar "ERRO GRAVÍSSIMO"/"PROIBIDÃO" — isso deixou a Val robótica. Bug novo → resolver no código.
 - Deploy: Render (auto-deploy do `main` no GitHub `gamichelini/vhs-club`). Esta pasta ganhou git
-  local em 12/11/2026 e ainda NÃO está ligada ao remoto — conferir antes de dar push.
+  local em 12/11/2026 e está ligada ao `origin` (GitHub) desde 13/11/2026.
 - No Render, cadastrar `OMDB_KEY` nas Environment Variables.
 
 ## Próximos passos combinados
