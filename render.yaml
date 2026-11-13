@@ -10,5 +10,11 @@ services:
         sync: false
       - key: GEMINI_KEY
         sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: OMDB_KEY
+        sync: false
       - key: NODE_VERSION
         value: 22

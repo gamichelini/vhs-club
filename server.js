@@ -17,6 +17,7 @@ const TMDB_KEY = process.env.TMDB_KEY;
 const GEMINI_KEY = process.env.GEMINI_KEY;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const OMDB_KEY = process.env.OMDB_KEY; // opcional: nota IMDb nos cards (sem ela, usa nota TMDB)
 const REGIAO = "BR";
 // Cascata de modelos: tenta o melhor primeiro, cai pra alternativas em caso de overload.
 // O 1º é o mais "esperto" (mais disputado), o último é o mais estável (menos sobrecarga).
@@ -126,6 +127,78 @@ async function ondeAssistir(movieId) {
   return out;
 }
 
+// Streaming por assinatura (flatrate) no BR: ids + nomes numa chamada só, com cache.
+async function streamingDe(movieId) {
+  const ck = `stream:${movieId}`;
+  const hit = cacheGet(ck);
+  if (hit) return hit;
+  const d = await tmdb(`/movie/${movieId}/watch/providers`);
+  const flat = d.results?.[REGIAO]?.flatrate || [];
+  const out = { ids: flat.map((p) => p.provider_id), nomes: flat.map((p) => p.provider_name) };
+  cacheSet(ck, out);
+  return out;
+}
+
+// Roda fn em cada item com no máximo `limite` ao mesmo tempo (não estoura rate limit da TMDB).
+async function mapLimitado(itens, limite, fn) {
+  const out = new Array(itens.length);
+  let i = 0;
+  const workers = Array.from({ length: Math.min(limite, itens.length) }, async () => {
+    while (i < itens.length) {
+      const idx = i++;
+      try { out[idx] = await fn(itens[idx], idx); } catch { out[idx] = null; }
+    }
+  });
+  await Promise.all(workers);
+  return out;
+}
+
+// Nota IMDb via OMDb (cache de 7 dias — free tier tem 1.000 consultas/dia).
+async function notaImdb(imdbId) {
+  if (!OMDB_KEY || !imdbId) return null;
+  const ck = `imdb:${imdbId}`;
+  const hit = cacheGet(ck);
+  if (hit !== null && hit !== undefined) return hit === "-" ? null : hit;
+  try {
+    const r = await fetch(`https://www.omdbapi.com/?i=${encodeURIComponent(imdbId)}&apikey=${OMDB_KEY}`);
+    const d = await r.json();
+    const nota = d.Response === "True" && d.imdbRating && d.imdbRating !== "N/A" ? parseFloat(d.imdbRating) : null;
+    cacheSet(ck, nota ?? "-", 7 * 24 * 60);
+    return nota;
+  } catch {
+    return null; // falha de rede: não cacheia, tenta de novo na próxima
+  }
+}
+
+// Valida uma LISTA de títulos de uma vez: acha cada um na TMDB e devolve só os que estão
+// na assinatura das plataformas escolhidas. É a ferramenta principal da Val pra montar o leque.
+async function validarTitulos(titulos, plats = []) {
+  const lista = (Array.isArray(titulos) ? titulos : []).map((t) => String(t).trim()).filter(Boolean).slice(0, 40);
+  const semFiltro = !plats.length || plats.includes("Todos");
+  const pidsSel = semFiltro ? null : new Set(idsDePlataformas(plats));
+
+  const resultados = await mapLimitado(lista, 8, async (bruto) => {
+    // Aceita "Título (2016)" pra desambiguar
+    const m = bruto.match(/^(.*?)\s*\((\d{4})\)\s*$/);
+    const titulo = m ? m[1] : bruto;
+    const ano = m ? m[2] : null;
+    const d = await tmdb("/search/movie", ano ? { query: titulo, primary_release_year: ano } : { query: titulo });
+    const f = (d.results || [])[0];
+    if (!f) return { pedido: bruto, status: "nao_encontrado" };
+    const s = await streamingDe(f.id);
+    const ok = pidsSel ? s.ids.some((id) => pidsSel.has(id)) : s.ids.length > 0;
+    const base = { pedido: bruto, id: f.id, titulo: f.title, ano: (f.release_date || "").slice(0, 4) };
+    if (!ok) return { ...base, status: "fora" };
+    const plataformas = pidsSel ? s.nomes.filter((_, i) => pidsSel.has(s.ids[i])) : s.nomes;
+    return { ...base, status: "disponivel", plataformas, nota: f.vote_average ? Math.round(f.vote_average * 10) / 10 : null };
+  });
+
+  const disponiveis = resultados.filter((r) => r?.status === "disponivel")
+    .map(({ status, pedido, ...r }) => r);
+  const fora = resultados.filter((r) => r && r.status !== "disponivel").map((r) => r.pedido);
+  return { disponiveis, fora_das_plataformas_ou_nao_achados: fora };
+}
+
 // Busca o trailer YouTube de um filme (preferência: PT-BR > Trailer EN > Teaser EN).
 async function trailerYoutubeId(movieId) {
   const ck = `tr:${movieId}`;
@@ -155,9 +228,12 @@ async function enriquecerFilme(movieId) {
   const hit = cacheGet(ck);
   if (hit) return hit;
   try {
-    const m = await tmdb(`/movie/${movieId}`);
-    const [wp, tr] = await Promise.all([ondeAssistir(movieId), trailerYoutubeId(movieId)]);
+    const m = await tmdb(`/movie/${movieId}`, { append_to_response: "external_ids" });
+    const imdbId = m.imdb_id || m.external_ids?.imdb_id || null;
+    const [wp, tr, nImdb] = await Promise.all([ondeAssistir(movieId), trailerYoutubeId(movieId), notaImdb(imdbId)]);
     const out = {
+      imdbId,
+      notaImdb: nImdb,   // nota IMDb (OMDb); null se não tiver chave/nota → front usa `nota` (TMDB)
       id: m.id,
       titulo: m.title,
       tituloOriginal: m.original_title || "", // ex: "Lost in Translation" pra validar quando Val usa nome em inglês
@@ -369,6 +445,8 @@ async function enriquecerResposta(texto, plats = []) {
 
 /* ---------- ferramentas da Val (formato Gemini: functionDeclarations) ---------- */
 const tools = [
+  { name: "validar_titulos", description: "FERRAMENTA PRINCIPAL. Recebe uma lista de títulos de filmes (até 40; use 'Título (ano)' pra desambiguar) e devolve, numa chamada só, quais estão disponíveis na assinatura das plataformas da pessoa agora — com id, título oficial, ano, plataformas e nota.",
+    parameters: { type: "object", properties: { titulos: { type: "array", items: { type: "string" } } }, required: ["titulos"] } },
   { name: "buscar_filme", description: "Acha o ID de um filme pelo título (ex.: 'Conta Comigo').",
     parameters: { type: "object", properties: { titulo: { type: "string" } }, required: ["titulo"] } },
   { name: "filmes_parecidos", description: "Filmes parecidos a partir de um ID. Se 'plataforma' vier, retorna só os disponíveis nela no Brasil agora. Pra múltiplas plataformas, separe por vírgula: 'Netflix, Prime Video'.",
@@ -382,7 +460,8 @@ const tools = [
 // Monta URL pública da capa do filme na TMDB (tamanho w300 ≈ 300px, leve e nítido).
 function posterUrl(path) { return path ? `https://image.tmdb.org/t/p/w300${path}` : null; }
 
-async function executarTool(nome, input) {
+async function executarTool(nome, input, plats = []) {
+  if (nome === "validar_titulos") return await validarTitulos(input.titulos, plats);
   if (nome === "buscar_filme") {
     const d = await tmdb("/search/movie", { query: input.titulo });
     return (d.results || []).slice(0, 5).map((m) => ({ id: m.id, titulo: m.title, ano: (m.release_date || "").slice(0, 4), sinopse: m.overview, capa: posterUrl(m.poster_path) }));
@@ -1061,13 +1140,14 @@ async function conversar(messages, plataforma, contextoUsuario = "") {
 
     if (fnCalls.length > 0) {
       contents.push({ role: "model", parts });
-      const respParts = [];
-      for (const p of fnCalls) {
+      // Executa todas as ferramentas pedidas nesta rodada EM PARALELO (ordem preservada)
+      const platsArr = Array.isArray(plataforma) ? plataforma : (plataforma ? [plataforma] : []);
+      const respParts = await Promise.all(fnCalls.map(async (p) => {
         let out;
-        try { out = await executarTool(p.functionCall.name, p.functionCall.args || {}); }
+        try { out = await executarTool(p.functionCall.name, p.functionCall.args || {}, platsArr); }
         catch (e) { out = { erro: String(e.message) }; }
-        respParts.push({ functionResponse: { name: p.functionCall.name, response: wrapResult(out) } });
-      }
+        return { functionResponse: { name: p.functionCall.name, response: wrapResult(out) } };
+      }));
       contents.push({ role: "user", parts: respParts });
       continue;
     }
@@ -1122,6 +1202,19 @@ async function watchlistUsuario(sb) {
   return data || [];
 }
 
+// Traduz cards já renderizados ([[VHSCARD:base64]]) pra texto simples que a Val entende,
+// sem expor o formato interno. Ex.: "[já mostrado: A Chegada (2016)]".
+function cardsParaTexto(texto) {
+  return String(texto ?? "").replace(/\[\[VHSCARD:([A-Za-z0-9+/=]+)\]\]/g, (_orig, b64) => {
+    try {
+      const d = JSON.parse(Buffer.from(b64, "base64").toString("utf8"));
+      return `[já mostrado: ${d.titulo}${d.ano ? ` (${d.ano})` : ""}]`;
+    } catch {
+      return "[filme já mostrado]";
+    }
+  });
+}
+
 // Resumo curto pra Val: o que o usuário tem na lista e o que já viu.
 function resumirContextoUsuario(historico, watchlist) {
   const linhas = [];
@@ -1135,8 +1228,10 @@ function resumirContextoUsuario(historico, watchlist) {
     if (vistosSemRating.length) linhas.push(`Já viu (prefira outros se houver, mas se for o melhor encaixe pro pedido atual, pode citar de novo): ${vistosSemRating.slice(0, 15).join(", ")}.`);
     if (aVer.length) linhas.push(`Fitas separadas pra ver depois (já tá no radar dela): ${aVer.slice(0, 10).join(", ")}.`);
   }
-  if (historico.length) {
-    linhas.push(`Você já conversou com essa pessoa antes — ${historico.length} mensagens recentes no histórico abaixo. Use isso pra reconhecer quem é, lembrar do que ela curtiu e dar continuidade.`);
+  // historico aqui = só pedidos de conversas ANTERIORES (já sem os da sessão atual)
+  const pedidosAntigos = historico.filter((m) => m.role === "user").map((m) => `"${String(m.content).slice(0, 120)}"`);
+  if (pedidosAntigos.length) {
+    linhas.push(`Em conversas anteriores essa pessoa já pediu: ${pedidosAntigos.join("; ")}. Use só pra conhecer o gosto dela — NÃO é o assunto de agora.`);
   } else {
     linhas.push("É a primeira conversa dessa pessoa. Cumprimente sem tratar como íntimo.");
   }
@@ -1153,15 +1248,20 @@ app.post("/api/chat", async (req, res) => {
     const plats = Array.isArray(plataformas) ? plataformas : (plataformas ? [plataformas] : (plataforma ? [plataforma] : ["Todos"]));
     const platsCsv = plats.join(", ");
 
-    // Carrega contexto persistido do usuário
-    const [historico, watchlist] = await Promise.all([historicoConversa(sb, 8), watchlistUsuario(sb)]);
+    // Conversa ATUAL vem do navegador. Cards renderizados viram texto simples pra Val.
+    const sessao = (Array.isArray(messages) ? messages : []).map((m) => ({
+      role: m.role,
+      content: cardsParaTexto(m.content),
+    }));
+
+    // Histórico do banco serve só como CONTEXTO de gosto (conversas anteriores).
+    // Remove do histórico o que já faz parte da sessão atual, pra não duplicar.
+    const [historicoBruto, watchlist] = await Promise.all([historicoConversa(sb, 12), watchlistUsuario(sb)]);
+    const textosSessao = new Set(sessao.filter((m) => m.role === "user").map((m) => m.content.trim()));
+    const historico = historicoBruto.filter((m) => !(m.role === "user" && textosSessao.has(String(m.content).trim())));
     const contextoUsuario = resumirContextoUsuario(historico, watchlist);
 
-    // Histórico antigo + mensagens da sessão atual (a última do usuário é a entrada de agora)
-    const msgsCompletas = [
-      ...historico.map((m) => ({ role: m.role, content: m.content })),
-      ...messages,
-    ];
+    const msgsCompletas = sessao;
 
     const replyRaw = await conversar(msgsCompletas, plats, contextoUsuario);
     // Pós-processa: substitui marcadores de filme da Val por cards ricos com dados frescos
