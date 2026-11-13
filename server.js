@@ -340,13 +340,62 @@ const chaveTexto = (t) => normalizar(t).replace(/[^a-z0-9]+/g, " ").trim();
 const TEMA_POR_PEDIDO = new Map();
 for (const t of CURADORIA) for (const p of t.pedidos) TEMA_POR_PEDIDO.set(chaveTexto(p), t);
 
-// O pedido atual é uma sugestão da casa? Vale também no turno de afinar logo depois (conversa curta).
-function temaDaSessao(sessao) {
+// Vetores de sentido de cada tema (curadoria-vetores.json): servem pra reconhecer pedido DIGITADO
+// parecido com um tema ("filme com reviravolta no final" → plot twist). Gemini embeddings, grátis.
+let VETORES = [];
+try {
+  const v = JSON.parse(readFileSync(new URL("./curadoria-vetores.json", import.meta.url), "utf8"));
+  const porId = new Map(CURADORIA.map((t) => [t.id, t]));
+  VETORES = v.temas.filter((t) => porId.has(t.id)).map((t) => ({ tema: porId.get(t.id), vs: t.frases.map((f) => f.v) }));
+} catch (e) { console.warn("[curadoria] curadoria-vetores.json não carregou:", e.message); }
+
+const cacheEmb = new Map();
+async function embedar(texto) {
+  const k = chaveTexto(texto);
+  if (cacheEmb.has(k)) return cacheEmb.get(k);
+  try {
+    const r = await fetch(`${GEMINI_BASE}/gemini-embedding-001:embedContent`, {
+      method: "POST", headers: { "content-type": "application/json", "x-goog-api-key": GEMINI_KEY },
+      body: JSON.stringify({ content: { parts: [{ text: String(texto).slice(0, 500) }] }, taskType: "SEMANTIC_SIMILARITY", outputDimensionality: 256 }),
+      signal: AbortSignal.timeout(3000),
+    });
+    const v = (await r.json()).embedding?.values || null;
+    if (v) { if (cacheEmb.size > 2000) cacheEmb.clear(); cacheEmb.set(k, v); }
+    return v;
+  } catch { return null; } // sem embedding (cota/rede): segue sem curadoria, Val pesca como antes
+}
+function cosseno(a, b) { let s = 0, na = 0, nb = 0; for (let i = 0; i < a.length; i++) { s += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; } return s / Math.sqrt(na * nb); }
+
+// Calibrado em 13/11/2026 com 41 frases: acertos ficaram ≥ 0,928 e não-temas ≤ 0,930 (quase empatados entre 2 temas).
+// Regra: nota ≥ 0,94, ou ≥ 0,925 com folga de 0,02 sobre o 2º tema.
+async function temaPorSentido(texto) {
+  const t = String(texto || "").trim();
+  if (!VETORES.length || t.length < 6 || t.length > 300) return null;
+  const q = await embedar(t);
+  if (!q) return null;
+  const notas = VETORES.map((x) => ({ tema: x.tema, s: Math.max(...x.vs.map((v) => cosseno(q, v))) })).sort((a, b) => b.s - a.s);
+  const [a, b] = notas;
+  const ok = a.s >= 0.94 || (a.s >= 0.925 && a.s - (b?.s || 0) >= 0.02);
+  return ok ? { tema: a.tema, nota: Math.round(a.s * 1000) / 1000 } : null;
+}
+
+// Qual tema da curadoria vale pra este turno? 1) pedido atual igual a uma sugestão; 2) pedido atual com o mesmo
+// sentido de um tema; 3) turno de afinar (conversa curta): herda o tema do 1º pedido.
+async function temaDaSessao(sessao) {
   const doUsuario = sessao.filter((m) => m.role === "user").map((m) => m.content);
   if (!doUsuario.length) return null;
-  const agora = TEMA_POR_PEDIDO.get(chaveTexto(doUsuario[doUsuario.length - 1]));
-  if (agora) return agora;
-  if (doUsuario.length <= 3) return TEMA_POR_PEDIDO.get(chaveTexto(doUsuario[0])) || null;
+  const ultimo = doUsuario[doUsuario.length - 1];
+  const exato = TEMA_POR_PEDIDO.get(chaveTexto(ultimo));
+  if (exato) return { tema: exato, modo: "exato" };
+  const sentido = await temaPorSentido(ultimo);
+  if (sentido) return { tema: sentido.tema, modo: "sentido", nota: sentido.nota };
+  if (doUsuario.length > 1 && doUsuario.length <= 3) {
+    const primeiro = doUsuario[0];
+    const ex1 = TEMA_POR_PEDIDO.get(chaveTexto(primeiro));
+    if (ex1) return { tema: ex1, modo: "exato" };
+    const s1 = await temaPorSentido(primeiro);
+    if (s1) return { tema: s1.tema, modo: "sentido", nota: s1.nota };
+  }
   return null;
 }
 
@@ -373,10 +422,13 @@ async function prateleiraCurada(tema, plats = [], criterios = {}) {
   return res.filter(Boolean);
 }
 
-function textoPrateleira(tema, filmes) {
+function textoPrateleira(tema, filmes, modo = "exato") {
   const linhas = filmes.map((f) => `- ${f.id} | ${f.titulo} | ${f.ano || "?"} | ${f.plataformas.join(", ")} | ${f.duracao_min ? f.duracao_min + " min" : "?"} | ${f.grupo}${f.em_alta ? " | 🔥 em alta" : ""}${f.por_que_estao_falando ? ` (${f.por_que_estao_falando})` : ""}`);
+  const abertura = modo === "exato"
+    ? "Esse pedido é uma das sugestões da casa, e você já tinha separado uma curadoria pra ele."
+    : `O pedido dela tem tudo a ver com uma prateleira que você já tinha montado ("${tema.pedidos[0]}"). O pedido dela pode ser mais específico que a prateleira (ex.: só comédia, só anos 90, um ator): use só os que encaixam NO QUE ELA PEDIU e, se sobrar pouco, complete validando outros.`;
   return `\n\n# PRATELEIRA DA CASA PRA ESTE PEDIDO
-Esse pedido é uma das sugestões da casa, e você já tinha separado uma curadoria pra ele. O sistema acabou de conferir: estes estão na assinatura dela agora (id | título | ano | plataformas | duração | grupo sugerido):
+${abertura} O sistema acabou de conferir: estes estão na assinatura dela agora (id | título | ano | plataformas | duração | grupo sugerido):
 ${linhas.join("\n")}
 Ângulo do tema: ${tema.nota}
 Monte a resposta com esses filmes. No leque, use todos os que encaixam de verdade (o normal é 12 a 20), em 2 a 4 grupos — pode usar os grupos sugeridos ou dar nomes seus. Eles já estão confirmados: não precisa chamar validar_titulos pra eles. Se quiser acrescentar outro filme, aí sim valide. Respeite o contexto dela (o que já viu ou não curtiu).`;
@@ -1079,7 +1131,7 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
   const systemTxt = (contextoUsuario
     ? `${systemPrompt(plataforma)}\n\n# CONTEXTO DESTE USUÁRIO (informação invisível, NÃO mencione expressamente)\n${contextoUsuario}`
     : systemPrompt(plataforma)) + textoCriterios(criterios)
-    + (prateleira?.filmes?.length ? textoPrateleira(prateleira.tema, prateleira.filmes) : "");
+    + (prateleira?.filmes?.length ? textoPrateleira(prateleira.tema, prateleira.filmes, prateleira.modo) : "");
 
   const body = {
     systemInstruction: { parts: [{ text: systemTxt }] },
@@ -1093,7 +1145,9 @@ async function conversar(messages, plataforma, contextoUsuario = "", criterios =
   const validados = []; // filmes que validar_titulos confirmou neste turno (pra completar leque curto)
   for (const m of messages) for (const x of String(m.content ?? "").matchAll(/id (\d+)\]/g)) idsConfirmados.add(Number(x[1]));
   // Filmes da prateleira da casa já foram conferidos pelo servidor: valem como validados
-  if (prateleira?.filmes?.length) for (const f of prateleira.filmes) { idsConfirmados.add(f.id); validados.push(f); }
+  // No modo "sentido" o pedido pode ser mais específico que a prateleira ("nacional de COMÉDIA"): aí a prateleira
+  // não entra no completa-leque do servidor (senão completava com drama), só libera os ids pra Val usar.
+  if (prateleira?.filmes?.length) for (const f of prateleira.filmes) { idsConfirmados.add(f.id); if (prateleira.modo === "exato") validados.push(f); }
   let jaCobrou = false;
   let jaCobrouVazio = false;
 
@@ -1255,13 +1309,13 @@ app.post("/api/chat", async (req, res) => {
     const onEtapa = (texto) => enviar({ etapa: texto });
 
     // Pedido é uma sugestão da casa? Confere a curadoria nas plataformas antes de chamar a Val.
-    const tema = temaDaSessao(sessao);
+    const achado = await temaDaSessao(sessao);
     let prateleira = null;
-    if (tema) {
+    if (achado) {
       onEtapa("Separando as fitas da prateleira da casa…");
-      const filmes = await prateleiraCurada(tema, plats, criterios).catch(() => []);
-      console.log(`[curadoria] tema "${tema.id}": ${filmes.length} filmes disponíveis`);
-      if (filmes.length) prateleira = { tema, filmes };
+      const filmes = await prateleiraCurada(achado.tema, plats, criterios).catch(() => []);
+      console.log(`[curadoria] tema "${achado.tema.id}" (${achado.modo}${achado.nota ? " " + achado.nota : ""}): ${filmes.length} filmes disponíveis`);
+      if (filmes.length) prateleira = { tema: achado.tema, filmes, modo: achado.modo };
     }
 
     const r = await conversar(sessao, plats, contextoUsuario, criterios, { onEtapa, cancelado: () => fechou, prateleira });

@@ -19,6 +19,10 @@ disponíveis na assinatura dos streamings do Brasil. Detalhes de produto e decis
 - **Curadoria da casa** (13/11/2026): cada sugestão de `public/sugestoes.js` tem lista curada em `curadoria-fonte.json`
   (editável à mão). Depois de editar: `node --env-file=.env scripts/montar-curadoria.mjs` → gera `curadoria.json` (commitar).
   Frase nova em `sugestoes.js` precisa entrar em `pedidos` de algum tema, senão a Val volta a pescar de cabeça.
+  75 temas (31 das sugestões + 44 categorias populares: plot twist, nacional, pra chorar, anos 80...).
+  **Pedido digitado** também usa a curadoria: o script gera `curadoria-vetores.json` (Gemini embeddings, grátis,
+  limite 100 frases/min — o script pausa sozinho) e o servidor compara o sentido do pedido (regra calibrada em
+  `temaPorSentido`). Nesse modo a prateleira é só referência (a Val filtra pro pedido exato e o servidor não completa o leque com ela).
 - Regras duras ficam no CÓDIGO, não no prompt: card só com id confirmado por ferramenta,
   filtro de plataforma/assinatura, sem card repetido, leque curto é completado pelo servidor.
 - Radar 🔥 (atualiza a cada 12h em memória): TMDB Trending + "burburinho da internet" — Gemini 2.5-flash com

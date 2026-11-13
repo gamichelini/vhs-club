@@ -16,6 +16,11 @@
       "Um filme em que os aliens já estão entre nós",
       "ET, conspiração e governo escondendo alguma coisa",
       "Vida fora da Terra de um jeito que pareça possível",
+      "Filmes com plot twist",
+      "Filme brasileiro bom",
+      "Filmes baseados em fatos reais",
+      "Filme de assalto e golpe",
+      "Um filme pra chorar",
     ],
     inesperada: [
       "Quero um filme que me faça questionar a realidade",

@@ -92,3 +92,37 @@ writeFileSync("curadoria.json", JSON.stringify(saida, null, 1));
 console.log(`✅ curadoria.json: ${saida.temas.length} temas, ${unicos.length} títulos únicos (${fila.length} buscados agora).`);
 if (naoAchados.length) console.log(`⚠️  Não achados (${naoAchados.length}):\n  ${[...new Set(naoAchados)].join("\n  ")}`);
 if (avisos.length) console.log(`⚠️  Conferir (ano ou título diferente) (${new Set(avisos).size}):\n  ${[...new Set(avisos)].join("\n  ")}`);
+
+/* ---------- VETORES (pra Val reconhecer pedido DIGITADO parecido com um tema) ----------
+   Cada frase de 'pedidos' + 'exemplos' vira um vetor (Gemini embeddings, grátis). O servidor compara o
+   pedido da pessoa com esses vetores. Reaproveita os vetores de frases que não mudaram. */
+const GEMINI_KEY = process.env.GEMINI_KEY;
+if (!GEMINI_KEY) { console.log("⚠️  Sem GEMINI_KEY: vetores não gerados."); process.exit(0); }
+const MODELO_EMB = "gemini-embedding-001", DIM = 256;
+const vetAntes = existsSync("curadoria-vetores.json") ? JSON.parse(readFileSync("curadoria-vetores.json", "utf8")) : null;
+const cacheVet = new Map();
+if (vetAntes?.modelo === MODELO_EMB && vetAntes?.dim === DIM) for (const t of vetAntes.temas) for (const f of t.frases) cacheVet.set(f.texto, f.v);
+
+const frases = fonte.temas.flatMap((t) => [...t.pedidos, ...(t.exemplos || [])].map((texto) => ({ tema: t.id, texto })));
+const faltam = [...new Set(frases.map((f) => f.texto).filter((t) => !cacheVet.has(t)))];
+// Free tier: 100 frases/minuto (cada frase do lote conta). Lotes de 90 com pausa de 1 min.
+const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+for (let k = 0; k < faltam.length; k += 90) {
+  if (k) { console.log(`   ...${k}/${faltam.length} vetores, pausa de 1 min (limite grátis)`); await espera(61000); }
+  const lote = faltam.slice(k, k + 90);
+  let d;
+  for (let tentativa = 0; tentativa < 3; tentativa++) {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODELO_EMB}:batchEmbedContents`, {
+      method: "POST", headers: { "content-type": "application/json", "x-goog-api-key": GEMINI_KEY },
+      body: JSON.stringify({ requests: lote.map((text) => ({ model: `models/${MODELO_EMB}`, content: { parts: [{ text }] }, taskType: "SEMANTIC_SIMILARITY", outputDimensionality: DIM })) }),
+    });
+    d = await r.json();
+    if (d.embeddings || d.error?.code !== 429) break;
+    await espera(61000);
+  }
+  if (!d.embeddings) { console.error("Erro nos vetores:", JSON.stringify(d).slice(0, 300)); process.exit(1); }
+  d.embeddings.forEach((e, j) => cacheVet.set(lote[j], e.values.map((x) => Math.round(x * 1e4) / 1e4)));
+}
+const vetores = { modelo: MODELO_EMB, dim: DIM, temas: fonte.temas.map((t) => ({ id: t.id, frases: [...t.pedidos, ...(t.exemplos || [])].map((texto) => ({ texto, v: cacheVet.get(texto) })) })) };
+writeFileSync("curadoria-vetores.json", JSON.stringify(vetores));
+console.log(`✅ curadoria-vetores.json: ${frases.length} frases (${faltam.length} calculadas agora).`);
