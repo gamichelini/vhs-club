@@ -199,6 +199,8 @@ Lista cronológica do que foi descoberto/decidido ao longo da construção:
 
    - **(13/11) Curadoria v2 — 75 temas e pedido digitado:** +44 categorias que o pessoal procura (plot twist, clássicos antigos, anos 80/90, fatos reais, pra chorar, nacional, terror raiz/pesado/divertido, assalto, família, romcom, ação, guerra, faroeste, máfia, espionagem, zumbi, asiático, europeu, Natal, date, conforto etc.) → 1.272 filmes. Cada tema ganhou `exemplos` (jeitos de pedir). O servidor reconhece pedido DIGITADO pelo sentido (Gemini embeddings `gemini-embedding-001`, 256 dims; calibrado com 41 frases: ≥0,94, ou ≥0,925 com folga 0,02). Ex.: "quero chorar hoje" → tema pra chorar (21 cards); "filme de roubo a banco" → assalto (17); "filme de tubarão" → sem tema, fluxo antigo. No modo "sentido" a prateleira é referência: "nacional de comédia" mostra só as comédias. 5 temas novos entraram no banco de sugestões da home. Próximo: memória de pedidos (Neon) + rotina semanal que pesquisa temas novos e pede aprovação no Telegram; depois TikTok (Apify).
 
+   - **(17/11) Centro de inteligência — Fase 1 (captura):** Supabase voltou com propósito (projeto novo `cdyzgpayvnxucxzvieja`, free tier, SP). Toda chamada em `/api/chat` grava em background uma linha em `perguntas` (`sessao_id` anônimo, `pedido_bruto`, `streamings`, `resposta_val` com texto+ids, `tema_casado`, `status`). Gravação é fire-and-forget: nunca atrasa a resposta pra Val, e falha de gravação só avisa no log (chat segue funcionando). `sessaoId` é UUID por navegador (`LS_SESSAO`), gerado no primeiro acesso, sem cookie e sem login. Painel em `/admin?senha=$ADMIN_SENHA` lista as últimas 200 perguntas com contadores (total, com tema casado, sem tema). RLS ativa na tabela — só a `SUPABASE_SECRET_KEY` (server-side) lê/escreve. Rodapé da landing avisa: "Conversas com a Val são guardadas de forma anônima pra deixar as recomendações cada vez melhores." Testado em 17/11 local + produção: 4 perguntas capturadas, 1 com tema casado, zero erro.
+
 ---
 
 ## 12. Em aberto
@@ -224,15 +226,16 @@ Objetivo: a Val saber o que o brasileiro tá REALMENTE comentando de filme (burb
 - Top 10 Netflix: Gabriel vetou ("isso eu abro e vejo").
 
 **Como vai funcionar:**
-1. 1x/dia o Radar roda o scraper de TikTok do **Apify** (Gabriel já usa no projeto da Advocacia) nas hashtags #dicadefilme, #filmenetflix, #filmeprime, #filmeshbomax (pegar os mais vistos da semana, ~100-200 vídeos).
+1. 1x/dia o Radar roda o scraper `clockworks~tiktok-scraper` no **Apify** (schema do actor aprendido com o código da Advocacia, mas o código do VHS vai ser JS novo dentro do `server.js`, zero cópia). Hashtags: #dicadefilme, #filmenetflix, #filmeprime, #filmeshbomax. Volume combinado: **25 vídeos × 4 hashtags = 100/dia** (≈$1.20/mês, free tier do Apify cobre $5/mês então sai de graça).
 2. Gemini lê as legendas e extrai quais filmes estão sendo indicados (+ o que estão falando).
 3. Cada título é conferido na TMDB (ano ±1, só nas 5 plataformas) — mesma validação do buzz atual (`filmeDoBuzz` no `server.js`).
-4. Selo no card: **🔥 BOMBANDO NO TIKTOK**; a Val pode dizer "esse tá rodando muito no TikTok essa semana".
+4. Selo no card: **🔥 BOMBANDO NO TIKTOK**; a Val pode dizer "esse tá rodando muito no TikTok essa semana". Filmes bombando também vão pra tabela nova `buzz_tiktok` no Supabase (`tmdb_id`, `motivo`, `video_url`, `hashtags`, `views`, `plataformas`).
 
 **Pendências pra aplicar:**
-- Token do Apify (`APIFY_TOKEN`): pedir autorização ao Gabriel pra copiar do `.env` do projeto da Advocacia (`~/Documents/MARKETING/ADVOCACIA/IA/NOVAIA`) — ou ele cola um novo.
-- Calcular e mostrar o custo mensal exato do actor no Apify ANTES de ligar (estimativa: poucos dólares/mês).
-- Cadastrar `APIFY_TOKEN` também no Render.
+- **Gabriel precisa criar conta Apify DEDICADA ao VHS** (não reusar a da Advocacia — se o cap mensal estourar lá, a Advocacia para de trabalhar). Sugestão: email `gmcl.arquivos+vhs@gmail.com` (alias do Gmail cai na caixa normal). Gerar `APIFY_TOKEN` do VHS depois.
+- Cadastrar `APIFY_TOKEN` no `.env` local e no Render.
+- Implementar `atualizarBuzzTikTok()` no `server.js` (JS novo, usa schema do actor como referência mas código original).
+- Criar tabela `buzz_tiktok` no Supabase via SQL editor.
 
 ---
 
